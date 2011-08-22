@@ -1,0 +1,43 @@
+This aims to be a camera surveillance system (open source, cross platform) that is actually
+user friendly, and runs on windows.
+
+What it does do:
+
+Saves off a directshow capture device, splitting the video each hour, into its own folder.
+Good performance via ffmpeg mpegv4 codec, doesn't hog RAM.  Doesn't use too much disk space.
+Does work with various resolutions coming from the camera.
+
+
+Why?
+
+The existing solutions for windows seemed to totally be cpu and memory hogs (yawcam), or not be
+totally open source (iSpy, yawcam).
+
+Also they weren't too user friendly.
+
+TODO
+
+service
+
+nerd instructions
+make it possible to be generic, then human instructions
+
+what about VLC instead? Might it "just work"?
+
+distributable
+advertise
+motion detect
+x264?
+do I need to be able to specify pin type within ffmpeg dshow?
+
+@ispy: RAM, inability to set ffmpeg preset [possibly...], wmv3 might have been crashing ffmpeg.exe, annoyingly
+
+note the Tee work around
+
+make it so ffmpeg works, so I don't need avisynth at all.
+
+== never ==
+
+can stream it, too
+
+complain at everybody that doesn't handle .grf's right
