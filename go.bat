@@ -1,1 +1,1 @@
-ruby go.rb
+ruby go.rb %*

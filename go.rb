@@ -19,8 +19,14 @@ loop {
   input = "-f dshow -i video=\"USB Video Device\""
   input = "tee.avs" # test 
   # -vf hqdn3d=4:4:4:4:4
-  # -vcodec libx264
-  c = %!ffmpeg\\ffmpeg.exe -i #{input} "#{bucket_dir}/#{current_file_timestamp}.mp4" -t #{sixty_minutes} 2>&1!
+  # -vcodec libx264 ?
+  if ARGV.detect{|a| a == '--preview'}
+    c = %!ffmpeg\\ffplay #{input}!
+    system c
+    exit
+  else
+    c = %!ffmpeg\\ffmpeg.exe -i #{input} "#{bucket_dir}/#{current_file_timestamp}.mp4" -t #{sixty_minutes} 2>&1!
+  end
   
   puts c
   out_handle = IO.popen(c)
