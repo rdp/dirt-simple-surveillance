@@ -1,1 +1,10 @@
 image, also inability to do ffmpeg, also bounty the ffmpeg
+
+warn on failure
+  email
+  popup
+  red system tray icon
+  
+specify priority
+can specify zones
+windows service
