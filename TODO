@@ -7,4 +7,7 @@ warn on failure
   
 specify priority
 can specify zones
+  trapezoid
+  jruby gui specifier :P
 windows service
+some way to monitor it, like view thw two... maybe fork it to rtp?
