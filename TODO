@@ -12,8 +12,17 @@ x264?
 
 note the Tee work around
 
-== never ==
-
 can stream it, too
 
 complain at everybody that doesn't handle .grf's right
+
+warn on failure
+  email
+  popup
+  red system tray icon
+  
+specify priority
+can specify zones
+  trapezoid
+  jruby gui specifier :P
+some way to monitor it, like view thw two... maybe fork it to rtp?
