@@ -26,28 +26,3 @@ It will create nicely packaged capture files for you in captured_files/day/hour-
 Ping me if you are interested in this project, or feature requests et al.
 
 rogerdpack@gmail.com
-
-TODO
-
-make it into a windows service
-
-make it possible to be generic, then human instructions
-
-what about VLC instead? Might it "just work"?
-
-distributable
-motion detect
-x264?
-do I need to be able to specify pin media type within ffmpeg dshow?
-
-@ispy: RAM, inability to set ffmpeg preset [possibly...], wmv3 might have been crashing ffmpeg.exe, annoyingly
-
-note the Tee work around
-
-make it so ffmpeg works, so I don't need avisynth at all.
-
-== never ==
-
-can stream it, too
-
-complain at everybody that doesn't handle .grf's right
