@@ -11,3 +11,5 @@ can specify zones
   jruby gui specifier :P
 windows service
 some way to monitor it, like view thw two... maybe fork it to rtp?
+
+disk space fella
