@@ -1,9 +1,12 @@
 require 'fileutils'
 
 def generate_preview_image for_this
-  raise unless system (%!ffmpeg\\ffmpeg.exe -i "#{for_this}"  -ss 00:00:01.00 -vcodec mjpeg -vframes 1 -f image2 "#{for_this}.preview.jpg"!)
+  p 'bad' + for_this unless system (%!ffmpeg\\ffmpeg.exe -y -i "#{for_this}" -vcodec mjpeg -vframes 1 -f image2 "#{for_this}.preview.jpg"!)
 end
-
+Dir['**/*.mp4'].each{|f|
+ #generate_preview_image f
+ p f
+}
 loop {
   
   current = Time.now
@@ -33,7 +36,7 @@ loop {
   end
   filename = "#{bucket_dir}/#{current_file_timestamp}.mp4"
     
-  c = %!ffmpeg\\ffmpeg.exe -i #{input} #{filename} -t #{sixty_minutes} 2>&1!
+  c = %!ffmpeg\\ffmpeg.exe -i #{input} "#{filename}" -t #{sixty_minutes} 2>&1!
   
   puts c
   out_handle = IO.popen(c)
