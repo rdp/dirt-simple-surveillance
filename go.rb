@@ -1,10 +1,16 @@
 require 'fileutils'
+
+def generate_preview_image for_this
+  raise unless system (%!ffmpeg\\ffmpeg.exe -i "#{for_this}"  -ss 00:00:01.00 -vcodec mjpeg -vframes 1 -f image2 "#{for_this}.preview.jpg"!)
+end
+
 loop {
   
   current = Time.now
   current_file_timestamp = current.strftime "%H-%Mm"
   p "doing #{current_file_timestamp}"
   sixty_minutes = 60*60
+  sixty_minutes=10
   bucket_dir = 'captured_video/' + current.strftime("%Y-%m-%d")
   FileUtils.mkdir_p bucket_dir
   
@@ -24,13 +30,15 @@ loop {
     c = %!ffmpeg\\ffplay #{input}!
     system c
     exit
-  else
-    c = %!ffmpeg\\ffmpeg.exe -i #{input} "#{bucket_dir}/#{current_file_timestamp}.mp4" -t #{sixty_minutes} 2>&1!
   end
+  filename = "#{bucket_dir}/#{current_file_timestamp}.mp4"
+    
+  c = %!ffmpeg\\ffmpeg.exe -i #{input} #{filename} -t #{sixty_minutes} 2>&1!
   
   puts c
   out_handle = IO.popen(c)
   `.\\SetPriority.exe -lowest #{out_handle.pid}`
   raise unless $?.exitstatus == 0
   out = out_handle.read
-}
+  generate_preview_image filename
+  }
