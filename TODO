@@ -1,13 +1,30 @@
+
+multiple cameras
 make it possible to be generic, then human instructions
-make it into a windows service
 
 distributable
+
+server
+  cover flow-ish...
+  inline movie player plz? HTML5 should save me, right?
+  sinatra?  
+
+disk space delete old.
+ 
+== maybe ==
+
+disk space re-encode with lower framerate :P
+
+make it into a windows service
+
+a way to "peek" while its running somehow...
+
 motion detect
 x264?
 
 @ispy: RAM, inability to set ffmpeg preset [possibly...], wmv3 might have been crashing ffmpeg.exe, annoyingly
 
-note the Tee work around
+note the Tee work around to the bug report to...mplayer? ffmpeg?
 
 can stream it, too
 
@@ -22,12 +39,6 @@ specify priority
 can specify zones
   trapezoid
   jruby gui specifier :P
-windows service
 some way to monitor it, like view thw two... maybe fork it to rtp?
 
-disk space fella
-
--- maybe do --
-
 gstreamer for streaming?
-
