@@ -1,7 +1,4 @@
 make it possible to be generic, then human instructions
-
-gstreamer for streaming?
-
 make it into a windows service
 
 distributable
@@ -29,3 +26,8 @@ windows service
 some way to monitor it, like view thw two... maybe fork it to rtp?
 
 disk space fella
+
+-- maybe do --
+
+gstreamer for streaming?
+

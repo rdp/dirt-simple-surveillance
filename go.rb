@@ -1,7 +1,7 @@
 require 'fileutils'
 
-def generate_preview_image for_this
-  raise unless system (%!ffmpeg\\ffmpeg.exe -y -i "#{for_this}" -vcodec mjpeg -vframes 1 -f image2 "#{for_this}.preview.jpg"!)
+def generate_preview_image from_this
+  raise unless system (%!ffmpeg\\ffmpeg.exe -y -i "#{from_this}" -vcodec mjpeg -vframes 1 -f image2 "#{from_this}.preview.jpg"!)
 end
 
 loop {
@@ -33,7 +33,7 @@ loop {
   end
   filename = "#{bucket_dir}/#{current_file_timestamp}.mp4"
     
-  c = %!ffmpeg\\ffmpeg.exe -i #{input} "#{filename}" -t #{sixty_minutes} 2>&1!
+  c = %!ffmpeg\\ffmpeg.exe -i #{input} -vcodec mpeg4 "#{filename}" -t #{sixty_minutes} 2>&1!
   
   puts c
   out_handle = IO.popen(c)
@@ -41,4 +41,4 @@ loop {
   raise unless $?.exitstatus == 0
   out = out_handle.read
   generate_preview_image filename
-  }
+}
