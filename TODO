@@ -1,8 +1,8 @@
 make it possible to be generic, then human instructions
 
-gstreamer for streaming?
-
 make it into a windows service
+
+
 
 distributable
 motion detect
@@ -10,7 +10,7 @@ x264?
 
 @ispy: RAM, inability to set ffmpeg preset [possibly...], wmv3 might have been crashing ffmpeg.exe, annoyingly
 
-note the Tee work around
+note the Tee work around to the bug report to...mplayer? ffmpeg?
 
 can stream it, too
 
