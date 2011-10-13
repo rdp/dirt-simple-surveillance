@@ -1,0 +1,1 @@
+ffmpeg -t 10 -f dshow -r 5 -i video="USB Video Device"  -vcodec mpeg4 dshow.mp4

@@ -10,7 +10,7 @@ loop {
   current_file_timestamp = current.strftime "%H-%Mm"
   p "doing #{current_file_timestamp}"
   sixty_minutes = 60*60
-  #sixty_minutes=10#seconds
+  sixty_minutes=10#seconds
   bucket_dir = 'captured_video/' + current.strftime("%Y-%m-%d")
   FileUtils.mkdir_p bucket_dir
   
