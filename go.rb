@@ -10,16 +10,15 @@ loop {
   current_file_timestamp = current.strftime "%H-%Mm"
   p "doing #{current_file_timestamp}"
   sixty_minutes = 60*60
-  sixty_minutes=10#seconds
+  #sixty_minutes=10#seconds
   bucket_dir = 'captured_video/' + current.strftime("%Y-%m-%d")
   FileUtils.mkdir_p bucket_dir
   
   # todo motion detect :P
-  # todo delete old 7 days worth + bucketize by ordered day
+  # todo smallify x days worth
   # todo make config ridiculously easy LOL
   
   input = "-f dshow -r 5 -i video=\"USB Video Device\" -video_device_number 0 -s 1280x1024"
-  #i#nput = "-i tee.avs" # test 
   # -vf hqdn3d=4:4:4:4:4
   # -vcodec libx264 ?
   
@@ -30,7 +29,7 @@ loop {
   end
   filename = "#{bucket_dir}/#{current_file_timestamp}.mp4"
     
-	# TODO no -y ...
+  # TODO no -y ...
   c = %!ffmpeg\\ffmpeg.exe -y #{input} -vcodec mpeg4 -t #{sixty_minutes} -r 2 "#{filename}"  2>&1!
   
   puts c
