@@ -1,1 +1,0 @@
-ffmpeg -t 10 -i tee.avs -vcodec mpeg4 avs.mp4

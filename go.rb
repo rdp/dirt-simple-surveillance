@@ -20,7 +20,7 @@ all_cameras.each{|camera_name, (index, resolution)|
   current_file_timestamp = current.strftime "%H-%Mm"
   p "doing #{current_file_timestamp} #{camera_name}"
   sixty_minutes = 60*60
-  sixty_minutes = 20 #seconds
+  #sixty_minutes = 20 #seconds
   raise 'unexpected' if camera_name =~ / /
   bucket_day_dir = 'captured_video/' + camera_name + '/' + current.strftime("%Y-%m-%d")
   FileUtils.mkdir_p bucket_day_dir
