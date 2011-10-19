@@ -40,11 +40,11 @@ all_cameras.each{|camera_name, (index, resolution)|
   current = Time.now
   current_file_timestamp = current.strftime "%H-%Mm"
   sixty_minutes = 60*60
-  sixty_minutes = 10 #seconds
+  #sixty_minutes = 10 #seconds
   raise 'unexpected' if camera_name =~ / /
   bucket_day_dir = 'captured_video/' + camera_name + '/' + current.strftime("%Y-%m-%d")
   FileUtils.mkdir_p bucket_day_dir
-  p "doing #{bucket_day_dir}/#{current_file_timestamp} #{camera_name}"
+  p "doing #{bucket_day_dir}/#{current_file_timestamp}"
   
   # todo motion detect :P
   # todo smallify x days worth
