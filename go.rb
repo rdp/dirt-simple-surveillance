@@ -14,18 +14,15 @@ loop {
   bucket_dir = 'captured_video/' + current.strftime("%Y-%m-%d")
   FileUtils.mkdir_p bucket_dir
   
-  # default is %Y-%m-%d %H:%M:%S %z’
-  
-  # todo better than 640x480 hmm...
-  # todo better encoding codec [what am I even using?]
   # todo motion detect :P
-  # todo delete old 7 days worth + bucketize by day
+  # todo delete old 7 days worth + bucketize by ordered day
   # todo make config ridiculously easy LOL
   
-  input = "-f dshow -i video=\"USB Video Device\""
-  input = "tee.avs" # test 
+  input = "-f dshow -r 5 -i video=\"USB Video Device\" -video_device_number 0 -s 1280x1024"
+  #i#nput = "-i tee.avs" # test 
   # -vf hqdn3d=4:4:4:4:4
   # -vcodec libx264 ?
+  
   if ARGV.detect{|a| a == '--preview'}
     c = %!ffmpeg\\ffplay #{input}!
     system c
@@ -33,12 +30,13 @@ loop {
   end
   filename = "#{bucket_dir}/#{current_file_timestamp}.mp4"
     
-  c = %!ffmpeg\\ffmpeg.exe -i #{input} -vcodec mpeg4 "#{filename}" -t #{sixty_minutes} 2>&1!
+	# TODO no -y ...
+  c = %!ffmpeg\\ffmpeg.exe -y #{input} -vcodec mpeg4 -t #{sixty_minutes} -r 2 "#{filename}"  2>&1!
   
   puts c
   out_handle = IO.popen(c)
   `.\\SetPriority.exe -lowest #{out_handle.pid}`
   raise unless $?.exitstatus == 0
-  out = out_handle.read
+  stdout = out_handle.read
   generate_preview_image filename
 }
