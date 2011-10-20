@@ -12,20 +12,26 @@ disk space re-encode with lower framerate :P
  
 == maybe ==
 
+daily email
+
 make it into a windows service
 
 a way to "peek" while its running somehow...
+  ffmpeg fork to jpeg output?
 
 motion detect
 x264?
-can stream it, too
+can stream too
+  mjpeg output? hmm
+
 
 warn on failure
   email
   popup
   red system tray icon
   
-specify priority
+specify process priority
+
 can specify zones
   trapezoid
   jruby gui specifier :P
