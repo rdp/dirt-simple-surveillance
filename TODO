@@ -1,5 +1,11 @@
 make it possible to be generic, then humanize/propaganda-ize
 
+can interrupt it, to be able to preview at least.
+
+can browse by camera, or date
+
+when you interrupt it needs to kill ffmpeg
+
 distributable
 
 ruby server
