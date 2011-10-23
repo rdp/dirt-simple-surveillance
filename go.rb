@@ -57,7 +57,7 @@ all_cameras.each{|camera_name, (index, resolution)|
   #input = "-i tee.avs"
   
   if ARGV.detect{|a| a == '--preview'}
-    c = %!ffplay #{input}!
+    c = %!ffmpeg\ffplay #{input}!
     system c
     exit
   end
