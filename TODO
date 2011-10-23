@@ -9,19 +9,22 @@ when you interrupt it needs to kill ffmpeg
 distributable
 
 ruby server
+  just show them all for now, both cameras :P [can click on it to see larger image/video]
+  
   cover flow-ish...
   inline movie player plz? HTML5 should save me, right?
-  sinatra?  
-
-disk space delete old as an option.
+ 
 disk space re-encode with lower framerate :P
  
 == maybe ==
 
-daily email
+show how much cpu the ffmpeg's are using
+system tray
+daily jpg email
 
 make it into a windows service
-
+  startup item more like it.
+  
 a way to "peek" while its running somehow...
   ffmpeg fork to jpeg output?
 
