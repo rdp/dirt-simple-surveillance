@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'java' # force jruby
 
 def generate_preview_image from_this
 
@@ -56,7 +57,7 @@ all_cameras.each{|camera_name, (index, resolution)|
   #input = "-i tee.avs"
   
   if ARGV.detect{|a| a == '--preview'}
-    c = %!ffmpeg\\ffplay #{input}!
+    c = %!ffplay #{input}!
     system c
     exit
   end

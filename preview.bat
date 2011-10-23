@@ -1,1 +1,1 @@
-ruby go.rb %* --preview
+j go.rb %* --preview
