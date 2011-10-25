@@ -15,8 +15,12 @@ ruby server
   inline movie player plz? HTML5 should save me, right?
  
 disk space re-encode with lower framerate :P
- 
+
+disk space -- always keep x days worth [?]
+
 == maybe ==
+
+email when out of disk :P
 
 show how much cpu the ffmpeg's are using
 system tray
