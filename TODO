@@ -21,6 +21,9 @@ disk space -- always keep x days worth [?]
 
 == maybe ==
 
+motion detect use this? http://shotdetect.nonutc.fr/?page_id=5 which wraps ffmpeg?
+  ping vlc, why did you change it?
+
 email when out of disk :P
 
 show how much cpu the ffmpeg's are using
