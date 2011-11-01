@@ -1,22 +1,20 @@
 make it possible to be generic, then humanize/propaganda-ize
+really all I need is a "normal" and a "view while" version [VLC]
 
 can interrupt it, to be able to preview at least.
-
-can browse by camera, or date
 
 when you interrupt it needs to kill ffmpeg
 
 distributable
+ 
+== maybe ==
 
 ruby server [sinatra]
   just show them all for now, both cameras :P [can click on it to see larger image/video]  
   inline movie player plz? HTML5 should save me, right?
- 
- some startup-y thing, maybe MS reboots our boxes?
-
+  can browse by camera, or date
+some startup-y thing, maybe MS reboots our boxes?
 motion detect ffmpeg filter, I think
-
-== maybe ==
 
 disk space re-encode with lower framerate :P ?
  
