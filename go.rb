@@ -7,7 +7,7 @@ def generate_preview_image from_this
    `ffmpeg\\ffmpeg.exe -y -i "#{from_this}" -vcodec mjpeg -vframes 1 -f image2 "#{to_file}" 2>&1` # seems to make a matching size jpeg.
    
     raise unless $?.exitstatus == 0
-    p 'made ' + to_file
+    p 'made thumbnail ' + to_file
 	raise unless File.exist? to_file
 end
 
@@ -20,15 +20,17 @@ def delete_if_out_of_disk_space
   
     free_space = java.io.File.new('.').freeSpace
   
-    ten_gig = 10e9
-    if free_space < ten_gig
+    delete_if_we_have_less_than_this_much_free_space = 45e9
+    if free_space < delete_if_we_have_less_than_this_much_free_space
 	  # lodo email instead?
+	  # possible race condition ||= LOL
 	  $deletor_thread ||= Thread.new {
+	    
         dirs = Dir['captured_video/*/*']
 	    oldest_dir = dirs.min_by{|name| name.split('/')[2]}
-	    p 'deleting old day dir ' + oldest_dir
+	    p "deleting old day dir #{oldest_dir} because #{free_space} free < #{delete_if_we_have_less_than_this_much_free_space}"
 	    FileUtils.rm_rf oldest_dir
-		$deletor_thread = nil # let next guy through delete something too...
+		$deletor_thread = nil # let next guy through delete if more should be deleted...
 	  }
   end
 end
