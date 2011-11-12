@@ -91,8 +91,8 @@ Thread.list.each{|t|
 unless t == Thread.current
  begin
   t.join
-  rescue RuntimeError => ignore
-  end
+ rescue RuntimeError => ignore
+ end
 end
 }
-system("taskkill /IM ffmpeg*")
+system("taskkill /y /IM ffmpeg*")
