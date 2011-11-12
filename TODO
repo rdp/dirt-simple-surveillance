@@ -11,6 +11,10 @@ distributable
 
 it should survive a camera being pulled out...
 
+it could/should double check that the camera is still present, when starting.
+
+it should not "hang" if graph fails :)
+
 ruby server [sinatra]
   just show them all for now, both cameras :P [can click on it to see larger image/video]  
   inline movie player plz? HTML5 should save me, right?
