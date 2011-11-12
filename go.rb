@@ -51,7 +51,7 @@ all_cameras.each{|camera_name, (index, resolution)|
   # todo smallify x days worth
   # todo make config ridiculously easy LOL
   
-  input = "-f dshow -r 5  -video_device_number #{index} -i video=\"USB Video Device\" -s #{resolution}"
+  input = "-f dshow -video_device_number #{index} -i video=\"USB Video Device\" -s #{resolution}"
   # -vf hqdn3d=4:4:4:4:4
   # -vcodec libx264 ?
   #input = "-i tee.avs"
@@ -74,9 +74,9 @@ all_cameras.each{|camera_name, (index, resolution)|
   filename = "#{bucket_day_dir}/#{current_file_timestamp}.mp4"
     
   # TODO no -y ...
-  c = %!ffmpeg\\ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} -r 5 "#{filename}"  2>&1!
+  c = %!ffmpeg\\ffmpeg -y -r 5 #{input} -vcodec mpeg4 -t #{sixty_minutes} -r 5 "#{filename}"  2>&1!
   
-  #puts c
+  puts c
   out_handle = IO.popen(c)
   `.\\SetPriority.exe -lowest #{out_handle.pid}`
   raise unless $?.exitstatus == 0
