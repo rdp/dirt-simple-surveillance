@@ -50,8 +50,8 @@ all_cameras.each{|camera_name, (index, resolution)|
   # todo motion detect :P
   # todo smallify x days worth
   # todo make config ridiculously easy LOL
-  
-  input = "-f dshow -video_device_number #{index} -i video=\"USB Video Device\" -s #{resolution}"
+  framerate = 5
+  input = "-f dshow -video_device_number #{index} -framerate #{framerate}  -i video=\"USB Video Device\" -s #{resolution}"
   # -vf hqdn3d=4:4:4:4:4
   # -vcodec libx264 ?
   #input = "-i tee.avs"
@@ -60,22 +60,22 @@ all_cameras.each{|camera_name, (index, resolution)|
     c = %!ffmpeg\\ffplay #{input}!
 	puts c
     system c
-    exit
+    raise 'die thread, die'
   end
   delete_if_out_of_disk_space
   current = Time.now
   current_file_timestamp = current.strftime "%H-%Mm"
   sixty_minutes = 60*60
   #sixty_minutes = 10 #seconds
-  raise 'unexpected' if camera_name =~ / /
+  raise 'unexpected space in camera human name?' if camera_name =~ / /
   bucket_day_dir = 'captured_video/' + camera_name + '/' + current.strftime("%Y-%m-%d")
   FileUtils.mkdir_p bucket_day_dir
   p "doing #{bucket_day_dir}/#{current_file_timestamp}"
   filename = "#{bucket_day_dir}/#{current_file_timestamp}.mp4"
     
-  # TODO no -y ...
-  c = %!ffmpeg\\ffmpeg -y -r 5 #{input} -vcodec mpeg4 -t #{sixty_minutes} -r 5 "#{filename}"  2>&1!
-  
+  # TODO no -y, prompt ...
+  c = %!ffmpeg\\ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} -r #{framerate} "#{filename}"  2>&1! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something...
+   
   puts c
   out_handle = IO.popen(c)
   `.\\SetPriority.exe -lowest #{out_handle.pid}`
@@ -86,4 +86,5 @@ all_cameras.each{|camera_name, (index, resolution)|
  }
 }
 
-sleep # forever :)
+# sleep basically forever
+Thread.list.each{|t| t.join unless t == Thread.current}
