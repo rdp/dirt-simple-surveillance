@@ -87,4 +87,12 @@ all_cameras.each{|camera_name, (index, resolution)|
 }
 
 # sleep basically forever
-Thread.list.each{|t| t.join unless t == Thread.current}
+Thread.list.each{|t| 
+unless t == Thread.current
+ begin
+  t.join
+  rescue RuntimeError => ignore
+  end
+end
+}
+system("taskkill /IM ffmpeg*")
