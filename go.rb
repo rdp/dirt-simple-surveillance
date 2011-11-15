@@ -56,6 +56,7 @@ def delete_if_out_of_disk_space
 end
 
 all_cameras = {'eyeball' => [0, '1280x1024'], 'thin_camera' => [1,'1280x960']}
+$ios = []
 
 all_cameras.each{|camera_name, (index, resolution)|
   Thread.new {
@@ -87,27 +88,18 @@ all_cameras.each{|camera_name, (index, resolution)|
   p "doing #{bucket_day_dir}/#{current_file_timestamp}"
   filename = "#{bucket_day_dir}/#{current_file_timestamp}.mp4"
     
-  # TODO no -y, prompt ...
+  # TODO no -y, yes prompt ...
   c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} -r #{framerate} "#{filename}" 2>NUL! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something...
    
   puts c
   out_handle = IO.popen(c)
   set_all_ffmpegs_as_lowest_prio
+  $ios[Thread.current] = 
   output = out_handle.read
   generate_preview_image filename
  }
  }
 }
-
-at_exit {
-system("taskkill /y /IM ffmpeg*")
-}
-# sleep basically forever
-Thread.list.each{|t| 
-unless t == Thread.current
- begin
-  t.join
- rescue RuntimeError => ignore
- end
-end
-}
+puts 'hit enter to quit/cancel current vid'
+gets
+system("taskkill /f /im ffmpeg*")
