@@ -15,9 +15,23 @@ require 'fileutils'
 Thread.abort_on_exception=true # sanity
 require 'thread'
 
-ENV['PATH'] = 'ffmpeg;' + ENV['PATH'] # put our ffmpeg first
+ENV['PATH'] = 'ffmpeg;' + ENV['PATH'] # put our ffmpeg first, see jruby#6211
 
 $thread_start = Mutex.new
+$: << "./vendor/ruby-wmi-0.2.2/lib"
+require 'ruby-wmi'
+
+def set_all_ffmpegs_as_lowest_prio
+ piddys = ::WMI::Win32_Process.find(:all,  :conditions => {'Name' => 'ffmpeg.exe'})
+            for piddy in piddys
+              # piddy.SetPriority low_prio # this call can seg fault at times...JRUBY-5422
+              pid = piddy.ProcessId # this doesn't seg fault, tho
+			  p pid
+              system("SetPriority -lowest #{pid}") # uses PID for the command line
+              raise unless $?.exitstatus == 0
+            end
+end
+
 
 def delete_if_out_of_disk_space
     require 'java' # jruby <sigh>
@@ -76,13 +90,11 @@ all_cameras.each{|camera_name, (index, resolution)|
   filename = "#{bucket_day_dir}/#{current_file_timestamp}.mp4"
     
   # TODO no -y, prompt ...
-  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} -r #{framerate} "#{filename}"! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something...
+  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} -r #{framerate} "#{filename}" 2>NUL! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something...
    
   puts c
   out_handle = IO.popen(c)
-  p out_handle.pid
-  `.\\SetPriority.exe -lowest #{out_handle.pid}`
-  raise unless $?.exitstatus == 0
+  set_all_ffmpegs_as_lowest_prio
   output = out_handle.read
   generate_preview_image filename
  }
