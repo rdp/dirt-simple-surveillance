@@ -15,6 +15,8 @@ require 'fileutils'
 Thread.abort_on_exception=true # sanity
 require 'thread'
 
+ENV['PATH'] = 'ffmpeg;' + ENV['PATH'] # put our ffmpeg first
+
 $thread_start = Mutex.new
 
 def delete_if_out_of_disk_space
@@ -37,7 +39,7 @@ def delete_if_out_of_disk_space
 		  }
 	  }
   else
-    puts "have enough free space #{free_space/1_000_000_000}G"
+    puts "have enough free space #{free_space/1_000_000_000}G > #{delete_if_we_have_less_than_this_much_free_space/1_000_000_000}G"
   end
 end
 
@@ -74,10 +76,11 @@ all_cameras.each{|camera_name, (index, resolution)|
   filename = "#{bucket_day_dir}/#{current_file_timestamp}.mp4"
     
   # TODO no -y, prompt ...
-  c = %!ffmpeg\\ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} -r #{framerate} "#{filename}"  2>&1! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something...
+  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} -r #{framerate} "#{filename}"! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something...
    
   puts c
   out_handle = IO.popen(c)
+  p out_handle.pid
   `.\\SetPriority.exe -lowest #{out_handle.pid}`
   raise unless $?.exitstatus == 0
   output = out_handle.read
@@ -86,6 +89,9 @@ all_cameras.each{|camera_name, (index, resolution)|
  }
 }
 
+at_exit {
+system("taskkill /y /IM ffmpeg*")
+}
 # sleep basically forever
 Thread.list.each{|t| 
 unless t == Thread.current
@@ -95,4 +101,3 @@ unless t == Thread.current
  end
 end
 }
-system("taskkill /y /IM ffmpeg*")
