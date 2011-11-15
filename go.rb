@@ -46,7 +46,7 @@ def delete_if_out_of_disk_space
 			oldest_dir = dirs.min_by{|name| name.split('/')[2]}
 			p "deleting old day dir #{oldest_dir} because free #{free_space} < #{delete_if_we_have_less_than_this_much_free_space}"
 			FileUtils.rm_rf oldest_dir
-			p "done deleting"
+			p "done deleting " + oldest_dir
 			$deletor_thread = nil # let next guy through delete if more should be deleted...
 		  }
 	  }
@@ -93,13 +93,14 @@ all_cameras.each{|camera_name, (index, resolution)|
    
   puts c
   out_handle = IO.popen(c)
-  set_all_ffmpegs_as_lowest_prio
-  $ios[Thread.current] = 
   output = out_handle.read
   generate_preview_image filename
  }
  }
 }
+
+looping_wmi_thread = Thread.new { loop { set_all_ffmpegs_as_lowest_prio; sleep 10 } } # WMI doesn't like being called from several threads.
+
 puts 'hit enter to quit/cancel current vid'
 gets
 system("taskkill /f /im ffmpeg*")
