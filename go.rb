@@ -1,5 +1,5 @@
 require 'fileutils'
-require 'java' # force jruby
+require 'java' # require jruby <sigh>
 
 def generate_preview_image from_this
 
@@ -27,15 +27,13 @@ def set_all_ffmpegs_as_lowest_prio
               # piddy.SetPriority low_prio # this call can seg fault at times...JRUBY-5422
               pid = piddy.ProcessId # this doesn't seg fault, tho
 			  p pid
-              system("SetPriority -lowest #{pid}") # uses PID for the command line
+              system("SetPriority -lowest #{pid} > NUL") # uses PID for the command line
               raise unless $?.exitstatus == 0
             end
 end
 
 
 def delete_if_out_of_disk_space
-    require 'java' # jruby <sigh>
-  
     free_space = java.io.File.new('.').freeSpace
   
     delete_if_we_have_less_than_this_much_free_space = 55e9
