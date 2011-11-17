@@ -18,20 +18,16 @@ require 'thread'
 ENV['PATH'] = 'ffmpeg;' + ENV['PATH'] # put our ffmpeg first, see jruby#6211
 
 $thread_start = Mutex.new
-$: << "./vendor/ruby-wmi-0.2.2/lib"
-require 'ruby-wmi'
 
 def set_all_ffmpegs_as_lowest_prio
- piddys = ::WMI::Win32_Process.find(:all,  :conditions => {'Name' => 'ffmpeg.exe'})
-            for piddy in piddys
-              # piddy.SetPriority low_prio # this call can seg fault at times...JRUBY-5422
-              pid = piddy.ProcessId # this doesn't seg fault, tho
+  # avoid WMI which apparently leaks
+  piddys = `tasklist`.lines.select{|l| l =~ /ffmpeg.exe/}.map{|l| l.split[1].to_i} # just pid's
+            for pid in piddys
 			  p pid
               system("SetPriority -lowest #{pid} > NUL") # uses PID for the command line
               raise unless $?.exitstatus == 0
             end
 end
-
 
 def delete_if_out_of_disk_space
     free_space = java.io.File.new('.').freeSpace
@@ -93,14 +89,14 @@ all_cameras.each{|camera_name, (index, resolution)|
    
   puts c
   out_handle = IO.popen(c)
+  set_all_ffmpegs_as_lowest_prio
   output = out_handle.read
   generate_preview_image filename
  }
  }
 }
 
-looping_wmi_thread = Thread.new { loop { set_all_ffmpegs_as_lowest_prio; sleep 10 } } # WMI doesn't like being called from several threads.
-
+sleep 1 # make this show up lower on the display console
 puts 'hit enter to quit/cancel current vid'
 gets
 system("taskkill /f /im ffmpeg*")
