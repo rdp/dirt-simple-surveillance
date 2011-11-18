@@ -23,12 +23,15 @@ def set_all_ffmpegs_as_lowest_prio
   # avoid WMI which apparently leaks
   piddys = `tasklist`.lines.select{|l| l =~ /ffmpeg.exe/}.map{|l| l.split[1].to_i} # just pid's
             for pid in piddys
-			  p pid
-              system("SetPriority -lowest #{pid} > NUL") # uses PID for the command line
+              system("SetPriority -BelowNormal #{pid} > NUL") # uses PID for the command line
               raise unless $?.exitstatus == 0
             end
 end
-
+class Numeric
+  def gigs
+    (self/1_000_000_000.0).to_s + 'G'
+ end
+end
 def delete_if_out_of_disk_space
     free_space = java.io.File.new('.').freeSpace
   
@@ -40,14 +43,14 @@ def delete_if_out_of_disk_space
 			
 			dirs = Dir['captured_video/*/*']
 			oldest_dir = dirs.min_by{|name| name.split('/')[2]}
-			p "deleting old day dir #{oldest_dir} because free #{free_space} < #{delete_if_we_have_less_than_this_much_free_space}"
+			p "deleting old day dir #{oldest_dir} because free #{free_space.gigs} < #{delete_if_we_have_less_than_this_much_free_space.gigs}"
 			FileUtils.rm_rf oldest_dir
 			p "done deleting " + oldest_dir
 			$deletor_thread = nil # let next guy through delete if more should be deleted...
 		  }
 	  }
   else
-    puts "have enough free space #{free_space/1_000_000_000}G > #{delete_if_we_have_less_than_this_much_free_space/1_000_000_000}G"
+    puts "have enough free space #{free_space.gigs}G > #{delete_if_we_have_less_than_this_much_free_space.gigs}"
   end
 end
 
@@ -75,19 +78,18 @@ all_cameras.each{|camera_name, (index, resolution)|
   end
   delete_if_out_of_disk_space
   current = Time.now
-  current_file_timestamp = current.strftime "%H-%Mm"
+  current_file_timestamp = current.strftime "%Hh-%Mm.mp4"
   sixty_minutes = 60*60
   #sixty_minutes = 10 #seconds
   raise 'unexpected space in camera human name?' if camera_name =~ / /
   bucket_day_dir = 'captured_video/' + camera_name + '/' + current.strftime("%Y-%m-%d")
   FileUtils.mkdir_p bucket_day_dir
-  p "doing #{bucket_day_dir}/#{current_file_timestamp}"
-  filename = "#{bucket_day_dir}/#{current_file_timestamp}.mp4"
+  p "doing #{bucket_day_dir}/#{current_file_timestamp} for #{sixty_minutes/60}m"
+  filename = "#{bucket_day_dir}/#{current_file_timestamp}"
     
   # TODO no -y, yes prompt ...
   c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} -r #{framerate} "#{filename}" 2>NUL! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something...
    
-  puts c
   out_handle = IO.popen(c)
   set_all_ffmpegs_as_lowest_prio
   output = out_handle.read
