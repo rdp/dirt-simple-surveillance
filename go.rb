@@ -28,10 +28,13 @@ def set_all_ffmpegs_as_lowest_prio
             end
 end
 class Numeric
-  def gigs
-    (self/1_000_000_000.0).to_s + 'G'
+  def g
+    "%.02fG" % (self/1_000_000_000.0)
  end
 end
+
+require 'shared'
+
 def delete_if_out_of_disk_space
     free_space = java.io.File.new('.').freeSpace
   
@@ -40,17 +43,15 @@ def delete_if_out_of_disk_space
 	  # lodo email instead? compact?
 	  $thread_start.synchronize {
 		  $deletor_thread ||= Thread.new {
-			
-			dirs = Dir['captured_video/*/*']
-			oldest_dir = dirs.min_by{|name| name.split('/')[2]}
-			p "deleting old day dir #{oldest_dir} because free #{free_space.gigs} < #{delete_if_we_have_less_than_this_much_free_space.gigs}"
-			FileUtils.rm_rf oldest_dir
-			p "done deleting " + oldest_dir
+			oldest_day_dir =  get_sorted_day_dirs.first
+			p "deleting old day dir #{oldest_day_dir} because free #{free_space.g} < #{delete_if_we_have_less_than_this_much_free_space.g}"
+			FileUtils.rm_rf oldest_day_dir
+			p "done deleting " + oldest__day_dir
 			$deletor_thread = nil # let next guy through delete if more should be deleted...
 		  }
 	  }
   else
-    puts "have enough free space #{free_space.gigs}G > #{delete_if_we_have_less_than_this_much_free_space.gigs}"
+    puts "have enough free space #{free_space.g} > #{delete_if_we_have_less_than_this_much_free_space.g}"
   end
 end
 
