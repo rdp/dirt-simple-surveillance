@@ -1,13 +1,13 @@
 make it possible to be generic, then humanize/propaganda-ize
-really all I need is a "normal" and a "view while" version [VLC]
 
-can interrupt it, to be able to preview at least.
+distributable, with "set options"
 
-when you interrupt it needs to kill ffmpeg
-
-distributable
  
 == maybe ==
+system tray
+can interrupt it with q, to be able to preview at least.
+
+really all I need is a "normal" and a "view while" version [VLC]
 
 it should survive a camera being pulled out...
 
@@ -59,7 +59,6 @@ motion detect use this? http://shotdetect.nonutc.fr/?page_id=5 which wraps ffmpe
 email when out of disk :P
 
 show how much cpu the ffmpeg's are using
-system tray
 daily jpg email
 
 make it into a windows service
