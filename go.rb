@@ -7,8 +7,7 @@ def generate_preview_image from_this
    `ffmpeg\\ffmpeg.exe -y -i "#{from_this}" -vcodec mjpeg -vframes 1 -f image2 "#{to_file}" 2>&1` # seems to make a matching size jpeg.
    
     raise unless $?.exitstatus == 0
-    p 'made thumbnail ' + to_file
-	raise unless File.exist? to_file
+	raise unless File.size(to_file) > 1000
 end
 
 require 'fileutils'

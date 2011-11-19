@@ -36,14 +36,13 @@ dirs.each{|dir|
 }
  all
 end
+
 require 'pp'
-pp get_sorted_dirs_by_camera
 start = 0
 get_sorted_dirs_by_camera.each{|camera_name, days|
-  p days.last
   last_image_day = days.last
   last_snapshot = Dir[last_image_day + "/*.jpg"].sort.last
-  window = M::ShowImage.new(camera_name + last_snapshot, last_snapshot).show
+  window = M::ShowImage.new(camera_name + ' ' + last_snapshot, last_snapshot).show
   start += 10
   # LODO window.set_location(start, start)
 }
