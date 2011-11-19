@@ -10,16 +10,37 @@ module M
   [BufferedImage, Font, Color, RenderingHints, ImageIO, ImageIcon, JLabel] 
   JFile = java.io.File
   class ShowImage < JFrame
-    def initialize path
-	  super 'an image'
+    def initialize title, path
+	  super title
 	   @image = ImageIO.read(JFile.new(path));
-	   set_size 100,100
+	   set_size 1000,1000 # LODO
 	   picLabel = JLabel.new(ImageIcon.new(@image))
        add( picLabel )
+	   defaultCloseOperation = EXIT_ON_CLOSE
 	end
    # def paint(g)
    #   g.drawImage(@image,0,0,self)
    # end
 end
 end
-M::ShowImage.new(filename).show
+
+def get_sorted_dirs_by_camera
+
+  dirs = get_sorted_day_dirs
+  all = {}
+dirs.each{|dir|
+ # like captured_video/camera_name
+ camera_name = dir.split('/')[1]
+ all[camera_name] ||= []
+ all[camera_name] << dir
+}
+ all
+end
+require 'pp'
+pp get_sorted_dirs_by_camera
+get_sorted_dirs_by_camera.each{|camera_name, days|
+  p days.last
+  last_image_day = days.last
+  last_snapshot = Dir[last_image_day + "/*.jpg"].sort.last
+  M::ShowImage.new(camera_name + last_snapshot, last_snapshot).show
+}
