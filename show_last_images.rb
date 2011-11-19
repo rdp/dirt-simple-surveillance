@@ -13,10 +13,10 @@ module M
     def initialize title, path
 	  super title
 	   @image = ImageIO.read(JFile.new(path));
-	   set_size 1000,1000 # LODO
+	   set_size @image.width,@image.height
 	   picLabel = JLabel.new(ImageIcon.new(@image))
        add( picLabel )
-	   defaultCloseOperation = EXIT_ON_CLOSE
+	   self.defaultCloseOperation = EXIT_ON_CLOSE
 	end
    # def paint(g)
    #   g.drawImage(@image,0,0,self)
@@ -38,9 +38,12 @@ dirs.each{|dir|
 end
 require 'pp'
 pp get_sorted_dirs_by_camera
+start = 0
 get_sorted_dirs_by_camera.each{|camera_name, days|
   p days.last
   last_image_day = days.last
   last_snapshot = Dir[last_image_day + "/*.jpg"].sort.last
-  M::ShowImage.new(camera_name + last_snapshot, last_snapshot).show
+  window = M::ShowImage.new(camera_name + last_snapshot, last_snapshot).show
+  start += 10
+  # LODO window.set_location(start, start)
 }
