@@ -26,6 +26,7 @@ def set_all_ffmpegs_as_lowest_prio
               raise unless $?.exitstatus == 0
             end
 end
+
 class Numeric
   def g
     "%.02fG" % (self/1_000_000_000.0)
@@ -45,7 +46,7 @@ def delete_if_out_of_disk_space
 			oldest_day_dir =  get_sorted_day_dirs.first
 			p "deleting old day dir #{oldest_day_dir} because free #{free_space.g} < #{delete_if_we_have_less_than_this_much_free_space.g}"
 			FileUtils.rm_rf oldest_day_dir
-			p "done deleting " + oldest__day_dir
+			p "done deleting " + oldest_day_dir
 			$deletor_thread = nil # let next guy through delete if more should be deleted...
 		  }
 	  }
