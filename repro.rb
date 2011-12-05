@@ -1,3 +1,3 @@
-Thread.new { loop { `tasklist` } }
+Thread.new { loop { system("ls") } }
 
 gets
