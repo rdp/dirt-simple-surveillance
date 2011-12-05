@@ -2,8 +2,12 @@ make it possible to be generic, then humanize/propaganda-ize
 
 distributable, with "set options"
 
+ffplay for the snapshots
  
 == maybe ==
+
+some system that "tracks when yours goes offline" (pings?)
+
 system tray
 can interrupt it with q, to be able to preview at least.
 

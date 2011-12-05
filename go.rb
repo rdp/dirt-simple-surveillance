@@ -34,24 +34,27 @@ class Numeric
 end
 
 require 'shared'
+Delete_if_we_have_less_than_this_much_free_space = 55e9
+free_space = java.io.File.new('.').freeSpace
+
+p "deleting old days when you have less than #{Delete_if_we_have_less_than_this_much_free_space.g} free, you currently have #{free_space.g} free"
 
 def delete_if_out_of_disk_space
     free_space = java.io.File.new('.').freeSpace
   
-    delete_if_we_have_less_than_this_much_free_space = 55e9
-    if free_space < delete_if_we_have_less_than_this_much_free_space
+    if free_space < Delete_if_we_have_less_than_this_much_free_space
 	  # lodo email instead? compact?
 	  $thread_start.synchronize {
 		  $deletor_thread ||= Thread.new {
 			oldest_day_dir =  get_sorted_day_dirs.first
-			p "deleting old day dir #{oldest_day_dir} because free #{free_space.g} < #{delete_if_we_have_less_than_this_much_free_space.g}"
+			p "deleting old day dir #{oldest_day_dir} because free #{free_space.g} < #{Delete_if_we_have_less_than_this_much_free_space.g}"
 			FileUtils.rm_rf oldest_day_dir
 			p "done deleting " + oldest_day_dir
 			$deletor_thread = nil # let next guy through delete if more should be deleted...
 		  }
 	  }
   else
-    puts "have enough free space #{free_space.g} > #{delete_if_we_have_less_than_this_much_free_space.g}"
+    #puts "have enough free space #{free_space.g} > #{Delete_if_we_have_less_than_this_much_free_space.g}"
   end
 end
 
