@@ -17,13 +17,16 @@ require 'thread'
 ENV['PATH'] = 'ffmpeg;' + ENV['PATH'] # put our ffmpeg first, see jruby#6211
 
 $thread_start = Mutex.new
-
+$count = 1
 def set_all_ffmpegs_as_lowest_prio
   # avoid WMI which apparently leaks
   piddys = `tasklist`.lines.select{|l| l =~ /ffmpeg.exe/}.map{|l| l.split[1].to_i} # just pid's
+  $count += 1
+  print $count
             for pid in piddys
-              system("SetPriority -BelowNormal #{pid} > NUL") # uses PID for the command line
-              raise unless $?.exitstatus == 0
+			  # not system, not exitstatus
+              #system("SetPriority -BelowNormal #{pid} > NUL") # uses PID for the command line
+              #raise unless $?.exitstatus == 0
             end
 end
 
@@ -58,7 +61,10 @@ def delete_if_out_of_disk_space
   end
 end
 
-all_cameras = {'eyeball' => [0, '1280x1024'], 'thin_camera' => [1,'1280x960']}
+all_cameras = {
+'eyeball' => [0, '1280x1024'], 
+#'thin_camera' => [1,'1280x960']
+}
 $ios = []
 
 all_cameras.each{|camera_name, (index, resolution)|
@@ -95,7 +101,9 @@ all_cameras.each{|camera_name, (index, resolution)|
   c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} -r #{framerate} "#{filename}" 2>NUL! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something...
    
   out_handle = IO.popen(c)
+  loop {
   set_all_ffmpegs_as_lowest_prio
+  }
   output = out_handle.read
   generate_preview_image filename
  }
