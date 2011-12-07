@@ -10,7 +10,6 @@ def generate_preview_image from_this
 	raise unless File.size(to_file) > 1000
 end
 
-require 'fileutils'
 Thread.abort_on_exception=true # sanity
 require 'thread'
 
@@ -22,9 +21,8 @@ def set_all_ffmpegs_as_lowest_prio
   # avoid WMI which apparently leaks
   piddys = `tasklist`.lines.select{|l| l =~ /ffmpeg.exe/}.map{|l| l.split[1].to_i} # just pid's
             for pid in piddys
-			  # not system, not exitstatus
-              #system("SetPriority -BelowNormal #{pid} > NUL") # uses PID for the command line
-              #raise unless $?.exitstatus == 0
+              system("SetPriority -BelowNormal #{pid} > NUL") # uses PID for the command line
+              raise unless $?.exitstatus == 0
             end
 end
 
