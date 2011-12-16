@@ -21,8 +21,10 @@ def set_all_ffmpegs_as_lowest_prio
             # avoid win32ole which apparently leaks in XP
             piddys = `tasklist`.lines.select{|l| l =~ /ffmpeg.exe/}.map{|l| l.split[1].to_i} # just pid's
             for pid in piddys
-              system("SetPriority -BelowNormal #{pid} > NUL") # uses PID for the command line
-              raise unless $?.exitstatus == 0
+              system(c = "SetPriority -BelowNormal #{pid} > NUL") # uses PID for the command line
+              if $?.exitstatus != 0
+			    p c + ' failed!' # race condition ?
+			  end
             end
 end
 
