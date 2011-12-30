@@ -35,7 +35,7 @@ class Numeric
 end
 
 require 'shared'
-Delete_if_we_have_less_than_this_much_free_space = 55e9
+Delete_if_we_have_less_than_this_much_free_space = 20e9#gig
 free_space = java.io.File.new('.').freeSpace
 
 p "deleting old days when you have less than #{Delete_if_we_have_less_than_this_much_free_space.g} free, you currently have #{free_space.g} free"
