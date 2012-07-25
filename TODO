@@ -1,14 +1,18 @@
 make it possible to be generic, then humanize/propaganda-ize
+  distributable, with "set which cameras", "keep this many GB"
 
-distributable, with "set options"
+gui button "reveal recordings"
 
-ffplay for the snapshots
- 
 == maybe ==
 
-don't be afraid to spend! yes!
+distributable, with "set pix_fmt options"
+
+re-encode with like 1fps instead of delete
+
+don't be afraid to spend for this project! yes!
 
 some system that "tracks when yours goes offline" (pings?)
+  maybe it pings some central server...
 
 system tray
 can interrupt it with q, to be able to preview at least.
