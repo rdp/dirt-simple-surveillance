@@ -1,13 +1,20 @@
 make it possible to be generic, then humanize/propaganda-ize
   distributable, with "set which cameras", "keep this many GB"
 
-gui button "reveal recordings"
+gui button "reveal recording" for this one
+
+better name
+
+installer
+
+option for where to store stuff...trivial directory chooser
 
 == maybe or never ==
 
 mac version (does mac work with my webcams anyway?)
+  just network cams initially
 
-distributable, with "set pix_fmt options"
+"set pix_fmt options"
 
 re-encode with like 1fps instead of delete
 
@@ -27,18 +34,14 @@ it could/should double check that the camera is still present, when starting.
 
 it should not "hang" if graph fails :)
 
-it should "not record at night" and know what that means :P [?]
-
 ruby server [sinatra]
   just show them all for now, both cameras :P [can click on it to see larger image/video]  
   inline movie player plz? HTML5 should save me, right?
   can browse by camera, or date
 some startup-y thing, maybe MS reboots our boxes?
 motion detect ffmpeg filter, I think
-
-disk space re-encode with lower framerate :P ?
  
-email on low disk ?
+options: email on low disk ?
 
 someway to ping online "hey this thing isn't working right now!"
   maybe system tray that emails on failure for now...
