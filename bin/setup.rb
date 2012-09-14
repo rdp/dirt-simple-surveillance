@@ -1,9 +1,5 @@
-require 'simple_gui_creator'
-
+require 'shared'
 a = SimpleGuiCreator::ParseTemplate.new.parse_setup_filename('lib\\setup.sgc')
-
-
-
 
 a.elements[:add_new_url].on_clicked {
   puts 'clicked url'

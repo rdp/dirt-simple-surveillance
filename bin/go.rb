@@ -1,11 +1,9 @@
+require 'shared'
+
 require 'fileutils'
 require 'java' # require jruby <sigh>
 
-require 'simple_gui_creator'
-
-
 def generate_preview_image from_this
-
    to_file = from_this + '.preview.jpg'
    command = "vendor\\ffmpeg\\ffmpeg.exe -y -i \"#{from_this}\" -vcodec mjpeg -vframes 1 -f image2 \"#{to_file}\" 2>&1" # seems to make a matching size jpeg.
     `#{command}`
@@ -13,12 +11,10 @@ def generate_preview_image from_this
 	raise unless File.size(to_file) > 1000
 end
 
-Thread.abort_on_exception=true # sanity...
+require 'sane'
 require 'thread'
 
-ENV['PATH'] = 'vendor\\ffmpeg;vendor;' + ENV['PATH'] # put our ffmpeg first, see jruby#6211
-
-$thread_start = Mutex.new
+$thread_start = Mutex.new # don't let 2 deletes happen at once...
 
 def set_all_ffmpegs_as_lowest_prio
             # avoid win32ole which apparently leaks in jruby...
