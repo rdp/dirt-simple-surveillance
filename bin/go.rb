@@ -10,10 +10,10 @@ def generate_preview_image from_this
 	raise unless File.size(to_file) > 1000
 end
 
-Thread.abort_on_exception=true # sanity
+Thread.abort_on_exception=true # sanity...
 require 'thread'
 
-ENV['PATH'] = 'vendor\\ffmpeg;' + ENV['PATH'] # put our ffmpeg first, see jruby#6211
+ENV['PATH'] = 'vendor\\ffmpeg;vendor;' + ENV['PATH'] # put our ffmpeg first, see jruby#6211
 
 $thread_start = Mutex.new
 
