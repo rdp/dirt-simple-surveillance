@@ -61,27 +61,26 @@ def delete_if_out_of_disk_space
   end
 end
 
-all_cameras = {'USB Video Device' => 'eyeball'}
-
+all_cameras = UsbStorage['devices_to_record']
 def kill
   system("taskkill /f /im ffmpeg* > NUL 2>&1")
 end
 
-kill() # kill old ffmpeg's...
+kill() # kill old ffmpeg's...during testing this helps :)
+
+if all_cameras.empty?
+ p 'not recording anything, no devices specified'
+ exit 1
+end
 
 all_cameras.each{|device_name, camera_name, index, resolution, framerate|
   Thread.new {
   loop {
 
-  # todo motion detect :P
-  # todo smallify x days worth
-  # todo make config ridiculously easy LOL
   framerate = "-framerate #{framerate}" if framerate
   resolution = "-s #{resolution}" if resolution
   index = "-video_device_number #{index}" if index
   input = "-f dshow #{index} #{framerate} #{resolution} -i video=\"#{device_name}\""
-  # -vf hqdn3d=4:4:4:4:4
-  # -vcodec libx264 ?
   
   if ARGV.detect{|a| a == '--preview'}
     c = %!ffmpeg\\ffplay #{input}!
@@ -103,6 +102,7 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
     
   # LODO no -y, yes prompt the user maybe?...
   c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} -r #{framerate} "#{filename}" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something...
+  # -vcodec libx264 ?
   p "running", c
   out_handle = IO.popen(c)
   set_all_ffmpegs_as_lowest_prio
