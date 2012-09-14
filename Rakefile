@@ -10,6 +10,7 @@ begin
     gem.homepage = "https://github.com/rdp/dirt-simple-usb-surveillance"
     gem.authors = ["rogerdpack""]
     gem.add_dependency "simple_gui_creator", ">= 0.2.0"
+    # gem.add_dependency 'ruby-wmi'
   end
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
