@@ -1,3 +1,3 @@
-j go.rb %*
+j -Ilib bin\go.rb %*
 @rem  -J-Xmx512m
 @rem -Xms128m -Xmx1024m 
