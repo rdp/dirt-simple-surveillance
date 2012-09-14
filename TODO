@@ -10,6 +10,7 @@ installer
 option for where to store stuff...trivial directory chooser
 
 == maybe or never ==
+bump ffmpeg version
 
 mac version (does mac work with my webcams anyway?)
   just network cams initially

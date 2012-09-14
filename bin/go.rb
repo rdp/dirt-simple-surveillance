@@ -13,25 +13,26 @@ end
 Thread.abort_on_exception=true # sanity
 require 'thread'
 
-ENV['PATH'] = 'ffmpeg;' + ENV['PATH'] # put our ffmpeg first, see jruby#6211
+ENV['PATH'] = 'vendor\\ffmpeg;' + ENV['PATH'] # put our ffmpeg first, see jruby#6211
 
 $thread_start = Mutex.new
 
 def set_all_ffmpegs_as_lowest_prio
-            # avoid win32ole which apparently leaks in XP
+            # avoid win32ole which apparently leaks in jruby...
             piddys = `tasklist`.lines.select{|l| l =~ /ffmpeg.exe/}.map{|l| l.split[1].to_i} # just pid's
             for pid in piddys
               system(c = "SetPriority -BelowNormal #{pid} > NUL") # uses PID for the command line
               if $?.exitstatus != 0
 			    p c + ' failed!' # race condition ?
-			  end
+	       end
             end
 end
 
 class Numeric
+  # meaning "gigs" :)
   def g
     "%.02fG" % (self/1_000_000_000.0)
- end
+  end
 end
 
 require 'shared'
