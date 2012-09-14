@@ -1,1 +1,1 @@
-j show_last_images.rb
+j bin/show_last_images.rb
