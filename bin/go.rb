@@ -1,10 +1,13 @@
 require 'fileutils'
 require 'java' # require jruby <sigh>
 
+require 'simple_gui_creator'
+
+
 def generate_preview_image from_this
 
    to_file = from_this + '.preview.jpg'
-   command = "ffmpeg\\ffmpeg.exe -y -i \"#{from_this}\" -vcodec mjpeg -vframes 1 -f image2 \"#{to_file}\" 2>&1" # seems to make a matching size jpeg.
+   command = "vendor\\ffmpeg\\ffmpeg.exe -y -i \"#{from_this}\" -vcodec mjpeg -vframes 1 -f image2 \"#{to_file}\" 2>&1" # seems to make a matching size jpeg.
     `#{command}`
     raise command unless $?.exitstatus == 0
 	raise unless File.size(to_file) > 1000

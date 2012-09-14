@@ -1,0 +1,3 @@
+[submodule "vendor/simple_gui_creator"]
+	path = vendor/simple_gui_creator
+	url = https://github.com/rdp/ruby_simple_gui_creator.git

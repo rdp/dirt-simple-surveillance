@@ -9,7 +9,7 @@ begin
     gem.email = "rogerpack2005@gmail.com"
     gem.homepage = "https://github.com/rdp/dirt-simple-usb-surveillance"
     gem.authors = ["rogerdpack""]
-    gem.add_dependency "simple_gui_creator", ">= 0.2.0"
+    gem.add_dependency "simple_gui_creator", ">= 0.2.1" # 0.2.1 = ffmpeg
     # gem.add_dependency 'ruby-wmi'
   end
 rescue LoadError
