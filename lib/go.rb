@@ -4,7 +4,7 @@ require 'fileutils'
 require 'java' # require jruby <sigh>
 
 def generate_preview_image from_this
-   to_file = from_this + '.preview.jpg'
+   to_file = from_this + '.still_frame.jpg'
    command = "ffmpeg.exe -y -i \"#{from_this}\" -vcodec mjpeg -vframes 1 -f image2 \"#{to_file}\" 2>&1" # seems to make a matching size jpeg.
     `#{command}`
     raise command unless $?.exitstatus == 0
