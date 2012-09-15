@@ -11,9 +11,13 @@ end
 
 @device_count = 0
 
+def save_devices!
+  UsbStorage['devices_to_record'] = UsbStorage['devices_to_record'] # force save [hmm...]
+end
+
 def add_device device_name, english_name, options, to_this
   UsbStorage['devices_to_record'][device_name] = [english_name, options]
-  UsbStorage['devices_to_record'] = UsbStorage['devices_to_record'] # force save [hmm...]
+  save_devices!
   
   init_string = "#{english_name}"
   if device_name != english_name
@@ -22,13 +26,17 @@ def add_device device_name, english_name, options, to_this
 
   unique_number = @device_count += 1
   init_string = '"' + init_string + ":name_string_#{unique_number}\""
-  my_remove_button_name = "remove_#{unique_number}"
-  init_string += "[Remove:#{my_remove_button_name}]"
+  init_string += "[Remove:remove_#{unique_number}] [Configure:configure_#{unique_number}]"
   to_this.add_setup_string_at_bottom init_string
-  to_this.elements[my_remove_button_name.to_sym].on_clicked {
+  to_this.elements[:"remove_#{unique_number}"].on_clicked {
     UsbStorage['devices_to_record'].delete(device_name)
-	UsbStorage['devices_to_record'] = UsbStorage['devices_to_record'] # force save
+	save_devices!
 	to_this.elements[:"name_string_#{unique_number}"].text = 'removed it!'
+  }
+  to_this.elements[:"configure_#{unique_number}"].on_clicked {
+    options = configure_device_options device_name
+	UsbStorage['devices_to_record'][device_name] = [english_name, options]
+	save_devices!
   }
   
   to_this.set_size 400,450 # TODO not have to do this...
@@ -44,13 +52,8 @@ a.elements[:add_new_url].on_clicked {
   SimpleGuiCreator.display_text "not implemented yet!"
 }
 
-a.elements[:add_new_local].on_clicked {
- video_devices = FfmpegHelpers.enumerate_directshow_devices[:video]
- video_devices.reject!{|name| UsbStorage['devices_to_record'][name]} # avoid re-adding same camera...
- new_name = DropDownSelector.new(nil, video_devices, "Select video device to capture").go_selected_value
- english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{new_name}:", new_name
-
- video_fps_options = FfmpegHelpers.get_options_video_device new_name
+def configure_device_options device_name
+ video_fps_options = FfmpegHelpers.get_options_video_device device_name
  # like  {:video_type=>"vcodec", :video_type_name=>"mjpeg", :min_x=>"800", :max_x=>"800", :max_y=>"600", "30"=>"30"}
  displayable = []
  # add in intermediate fps options
@@ -61,7 +64,15 @@ a.elements[:add_new_local].on_clicked {
    idx = 1 # the default I think...
  end
  selected = displayable[idx - 1]
- add_device new_name, english_name, selected, a
+end
+
+a.elements[:add_new_local].on_clicked {
+ video_devices = FfmpegHelpers.enumerate_directshow_devices[:video]
+ video_devices.reject!{|name| UsbStorage['devices_to_record'][name]} # avoid re-adding same camera...
+ device_name = DropDownSelector.new(nil, video_devices, "Select video device to capture").go_selected_value
+ english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device_name}:", device_name
+ options = configure_device_options device_name
+ add_device device_name, english_name, options, a
 }
 
 a.elements[:reveal_recordings].on_clicked {

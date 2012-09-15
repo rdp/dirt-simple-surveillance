@@ -39,6 +39,8 @@ test/work with h264 native input...
 
 specify output codec/options
 
+allow for vcodec copy
+  
 with motion detect have a low fps optionally going as well always
 
 optional time lapse :)

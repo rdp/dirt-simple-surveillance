@@ -72,12 +72,15 @@ all_cameras = UsbStorage['devices_to_record']
 @all_threads = all_cameras.map{|device_name, (camera_english_name, options)|
   Thread.new {
   
-  framerate ||= 5 # else "timebase not supported by mpeg4" hmm...LODO fix in FFmpeg if I can...TODO allow specifying/force them to choose it here, too...
-  framerate_text = "-framerate #{framerate}" if framerate # this didn't fix it with 30? huH/
-  output_framerate_text = "-r #{framerate}" if framerate
-  resolution = "-s #{resolution}" if resolution
-  index = "-video_device_number #{index}" if index
-  input = "-f dshow #{index} #{framerate_text} #{resolution} -i video=\"#{device_name}\" -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y_%Hh_%Mm_%Ss\" "
+  framerate = options[:fps] # else "timebase not supported by mpeg4" hmm...LODO fix in FFmpeg if I can...TODO allow specifying/force them to choose it here, too...
+  framerate_text = "-framerate #{framerate}"
+  output_framerate_text = "-r #{framerate}"
+  resolution = "-s #{options[:x]}x#{options[:y]}"
+  index = "-video_device_number #{index}" if index # TODO
+  p options
+  pixel_format = options[:video_type] == 'vcodec' ? "-vcodec #{options[:video_type_name]}" : "-pixel_format #{options[:video_type_name]}"
+  
+  input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device_name}\" -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y_%Hh_%Mm_%Ss\" "
   if just_preview
     c = %!ffplay #{input}!
 	puts c
