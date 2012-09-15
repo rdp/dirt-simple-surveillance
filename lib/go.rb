@@ -71,10 +71,11 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
   Thread.new {
   
   framerate ||= 5 # else "timebase not supported by mpeg4" hmm...LODO fix in FFmpeg if I can...TODO allow specifying/force them to choose it here, too...
-  framerate = "-framerate #{framerate}" if framerate
+  framerate_text = "-framerate #{framerate}" if framerate # this didn't fix it with 30? huH/
+  output_framerate_text = "-r #{framerate}" if framerate
   resolution = "-s #{resolution}" if resolution
   index = "-video_device_number #{index}" if index
-  input = "-f dshow #{index} #{framerate} #{resolution} -i video=\"#{device_name}\" -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y_%Hh_%Mm_%Ss\" "
+  input = "-f dshow #{index} #{framerate_text} #{resolution} -i video=\"#{device_name}\" -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y_%Hh_%Mm_%Ss\" "
   if just_preview
     c = %!ffplay #{input}!
 	puts c
@@ -88,7 +89,6 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
   current = Time.now
   #sixty_minutes = 60*60
   sixty_minutes = 20 #seconds for testing :)
-  raise 'unexpected space in camera human name?' if camera_name =~ / / # is this a problem? LODO allow...
   bucket_day_dir = UsbStorage['storage_dir'] + '/' + camera_name + '/' + current.strftime("%Y-%m-%d")
   FileUtils.mkdir_p bucket_day_dir
   
@@ -97,8 +97,7 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
   p "recording #{camera_name} #{current_file_timestamp} for #{sixty_minutes/60}m#{sixty_minutes%60}s" # debug :)
     
   # LODO no -y, yes prompt the user maybe?...
-  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} #{framerate} "#{filename}" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
-  
+  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} #{output_framerate_text} "#{filename}" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
   # -vcodec libx264 ?
   p 'running', c
   puts c

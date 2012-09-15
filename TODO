@@ -10,15 +10,13 @@ option for where to store stuff...trivial directory chooser
 
 fps et al.
 
-combine them/have a stop button
-  start button?
+== maybe or never ==
 
 
 can "just start"
 
-preview button somehow...
-
-== maybe or never ==
+somehow incorporate "last images" stuff...
+  record and view same time somehow? maybe fix sdl out? hmm.
 
 fix timestamp to be more beautiful/more colors...
 

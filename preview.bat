@@ -1,1 +1,0 @@
-j go.rb %* --preview
