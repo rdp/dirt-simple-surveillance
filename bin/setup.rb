@@ -15,6 +15,7 @@ def add_device device_name, english_name, to_this
   to_this.add_setup_string_at_bottom %! "#{device_name} => #{english_name}" !
   to_this.set_size 500,500 # TODO not have to do this...
 end
+a.set_size 500,500 # TODO not have to do this...
 
 a.add_setup_string_at_bottom  '"' + incoming_string + '"'
 old_existing.each{|device_name, name|
@@ -42,4 +43,18 @@ a.elements[:reveal_recordings].on_clicked {
 a.elements[:preview_capture].on_clicked {
   require 'bin/go.rb'
   do_something true
+}
+
+modes = ['start', 'stop']
+current_mode_idx = 0
+a.elements[:start_stop_capture].on_clicked {
+  current_mode = modes[current_mode_idx % 2]
+  if current_mode == 'start'
+    do_something
+	a.elements[:start_stop_capture].text = 'stop capturing'
+  else
+    shutdown_current
+	a.elements[:start_stop_capture].text = 'start capturing'
+  end
+  current_mode_idx += 1
 }

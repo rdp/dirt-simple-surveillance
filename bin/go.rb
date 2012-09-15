@@ -125,6 +125,13 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
 
 end
 
+def shutdown_current
+	@all_processes_since_inception.each{|p|
+	  p.puts 'q' rescue nil # does this work after first has finished?
+	}
+	# TODO join
+end
+
 if $0 == __FILE__
 	all_cameras = UsbStorage['devices_to_record']
     if all_cameras.empty?
@@ -140,8 +147,6 @@ if $0 == __FILE__
 	end
 	FileUtils.rm 'stop'
 	puts 'stopping...'
-	@all_processes_since_inception.each{|p|
-	  p.puts 'q' rescue nil # does this work after first has finished?
-	}
+	shutdown_current
 	puts 'done stopping'
 end
