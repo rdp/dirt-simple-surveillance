@@ -1,4 +1,5 @@
   ---------- Setup capture devices -----------
     [Add new local device to capture:add_new_local]
     [Add new url to capture:add_new_url]
+    [Reveal recordings:reveal_recordings]
   --------------------------------------------

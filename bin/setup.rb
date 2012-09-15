@@ -34,3 +34,7 @@ a.elements[:add_new_local].on_clicked {
  add_device new_name, english_name, a
  # TODO frame rate/size etc. options :)
 }
+
+a.elements[:reveal_recordings].on_clicked {
+  SimpleGuiCreator.show_in_explorer UsbStorage['storage_dir']
+}
