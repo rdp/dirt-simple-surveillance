@@ -63,7 +63,7 @@ end
 
 @all_processes_since_inception = []
 
-def do_something just_preview = false
+def do_something just_preview = false, video_take_time = 60*60 # 60 minutes
 
 all_cameras = UsbStorage['devices_to_record']
 
@@ -89,8 +89,6 @@ all_cameras = UsbStorage['devices_to_record']
   
   delete_if_out_of_disk_space
   current = Time.now
-  #sixty_minutes = 60*60
-  sixty_minutes = 20 #seconds for testing :)
   bucket_day_dir = UsbStorage['storage_dir'] + '/' + camera_name + '/' + current.strftime("%Y-%m-%d")
   FileUtils.mkdir_p bucket_day_dir
   
@@ -101,10 +99,10 @@ all_cameras = UsbStorage['devices_to_record']
     filename = "#{bucket_day_dir}/#{current_file_timestamp}"
   end
   
-  p "recording #{camera_name} #{current_file_timestamp} for #{sixty_minutes/60}m#{sixty_minutes%60}s" # debug :)
+  p "recording #{camera_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
     
   # LODO no -y, yes prompt the user maybe?...
-  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} #{output_framerate_text} -f mp4 "#{filename}.partial" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
+  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{video_take_time} #{output_framerate_text} -f mp4 "#{filename}.partial" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
   # -vcodec libx264 ?
   p 'running', c
   puts c

@@ -27,13 +27,13 @@ def add_device device_name, english_name, to_this
 	SimpleGuiCreator.display_text "please run it again to refresh the list"
 	to_this.close
   }
-  to_this.set_size 500,600 # TODO not have to do this...
+  to_this.set_size 350,450 # TODO not have to do this...
 end
 
 old_existing.each{|device_name, name|
   add_device device_name, name, a
 }
-a.set_size 500,600 # TODO not have to do this...
+a.set_size 350,450 # TODO not have to do this...
 
 a.elements[:add_new_url].on_clicked {
   SimpleGuiCreator.display_text "not implemented yet!"
@@ -73,7 +73,11 @@ a.elements[:start_stop_capture].on_clicked {
   current_mode = modes[current_mode_idx % 2]
   if current_mode == 'start'
     assert_have_record_devices_setup
-    do_something
+	video_size_time = 60*60
+	if ARGV[0] == '--small-videos'
+	  video_size_time = 30 # seconds
+	end
+    do_something false, video_size_time
 	a.elements[:start_stop_capture].text = 'Stop recording'
 	a.elements[:start_recording_text].text = "Recording started!"
 	Thread.new { sleep 2.5; a.elements[:start_recording_text].text = ""; }
