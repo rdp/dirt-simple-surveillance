@@ -20,7 +20,29 @@ can "just start" without prompting...or maybe as a background "invisible" proces
 
 == maybe or never ==
 
-real professional looking website...hmm...
+fix ffmpeg dshow 65536 thinger...
+
+allow for streaming through VLC, too?
+  with uPnP LOL
+  password protect (nginx/apache container/forwarder?)
+
+stream surveillance to justin.tv? youtube?
+  
+Linux version v4l2 uh guess LOL.
+
+OS X version (umm...uh...well...url's we could do easily umm...)
+
+there is some "flutter" in the picture maybe I can get rid of it to saev on file size?
+
+overlay "user specifiable" text
+
+overlay alpha image
+
+"awesome" motion detection that's not awful to set up like most...
+
+clean up my hacky preview hard exit
+
+real good looking website...hmm...at least like yawcam
 
 some type of alerting system/email on change detection, et al.
 
