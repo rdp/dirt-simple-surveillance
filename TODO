@@ -13,7 +13,6 @@ fps et al.
 combine them/have a stop button
   start button?
 
-add timestamp
 
 can "just start"
 
@@ -21,9 +20,13 @@ preview button somehow...
 
 == maybe or never ==
 
+fix timestamp to be more beautiful/more colors...
+
 minimize to tray?
   button :) with one option "reveal" LOL
 
+start as daemon/daemonize option somehow.
+  
 bump ffmpeg version...if this one doesn't do pix_fmt ...
 
 mac version (does mac work with my webcams anyway?)

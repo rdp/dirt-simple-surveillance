@@ -61,24 +61,22 @@ def delete_if_out_of_disk_space
   end
 end
 
-all_cameras = UsbStorage['devices_to_record']
-
-if all_cameras.empty?
- p 'not recording anything, no devices specified'
- exit
-end
-
 @all_processes_since_inception = []
+
+def do_something just_preview = false
+
+all_cameras = UsbStorage['devices_to_record']
 
 all_cameras.each{|device_name, camera_name, index, resolution, framerate|
   Thread.new {
+  
   framerate ||= 5 # else "timebase not supported by mpeg4" hmm...LODO fix in FFmpeg if I can...TODO allow specifying/force them to choose it here, too...
   framerate = "-framerate #{framerate}" if framerate
   resolution = "-s #{resolution}" if resolution
   index = "-video_device_number #{index}" if index
-  input = "-f dshow #{index} #{framerate} #{resolution} -i video=\"#{device_name}\""
-  if ARGV.detect{|a| a == '--preview'}
-    c = %!ffmpeg\\ffplay #{input}!
+  input = "-f dshow #{index} #{framerate} #{resolution} -i video=\"#{device_name}\" -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y_%Hh_%Mm_%Ss\" "
+  if just_preview
+    c = %!ffplay #{input}!
 	puts c
     system c
     raise 'die this thread, you\'re done!' # smelly...
@@ -89,8 +87,8 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
   delete_if_out_of_disk_space
   current = Time.now
   #sixty_minutes = 60*60
-  sixty_minutes = 20 #seconds
-  raise 'unexpected space in camera human name?' if camera_name =~ / / # why is this a problem? LODO allow...
+  sixty_minutes = 20 #seconds for testing :)
+  raise 'unexpected space in camera human name?' if camera_name =~ / / # is this a problem? LODO allow...
   bucket_day_dir = UsbStorage['storage_dir'] + '/' + camera_name + '/' + current.strftime("%Y-%m-%d")
   FileUtils.mkdir_p bucket_day_dir
   
@@ -99,7 +97,7 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
   p "recording #{camera_name} #{current_file_timestamp} for #{sixty_minutes/60}m#{sixty_minutes%60}s" # debug :)
     
   # LODO no -y, yes prompt the user maybe?...
-  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} #{framerate} -vf drawtext=fontfile=vendor/arial.ttf:text="%m/%d/%y_%Hh_%Mm_%Ss" "#{filename}" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
+  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} #{framerate} "#{filename}" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
   
   # -vcodec libx264 ?
   p 'running', c
@@ -125,16 +123,25 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
  }
 }
 
-FileUtils.rm_rf 'stop' # if it exists :)
-sleep 1 # make this show up lower on the display console
-puts 'touch stop file to quit/cancel current recordings'
-while !File.exist?('stop')
- sleep 1
 end
-FileUtils.rm 'stop'
-puts 'stopping...'
-@all_processes_since_inception.each{|p|
- p 'sending q'
-  p.puts 'q' rescue nil # does this work after first has finished?
-}
-puts 'done'
+
+if $0 == __FILE__
+	all_cameras = UsbStorage['devices_to_record']
+    if all_cameras.empty?
+	 p 'not recording anything, no devices specified'
+	 exit
+	end
+	do_something ARGV.detect{|a| a == '--preview'}
+	FileUtils.rm_rf 'stop' # if it exists :)
+	sleep 1 # make this show up lower on the display console
+	puts 'touch stop file to quit/cancel current recordings'
+	while !File.exist?('stop')
+	 sleep 1
+	end
+	FileUtils.rm 'stop'
+	puts 'stopping...'
+	@all_processes_since_inception.each{|p|
+	  p.puts 'q' rescue nil # does this work after first has finished?
+	}
+	puts 'done stopping'
+end

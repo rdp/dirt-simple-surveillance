@@ -38,3 +38,8 @@ a.elements[:add_new_local].on_clicked {
 a.elements[:reveal_recordings].on_clicked {
   SimpleGuiCreator.show_in_explorer UsbStorage['storage_dir']
 }
+
+a.elements[:preview_capture].on_clicked {
+  require 'bin/go.rb'
+  do_something true
+}
