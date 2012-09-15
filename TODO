@@ -1,14 +1,18 @@
-does "stop" just tell it to cut the current vid and go onto the next?
-  
 better name
-
+  assume I have crossbar...
+  
 installer
 
 new README/screen cast
   mention ML
   toot my own horn :)
-
+    simple, easy to use and setup
+	efficient, uses very little cpu compared to other solutions
+	compatible.
+	
 "launch"
+
+better web page
 
 option for where to store stuff...trivial directory chooser
 
@@ -19,6 +23,21 @@ fps and size
 can "just start" without prompting...or maybe as a background "invisible" process?
 
 == maybe or never ==
+
+let them choose the "output" codec...
+
+can "tile" the various streams all together into one output...
+
+send an email on motion detect/allow them to view the stream somehow...
+  ustream seems *perfect* for this...
+
+more youtube's of how to do various things...
+  
+my own dyndns server LOL
+
+get crossbar working...investigate what "normal" input cards give us in XP...
+
+"ftp upload" of snaps, or able to specify a directory for snap, a la dropbox
 
 more status updates "just finished this file..."
 
