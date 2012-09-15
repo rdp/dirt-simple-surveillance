@@ -34,7 +34,6 @@ dirs.each{|dir|
  all[camera_name] ||= []
  all[camera_name] << dir
 }
-p 'got', all
  all
 end
 
