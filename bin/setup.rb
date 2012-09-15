@@ -28,7 +28,6 @@ def add_device device_name, english_name, to_this
   to_this.elements[my_remove_button_name.to_sym].on_clicked {
     UsbStorage['devices_to_record'].delete(device_name)
 	UsbStorage['devices_to_record'] = UsbStorage['devices_to_record'] # force save
-	p to_this.elements
 	to_this.elements[:"name_string_#{unique_number}"].text = 'removed it!'
   }
   
@@ -47,15 +46,21 @@ a.elements[:add_new_url].on_clicked {
 
 a.elements[:add_new_local].on_clicked {
  video_devices = FfmpegHelpers.enumerate_directshow_devices[:video]
+ video_devices.reject!{|name| UsbStorage['devices_to_record'][name]} # avoid re-adding same camera...
  new_name = DropDownSelector.new(nil, video_devices, "Select video device to capture").go_selected_value
  english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{new_name}:", new_name
 
  video_fps_options = FfmpegHelpers.get_options_video_device new_name
  # like  {:video_type=>"vcodec", :video_type_name=>"mjpeg", :min_x=>"800", :max_x=>"800", :max_y=>"600", "30"=>"30"}
- 
+ require 'ruby-debug'
+ #debugger
  # now for a huge list...
-# displayable = 
- 
+ displayable = []
+ video_fps_options.each{|original| (original[:min_fps]..original[:max_fps]).step(5).each{|real_fps| displayable << original.dup.merge(:fps => real_fps, :x => original[:max_x], :y => original[:max_y])} }
+ english_names = displayable.map{|options| "#{options[:x]}x#{options[:y]} #{options[:fps]}fps (#{options[:video_type_name]})"}
+ idx = DropDownSelector.new(nil, ['default'] + english_names, "Select frame rate if desired").go_selected_index
+ selected = displayable[idx - 1]
+ p 'got', selected
  add_device new_name, english_name, a
  # TODO frame rate/size etc. options :)
 }
