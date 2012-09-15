@@ -1,18 +1,37 @@
-"keep this many GB"
-
-delete camera
-
 does "stop" just tell it to cut the current vid and go onto the next?
   
 better name
 
 installer
 
+new README/screen cast
+  mention ML
+  toot my own horn :)
+
+"launch"
+
 option for where to store stuff...trivial directory chooser
 
-fps et al.
+fps and size
+
+"keep this many GB"
+
+can "just start" without prompting...or maybe as a background "invisible" process?
 
 == maybe or never ==
+
+real professional looking website...hmm...
+
+some type of alerting system/email on change detection, et al.
+
+ask for user feedback
+
+do I need a better ML?
+
+"reveal current video" button per camera...
+  or SDL out...
+  
+choose frame rate, pix_fmt
 
 are still frames mixed in still too confusing? probably...
 
@@ -20,17 +39,15 @@ new icon/splash screen
 
 "show video recordings" shouldn't be enabled if you don't have any
 
-start capture should be disabled until you add something LOL.
+start capture button should be disabled until you add something LOL.
 
 preview capture title window say "NOT RECORDING YET"
 
-kill on "overall closed"?
+kill all on "overall closed"?
 
 SDL out in conjunction seems popular so you can watch it while it's getting started.
 
-rename camera
-
-can "just start" without prompting...or maybe as a background "invisible" process?
+rename camera button
 
 somehow incorporate "last images" stuff...
   record and view same time somehow? maybe fix sdl out? hmm.
