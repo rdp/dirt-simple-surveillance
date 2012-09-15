@@ -6,7 +6,7 @@ a = ParseTemplate.new.parse_setup_filename('lib\\setup.sgc')
 old_existing = UsbStorage['devices_to_record']
 
 if(old_existing.size == 0) # TODO something like 'add_text_at_current_spot' I guess...
- a.elements['device_list_header'].text += " (none yet, add one!):"
+ a.elements[:device_list_header].text += " (none yet, add one!):"
 end
 
 @device_count = 0
@@ -25,7 +25,7 @@ def add_device device_name, english_name, to_this
     UsbStorage['devices_to_record'].delete(device_name)
 	UsbStorage['devices_to_record'] = UsbStorage['devices_to_record'] # force save
 	SimpleGuiCreator.display_text "please run it again to refresh the list"
-	exit 0
+	to_this.close
   }
   to_this.set_size 500,600 # TODO not have to do this...
 end
@@ -50,7 +50,8 @@ a.elements[:add_new_local].on_clicked {
 }
 
 a.elements[:reveal_recordings].on_clicked {
-  SimpleGuiCreator.show_in_explorer UsbStorage['storage_dir']
+  assert_have_record_devices_setup
+  SimpleGuiCreator.show_in_explorer Dir[UsbStorage['storage_dir'] + '/*'][0]
 }
 
 require './lib/go.rb'
@@ -59,16 +60,24 @@ a.elements[:preview_capture].on_clicked {
   do_something true
 }
 
+def assert_have_record_devices_setup
+    if UsbStorage['devices_to_record'].length == 0
+	  SimpleGuiCreator.display_text "you cannot start recording you don't have anything setup to record just yet\nadd something first"
+	  raise 'add something'
+	end
+end
+
 modes = ['start', 'stop']
 current_mode_idx = 0
 a.elements[:start_stop_capture].on_clicked {
   current_mode = modes[current_mode_idx % 2]
   if current_mode == 'start'
+    assert_have_record_devices_setup
     do_something
-	a.elements[:start_stop_capture].text = 'Stop capturing'
+	a.elements[:start_stop_capture].text = 'Stop recording.'
   else
     shutdown_current
-	a.elements[:start_stop_capture].text = 'Start capturing'
+	a.elements[:start_stop_capture].text = 'Start recording.'
   end
   current_mode_idx += 1
 }

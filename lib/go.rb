@@ -97,7 +97,7 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
   p "recording #{camera_name} #{current_file_timestamp} for #{sixty_minutes/60}m#{sixty_minutes%60}s" # debug :)
     
   # LODO no -y, yes prompt the user maybe?...
-  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} #{output_framerate_text} "#{filename}" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
+  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} #{output_framerate_text} -f mp4 "#{filename}.partial" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
   # -vcodec libx264 ?
   p 'running', c
   puts c
@@ -117,6 +117,7 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
 	end
   end
   raise c + " failed?" unless $?.exitstatus == 0 # don't generate preview if failed...
+  File.rename(filename + ".partial", filename)
   generate_preview_image filename
  }
  }

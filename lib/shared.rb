@@ -19,7 +19,7 @@ if !File.directory? File.expand_path(dir)
   end
 end
 
-dir = File.expand_path(dir + '/usb_surveillance')
+dir = File.expand_path(dir + '/dirt_simple_surveillance')
 Dir.mkdir dir unless File.directory?(dir)
 UsbStorage.set_default('storage_dir', dir)
 

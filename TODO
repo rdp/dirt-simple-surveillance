@@ -12,9 +12,18 @@ option for where to store stuff...trivial directory chooser
 
 fps et al.
 
-kill on "closed"?
-
 == maybe or never ==
+new icon/splash screen
+
+"show video recordings" shouldn't be enabled if you don't have any
+
+start capture should be disabled until you add something LOL.
+
+preview capture title window say "NOT RECORDING YET"
+
+kill on "overall closed"?
+
+SDL out in conjunction seems popular so you can watch it while it's getting started.
 
 rename camera
 
