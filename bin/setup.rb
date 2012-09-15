@@ -74,10 +74,12 @@ a.elements[:start_stop_capture].on_clicked {
   if current_mode == 'start'
     assert_have_record_devices_setup
     do_something
-	a.elements[:start_stop_capture].text = 'Stop recording.'
+	a.elements[:start_stop_capture].text = 'Stop recording'
+	a.elements[:start_recording_text].text = "Recording started!"
+	Thread.new { sleep 2.5; a.elements[:start_recording_text].text = ""; }
   else
     shutdown_current
-	a.elements[:start_stop_capture].text = 'Start recording.'
+	a.elements[:start_stop_capture].text = 'Start recording'
   end
   current_mode_idx += 1
 }
