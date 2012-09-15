@@ -99,23 +99,23 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
   p "recording #{camera_name} #{current_file_timestamp} for #{sixty_minutes/60}m#{sixty_minutes%60}s" # debug :)
     
   # LODO no -y, yes prompt the user maybe?...
-  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} #{framerate} "#{filename}" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something...
+  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} #{framerate} -vf drawtext=fontfile=vendor/arial.ttf:text="%m/%d/%y_%Hh_%Mm_%Ss" "#{filename}" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
+  
   # -vcodec libx264 ?
   p 'running', c
-  require 'ruby-debug'
-  #debugger
+  puts c
   out_handle = IO.popen(c, "w") 
   @all_processes_since_inception << out_handle
   set_all_ffmpegs_as_lowest_prio
   #output = out_handle.read # basically waits for it to terminate...
   #out_handle.close # force exist
-  p 'waiting forever...'
   while out_handle
     begin
       out_handle.puts 'a' # ping it
 	  sleep 1
 	rescue IOError => e
 	  puts 'detected ffmpeg is done'
+	  out_handle.close
 	  out_handle = nil
 	end
   end
