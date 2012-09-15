@@ -62,15 +62,10 @@ def delete_if_out_of_disk_space
 end
 
 all_cameras = UsbStorage['devices_to_record']
-def kill
-  system("taskkill /f /im ffmpeg* > NUL 2>&1")
-end
-
-kill() # kill old ffmpeg's...during testing this helps :)
 
 if all_cameras.empty?
  p 'not recording anything, no devices specified'
- exit 1
+ exit
 end
 
 @all_processes_since_inception = []
@@ -143,4 +138,3 @@ puts 'stopping...'
   p.puts 'q' rescue nil # does this work after first has finished?
 }
 puts 'done'
-#kill() # TODO pass 'q' to the process...
