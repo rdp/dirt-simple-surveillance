@@ -16,7 +16,6 @@ module M
 	   set_size @image.width,@image.height
 	   picLabel = JLabel.new(ImageIcon.new(@image))
        add( picLabel )
-	   self.defaultCloseOperation = EXIT_ON_CLOSE
 	end
    # def paint(g)
    #   g.drawImage(@image,0,0,self)
