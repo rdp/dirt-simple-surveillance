@@ -73,50 +73,74 @@ if all_cameras.empty?
  exit 1
 end
 
+@all_processes_since_inception = []
+
 all_cameras.each{|device_name, camera_name, index, resolution, framerate|
   Thread.new {
-  loop {
-
+  framerate ||= 5 # else "timebase not supported by mpeg4" hmm...LODO fix in FFmpeg if I can...TODO allow specifying/force them to choose it here, too...
   framerate = "-framerate #{framerate}" if framerate
   resolution = "-s #{resolution}" if resolution
   index = "-video_device_number #{index}" if index
   input = "-f dshow #{index} #{framerate} #{resolution} -i video=\"#{device_name}\""
-  
   if ARGV.detect{|a| a == '--preview'}
     c = %!ffmpeg\\ffplay #{input}!
 	puts c
     system c
     raise 'die this thread, you\'re done!' # smelly...
   end
+  
+  loop {
+  
   delete_if_out_of_disk_space
   current = Time.now
-  sixty_minutes = 60*60
-  #sixty_minutes = 10 #seconds
+  #sixty_minutes = 60*60
+  sixty_minutes = 20 #seconds
   raise 'unexpected space in camera human name?' if camera_name =~ / / # why is this a problem? LODO allow...
   bucket_day_dir = UsbStorage['storage_dir'] + '/' + camera_name + '/' + current.strftime("%Y-%m-%d")
   FileUtils.mkdir_p bucket_day_dir
   
   current_file_timestamp = current.strftime "%Hh-%Mm.mp4"
   filename = "#{bucket_day_dir}/#{current_file_timestamp}"
-  p "doing #{filename} for #{sixty_minutes/60}m" # debug :)
+  p "recording #{camera_name} #{current_file_timestamp} for #{sixty_minutes/60}m#{sixty_minutes%60}s" # debug :)
     
   # LODO no -y, yes prompt the user maybe?...
-  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} -r #{framerate} "#{filename}" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something...
+  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{sixty_minutes} #{framerate} "#{filename}" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something...
   # -vcodec libx264 ?
-  p "running", c
-  out_handle = IO.popen(c)
+  p 'running', c
+  require 'ruby-debug'
+  #debugger
+  out_handle = IO.popen(c, "w") 
+  @all_processes_since_inception << out_handle
   set_all_ffmpegs_as_lowest_prio
-  output = out_handle.read # is this too much data after 60 minutes? prolly not... :P
-  raise c + " failed? #{output}" unless $?.exitstatus == 0 # don't generate preview if failed...
+  #output = out_handle.read # basically waits for it to terminate...
+  #out_handle.close # force exist
+  p 'waiting forever...'
+  while out_handle
+    begin
+      out_handle.puts 'a' # ping it
+	  sleep 1
+	rescue IOError => e
+	  puts 'detected ffmpeg is done'
+	  out_handle = nil
+	end
+  end
+  raise c + " failed?" unless $?.exitstatus == 0 # don't generate preview if failed...
   generate_preview_image filename
  }
  }
 }
 
+FileUtils.rm_rf 'stop' # if it exists :)
 sleep 1 # make this show up lower on the display console
-puts 'touch stop to quit/cancel current vid'
+puts 'touch stop file to quit/cancel current recordings'
 while !File.exist?('stop')
  sleep 1
 end
 FileUtils.rm 'stop'
-kill()
+puts 'stopping...'
+@all_processes_since_inception.each{|p|
+ p 'sending q'
+  p.puts 'q' rescue nil # does this work after first has finished?
+}
+puts 'done'
+#kill() # TODO pass 'q' to the process...
