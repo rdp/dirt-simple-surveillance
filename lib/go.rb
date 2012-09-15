@@ -69,7 +69,7 @@ all_cameras = UsbStorage['devices_to_record']
 
 @keep_going = true
 
-@all_threads = all_cameras.map{|device_name, camera_name, index, resolution, framerate|
+@all_threads = all_cameras.map{|device_name, (camera_english_name, options)|
   Thread.new {
   
   framerate ||= 5 # else "timebase not supported by mpeg4" hmm...LODO fix in FFmpeg if I can...TODO allow specifying/force them to choose it here, too...
@@ -89,7 +89,7 @@ all_cameras = UsbStorage['devices_to_record']
   
   delete_if_out_of_disk_space
   current = Time.now
-  bucket_day_dir = UsbStorage['storage_dir'] + '/' + camera_name + '/' + current.strftime("%Y-%m-%d")
+  bucket_day_dir = UsbStorage['storage_dir'] + '/' + camera_english_name + '/' + current.strftime("%Y-%m-%d")
   FileUtils.mkdir_p bucket_day_dir
   
   current_file_timestamp = current.strftime "%Hh-%Mm.mp4"
@@ -99,7 +99,7 @@ all_cameras = UsbStorage['devices_to_record']
     filename = "#{bucket_day_dir}/#{current_file_timestamp}"
   end
   
-  p "recording #{camera_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
+  p "recording #{camera_english_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
     
   # LODO no -y, yes prompt the user maybe?...
   c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{video_take_time} #{output_framerate_text} -f mp4 "#{filename}.partial" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 

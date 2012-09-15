@@ -11,8 +11,8 @@ end
 
 @device_count = 0
 
-def add_device device_name, english_name, to_this
-  UsbStorage['devices_to_record'][device_name] = english_name
+def add_device device_name, english_name, options, to_this
+  UsbStorage['devices_to_record'][device_name] = [english_name, options]
   UsbStorage['devices_to_record'] = UsbStorage['devices_to_record'] # force save [hmm...]
   
   init_string = "#{english_name}"
@@ -31,14 +31,14 @@ def add_device device_name, english_name, to_this
 	to_this.elements[:"name_string_#{unique_number}"].text = 'removed it!'
   }
   
-  to_this.set_size 350,450 # TODO not have to do this...
+  to_this.set_size 400,450 # TODO not have to do this...
 end
 
-old_existing.each{|device_name, name|
-  add_device device_name, name, a
+old_existing.each{|device_name, (name, options)|
+  add_device device_name, name, options, a
 }
 
-a.set_size 350,450 # TODO not have to do this...
+a.set_size 400,450 # TODO not have to do this...
 
 a.elements[:add_new_url].on_clicked {
   SimpleGuiCreator.display_text "not implemented yet!"
@@ -52,21 +52,19 @@ a.elements[:add_new_local].on_clicked {
 
  video_fps_options = FfmpegHelpers.get_options_video_device new_name
  # like  {:video_type=>"vcodec", :video_type_name=>"mjpeg", :min_x=>"800", :max_x=>"800", :max_y=>"600", "30"=>"30"}
- require 'ruby-debug'
- #debugger
- # now for a huge list...
  displayable = []
+ # add in intermediate fps options
  video_fps_options.each{|original| (original[:min_fps]..original[:max_fps]).step(5).each{|real_fps| displayable << original.dup.merge(:fps => real_fps, :x => original[:max_x], :y => original[:max_y])} }
- english_names = displayable.map{|options| "#{options[:x]}x#{options[:y]} #{options[:fps]}fps (#{options[:video_type_name]})"}
+ english_names = displayable.map{|options| "#{options[:x]}x#{options[:y]} #{options[:fps].to_i}fps (#{options[:video_type_name]})"}
  idx = DropDownSelector.new(nil, ['default'] + english_names, "Select frame rate if desired").go_selected_index
+ if idx == 0
+   idx = 1 # the default I think...
+ end
  selected = displayable[idx - 1]
- p 'got', selected
- add_device new_name, english_name, a
- # TODO frame rate/size etc. options :)
+ add_device new_name, english_name, selected, a
 }
 
 a.elements[:reveal_recordings].on_clicked {
-  assert_have_record_devices_setup
   SimpleGuiCreator.show_in_explorer Dir[UsbStorage['storage_dir'] + '/*'][0]
 }
 
