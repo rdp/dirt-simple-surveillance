@@ -20,6 +20,8 @@ can "just start" without prompting...or maybe as a background "invisible" proces
 
 == maybe or never ==
 
+more status updates "just finished this file..."
+
 fix ffmpeg dshow 65536 thinger...
 
 allow for streaming through VLC, too?
@@ -51,7 +53,7 @@ ask for user feedback
 do I need a better ML?
 
 "reveal current video" button per camera...
-  or SDL out...
+  or better yet, please fix SDL out...
   
 choose frame rate, pix_fmt
 

@@ -67,7 +67,9 @@ def do_something just_preview = false
 
 all_cameras = UsbStorage['devices_to_record']
 
-all_cameras.each{|device_name, camera_name, index, resolution, framerate|
+@keep_going = true
+
+@all_threads = all_cameras.map{|device_name, camera_name, index, resolution, framerate|
   Thread.new {
   
   framerate ||= 5 # else "timebase not supported by mpeg4" hmm...LODO fix in FFmpeg if I can...TODO allow specifying/force them to choose it here, too...
@@ -83,7 +85,7 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
     raise 'die this thread, you\'re done!' # smelly...
   end
   
-  loop {
+  while(@keep_going)
   
   delete_if_out_of_disk_space
   current = Time.now
@@ -94,6 +96,11 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
   
   current_file_timestamp = current.strftime "%Hh-%Mm.mp4"
   filename = "#{bucket_day_dir}/#{current_file_timestamp}"
+  if File.exist? filename
+    current_file_timestamp = current.strftime "%Hh-%Mm-%Ss.mp4"
+    filename = "#{bucket_day_dir}/#{current_file_timestamp}"
+  end
+  
   p "recording #{camera_name} #{current_file_timestamp} for #{sixty_minutes/60}m#{sixty_minutes%60}s" # debug :)
     
   # LODO no -y, yes prompt the user maybe?...
@@ -119,17 +126,18 @@ all_cameras.each{|device_name, camera_name, index, resolution, framerate|
   raise c + " failed?" unless $?.exitstatus == 0 # don't generate preview if failed...
   File.rename(filename + ".partial", filename)
   generate_preview_image filename
- }
+  end
  }
 }
 
 end
 
 def shutdown_current
+    @keep_going = false
 	@all_processes_since_inception.each{|p|
 	  p.puts 'q' rescue nil # does this work after first has finished?
 	}
-	# TODO join
+	@all_threads.each &:join
 end
 
 if $0 == __FILE__
