@@ -92,11 +92,9 @@ def assert_have_record_devices_setup
 	end
 end
 
-modes = ['start', 'stop']
-current_mode_idx = 0
+current_state = :stopped # :running
 a.elements[:start_stop_capture].on_clicked {
-  current_mode = modes[current_mode_idx % 2]
-  if current_mode == 'start'
+  if current_state == :stopped
     assert_have_record_devices_setup
 	video_size_time = 60*60
 	if ARGV[0] == '--small-videos'
@@ -106,14 +104,30 @@ a.elements[:start_stop_capture].on_clicked {
 	a.elements[:start_stop_capture].text = 'Stop recording'
 	a.elements[:start_recording_text].text = "Recording started!"
 	Thread.new { sleep 2.5; a.elements[:start_recording_text].text = ""; }
+	current_state = :running
   else
     shutdown_current
 	a.elements[:start_stop_capture].text = 'Start recording'
+	current_state = :stopped
   end
-  current_mode_idx += 1
 }
 
 a.elements[:reveal_snapshots].on_clicked {
   require './lib/show_last_images.rb'
   show_recent_snapshot_images
+}
+
+a.elements[:disappear_window].on_clicked {
+  if current_state == :stopped
+    SimpleGuiCreator.show_text "you probably only want to do this [disappear the window] if you're already recording\n which you aren't yet!"
+  else
+    a.visible=false
+    Thread.new { 
+      wakeup_filename = UsbStorage['storage_dir'] + '/wake_up'
+      while(a.visible == false)
+	    sleep 2
+	    if File.exist?(wakeup_filename); a.visible=true; File.delete wakeup_filename; puts 'hello'; end
+	  end 
+    }
+  end
 }

@@ -1,7 +1,7 @@
 better name
   assume I have crossbar...
   
-installer
+real installer
 
 new README
   toot my own horn :)
@@ -14,7 +14,7 @@ new README
 	
 "launch"
 
-new screen cast
+screen cast
 
 better web page
 
@@ -29,13 +29,17 @@ can "just start" without prompting...
 get crossbar working...
 
 ask users what they want...
-  SDL out if M. wants it...
+  SDL out if M. wanted it...
 
 send daily "conglom" tiled images email LOL
 
 test/work with h264 native input...
 
 == maybe or never ==
+
+frame rate dropdown system is "too uhgly" :)
+
+preview option for each camera
 
 specify output codec/options
 
