@@ -30,14 +30,15 @@ def get_sorted_dirs_by_camera
   all = {}
 dirs.each{|dir|
  # like captured_video/camera_name
- camera_name = dir.split('/')[1]
+ camera_name = dir.split('/')[-2]
  all[camera_name] ||= []
  all[camera_name] << dir
 }
+p 'got', all
  all
 end
 
-require 'pp'
+def show_recent_snapshot_images
 start = 0
 get_sorted_dirs_by_camera.each{|camera_name, days|
   last_image_day = days.last
@@ -46,3 +47,4 @@ get_sorted_dirs_by_camera.each{|camera_name, days|
   start += 10
   # LODO window.set_location(start, start)
 }
+end

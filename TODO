@@ -1,6 +1,8 @@
 "keep this many GB"
 
 delete camera
+
+does "stop" just tell it to cut the current vid and go onto the next?
   
 better name
 
@@ -10,15 +12,16 @@ option for where to store stuff...trivial directory chooser
 
 fps et al.
 
+kill on "closed"?
+
 == maybe or never ==
 
+rename camera
 
-can "just start"
+can "just start" without prompting...or maybe as a background "invisible" process?
 
 somehow incorporate "last images" stuff...
   record and view same time somehow? maybe fix sdl out? hmm.
-
-fix timestamp to be more beautiful/more colors...
 
 minimize to tray?
   button :) with one option "reveal" LOL
@@ -26,7 +29,11 @@ minimize to tray?
 start as daemon/daemonize option somehow.
   
 bump ffmpeg version...if this one doesn't do pix_fmt ...
-
+  once I care about format
+  
+able to input "-vcodec h264"
+  vcodec copy?
+  
 mac version (does mac work with my webcams anyway?)
   just network cams initially
 
@@ -50,10 +57,6 @@ it could/should double check that the camera is still present, when starting.
 
 it should not "hang" if graph fails :)
 
-ruby server [sinatra]
-  just show them all for now, both cameras :P [can click on it to see larger image/video]  
-  inline movie player plz? HTML5 should save me, right?
-  can browse by camera, or date
 some startup-y thing, maybe MS reboots our boxes?
 motion detect ffmpeg filter, I think
  
@@ -62,19 +65,12 @@ options: email on low disk ?
 someway to ping online "hey this thing isn't working right now!"
   maybe system tray that emails on failure for now...
   
- "if too dark, ignore frame"?
+"if too dark, ignore frame"?
   but you'd assume this is using "most" of your disk space, so this would be rarely useful
+  motion detect would be better...
   
-disk space -- always keep x days worth [?]
+disk space -- force keep x days worth [?]
 cover flow-ish...
-
-wrap libvlc? prolly not:
-it can have a custom (raw/encoded) renderer, though, only raw apparently: http://www.codeproject.com/KB/audio-video/nVLC.aspx?display=Mobile&fid=1587520&df=90&mpp=10&noise=3&sort=Position&view=Quick&fr=41&prof=True
-  I "guess" ffmpeg can do the same thing tho...hmm....how fast is VLC encoding compared to ffmpeg?
-
-ispy is actually usable/user almost friendly tho LOL
-  it appears to ingest everything as mjpeg [?] maybe that's just for the on screen display...hmm...
-  it seems like MJPEGStream  only comes from a url though...an aforge special, it does all the processing for you, in place of ffmpeg/vlc ok.
   
 uPnP for the outer viewable fella
   my site to lookup their external IP
@@ -86,32 +82,23 @@ uPnP for the outer viewable fella
 email when out of disk :P
 
 show how much cpu the ffmpeg's are using
-daily jpg email
+daily jpg email option
 
 make it into a windows service
   startup item more like it.
-  
-a way to "peek" while its running somehow...
-  ffmpeg fork to jpeg output?
 
 motion detect
-x264?
-can stream too
-  mjpeg output? hmm
-
 
 warn on failure
   email
   popup
   red system tray icon
   
-specify process priority
+user specify process priority [?]
 
 can specify zones
   trapezoid
   jruby gui specifier :P
 some way to monitor it, like view thw two... maybe fork it to rtp?
 
-gstreamer-rtsp for streaming?
- 
-hmm...if they want streaming just use VLC, I guess, which probably means I'll have to make my motion detector VLC friendly...
+option to "stream too" ?

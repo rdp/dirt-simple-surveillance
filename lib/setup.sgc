@@ -3,5 +3,6 @@
     [Add new url to capture:add_new_url]
     [Preview  capture:preview_capture]
     [Start capture:start_stop_capture]
-    [Show old recordings:reveal_recordings]
+    [Show video recordings:reveal_recordings]
+    [Show recent video snapshots:reveal_snapshots]
   --------------------------------------------

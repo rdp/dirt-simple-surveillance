@@ -1,18 +1,17 @@
 require 'shared'
-Storage
+
 include SimpleGuiCreator
 a = ParseTemplate.new.parse_setup_filename('lib\\setup.sgc')
 
 old_existing = UsbStorage['devices_to_record']
 incoming_string = "Currently recording to the following devices:"
-p old_existing
 
 if(old_existing.size == 0) # TODO something like 'add_text_at_current_spot' I guess...
  incoming_string += " (none yet, add one!):"
 end
 
 def add_device device_name, english_name, to_this
-  to_this.add_setup_string_at_bottom %! "#{device_name} => #{english_name}" !
+  to_this.add_setup_string_at_bottom %! "#{english_name} (#{device_name})" !
   to_this.set_size 350,500 # TODO not have to do this...
 end
 a.set_size 350,500 # TODO not have to do this...
@@ -58,4 +57,9 @@ a.elements[:start_stop_capture].on_clicked {
 	a.elements[:start_stop_capture].text = 'Start capturing'
   end
   current_mode_idx += 1
+}
+
+a.elements[:reveal_snapshots].on_clicked {
+  require './lib/show_last_images.rb'
+  show_recent_snapshot_images
 }

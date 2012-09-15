@@ -24,6 +24,6 @@ Dir.mkdir dir unless File.directory?(dir)
 UsbStorage.set_default('storage_dir', dir)
 
 def get_sorted_day_dirs
-	dirs = Dir['captured_video/*/*']
+	dirs = Dir[UsbStorage['storage_dir'] + '/*/*'] # camera_name/day
 	dirs.sort_by{|name| name.split('/')[2]}
 end
