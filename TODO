@@ -41,6 +41,9 @@ test/work with h264 native input...
 
 == maybe or never ==
 
+some way to select an english name while testing what the new one is since you dont' know which "USB Video Device" is which
+  low prio
+
 frame rate dropdown system is "too uhgly" :)
 
 preview option for each camera
