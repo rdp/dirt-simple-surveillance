@@ -125,16 +125,24 @@ a.elements[:reveal_snapshots].on_clicked {
   show_recent_snapshot_images
 }
 
+currently_hidden_filename =  UsbStorage['storage_dir'] + '/currently_hidden'
+currently_running_filename =  UsbStorage['storage_dir'] + '/currently_running'
+
 a.elements[:disappear_window].on_clicked {
   if current_state == :stopped
     SimpleGuiCreator.show_text "you probably only want to do this [disappear the window] if you're already recording\n which you aren't yet!"
   else
+    FileUtils.touch currently_hidden_filename
     a.visible=false
     Thread.new { 
       wakeup_filename = UsbStorage['storage_dir'] + '/wake_up'
       while(a.visible == false)
 	    sleep 2
-	    if File.exist?(wakeup_filename); a.visible=true; File.delete wakeup_filename; puts 'hello'; end
+	    if File.exist?(wakeup_filename) 
+		  a.visible=true
+		  File.delete wakeup_filename
+		  File.delete currently_hidden_filename
+		end
 	  end 
     }
   end
@@ -143,3 +151,10 @@ a.elements[:disappear_window].on_clicked {
 if ARGV.detect{|a| a == '--background-start'}
   a.elements[:disappear_window].simulate_click
 end
+
+
+FileUtils.touch currently_running_filename
+a.after_closed {
+  FileUtils.rm_rf currently_running_filename
+  FileUtils.rm_rf currently_hidden_filename
+}
