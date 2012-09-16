@@ -131,3 +131,7 @@ a.elements[:disappear_window].on_clicked {
     }
   end
 }
+
+if ARGV.detect{|a| a == '--background-start'}
+  a.elements[:disappear_window].simulate_click
+end
