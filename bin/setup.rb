@@ -15,15 +15,22 @@ def save_devices!
   UsbStorage['devices_to_record'] = UsbStorage['devices_to_record'] # force save [hmm...]
 end
 
-def add_device device_name, english_name, options, to_this
-  UsbStorage['devices_to_record'][device_name] = [english_name, options]
-  save_devices!
-  
+def get_descriptive_line device_name, english_name
+
   init_string = "#{english_name}"
   if device_name != english_name
     init_string += " (#{device_name})"
   end
+  init_string
 
+end
+
+def add_device device_name, english_name, options, to_this
+  UsbStorage['devices_to_record'][device_name] = [english_name, options]
+  save_devices!
+  
+  init_string = get_descriptive_line device_name, english_name
+  
   unique_number = @device_count += 1
   init_string = '"' + init_string + ":name_string_#{unique_number}\""
   init_string += "[Remove:remove_#{unique_number}] [Configure:configure_#{unique_number}]"
@@ -34,7 +41,8 @@ def add_device device_name, english_name, options, to_this
 	to_this.elements[:"name_string_#{unique_number}"].text = 'removed it!'
   }
   to_this.elements[:"configure_#{unique_number}"].on_clicked {
-    options = configure_device_options device_name
+    options, english_name = configure_device_options device_name, english_name
+	to_this.elements[:"name_string_#{unique_number}"].text = get_descriptive_line device_name, english_name
 	UsbStorage['devices_to_record'][device_name] = [english_name, options]
 	save_devices!
   }
@@ -52,26 +60,26 @@ a.elements[:add_new_url].on_clicked {
   SimpleGuiCreator.display_text "not implemented yet!"
 }
 
-def configure_device_options device_name
+def configure_device_options device_name, english_name
  video_fps_options = FfmpegHelpers.get_options_video_device device_name
  # like  {:video_type=>"vcodec", :video_type_name=>"mjpeg", :min_x=>"800", :max_x=>"800", :max_y=>"600", "30"=>"30"}
  displayable = []
- # add in intermediate fps options
  video_fps_options.each{|original| (original[:min_fps]..original[:max_fps]).step(5).each{|real_fps| displayable << original.dup.merge(:fps => real_fps, :x => original[:max_x], :y => original[:max_y])} }
  english_names = displayable.map{|options| "#{options[:x]}x#{options[:y]} #{options[:fps].to_i}fps (#{options[:video_type_name]})"}
  idx = DropDownSelector.new(nil, ['default'] + english_names, "Select frame rate if desired").go_selected_index
  if idx == 0
-   idx = 1 # the default I think...
+   idx = 1 # reasonable default I guess, though starts with low fps...
  end
- selected = displayable[idx - 1]
+ english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device_name}:", english_name || device_name
+ selected_options = displayable[idx - 1]
+ [selected_options, english_name]
 end
 
 a.elements[:add_new_local].on_clicked {
  video_devices = FfmpegHelpers.enumerate_directshow_devices[:video]
  video_devices.reject!{|name| UsbStorage['devices_to_record'][name]} # avoid re-adding same camera...
  device_name = DropDownSelector.new(nil, video_devices, "Select video device to capture").go_selected_value
- english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device_name}:", device_name
- options = configure_device_options device_name
+ options, english_name = configure_device_options device_name, nil
  add_device device_name, english_name, options, a
 }
 
