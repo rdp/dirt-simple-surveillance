@@ -4,7 +4,9 @@ better name
   index
   
 real installer
-
+  'start in bg'
+  with bg window for now...
+  
 new README/simple website
   toot my own horn :)
     simple, easy to use
@@ -13,8 +15,10 @@ new README/simple website
 	accepts dshow/url's, anything else on demand.
 	ugly website with one picture :)
 	ML
-	
-"launch"
+
+"fake launch"
+
+= if I ever get serious = 
 
 screen cast
 
