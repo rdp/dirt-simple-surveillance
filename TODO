@@ -20,6 +20,11 @@ new README/simple website
 
 = if I ever get serious = 
 
+SDL out option
+
+button per each one "preview camera" "record from camera"
+  add to README "webcam recorder" :)  
+
 screen cast
 
 better web page
@@ -44,6 +49,13 @@ send daily "conglom" tiled images email LOL
 test/work with h264 native input...
 
 == maybe or never ==
+
+add "picture in picture" ability to record several at a time somehow/coordinated picture in picture...
+
+maybe SDL out can be made "reveal the window only if such and such a file exists" or the like...dynamic...
+  probably don't need this if "normal" SDL out picture can be made to work...
+
+little picture next to each camera line of latest snapshot :)
 
 some way to select an english name while testing what the new one is since you dont' know which "USB Video Device" is which
   low prio
