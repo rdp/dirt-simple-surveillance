@@ -1,11 +1,10 @@
 better name
-  assume I have crossbar...
+  assume I will have crossbar... :)
 
-  index
+report jruby bug forcing us to use '_' [?]
   
 real installer
-  'start in bg'
-  with bg window for now...
+  with bg window...
   
 new README/simple website
   toot my own horn :)
@@ -15,6 +14,7 @@ new README/simple website
 	accepts dshow/url's, anything else on demand.
 	ugly website with one picture :)
 	ML
+
 
 "fake launch"
 
@@ -27,6 +27,17 @@ start capture should be disabled until you add something LOL.
 "show video recordings" shouldn't be enabled if you don't have any
 
 split snapshots off to their own directory or you'll think that's all there is [?]
+
+beta launch with people
+
+submit cnet [?]
+
+delete that one file always too...
+
+"take snapshot" option for now
+
+button per each one "preview camera" "record from camera"
+  add to README "webcam recorder" :)  
 
 screen cast
 
@@ -45,13 +56,24 @@ can "just start" without prompting...
 get crossbar working...
 
 ask users what they want...
-  SDL out if M. wanted it...
+
+SDL out option
+  fix it in doze :P
 
 send daily "conglom" tiled images email LOL
 
 test/work with h264 native input...
 
 == maybe or never ==
+
+
+
+add "picture in picture" ability to record several at a time somehow/coordinated picture in picture...
+
+maybe SDL out can be made "reveal the window only if such and such a file exists" or the like...dynamic...
+  probably don't need this if "normal" SDL out picture can be made to work...
+
+little picture next to each camera line of latest snapshot :)
 
 some way to select an english name while testing what the new one is since you dont' know which "USB Video Device" is which
   low prio
