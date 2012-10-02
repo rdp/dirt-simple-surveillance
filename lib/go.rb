@@ -112,18 +112,7 @@ all_cameras = UsbStorage['devices_to_record']
   out_handle = IO.popen(c, "w") 
   @all_processes_since_inception << out_handle
   set_all_ffmpegs_as_lowest_prio
-  #output = out_handle.read # basically waits for it to terminate...
-  #out_handle.close # force exist
-  while out_handle
-    begin
-      out_handle.puts 'a' # ping it
-	  sleep 1
-	rescue IOError => e
-	  puts 'detected ffmpeg is done'
-	  out_handle.close
-	  out_handle = nil
-	end
-  end
+  FfmpegHelpers.wait_for_ffmpeg_close out_handle
   raise c + " failed?" unless $?.exitstatus == 0 # don't generate preview if failed...
   File.rename(filename + ".partial", filename)
   generate_preview_image filename
@@ -136,7 +125,7 @@ end
 def shutdown_current
     @keep_going = false
 	@all_processes_since_inception.each{|p|
-	  p.puts 'q' rescue nil # does this work after first has finished?
+	  p.puts 'q' rescue nil # does this work after first has finished? with closed processes?
 	}
 	@all_threads.each &:join
 end

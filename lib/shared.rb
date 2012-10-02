@@ -1,9 +1,10 @@
-$:.unshift "./vendor/simple_gui_creator/lib"
+Dir['./vendor/**/lib'].each{|lib_dir|
+  $:.unshift lib_dir
+}
 require 'simple_gui_creator'
 require 'fileutils'
 
 ENV['PATH'] = 'vendor\\ffmpeg;vendor;' + ENV['PATH'] # put our ffmpeg first, see jruby#6211
-require 'simple_gui_creator'
 
 UsbStorage = Storage.new('dirt_simple_usb_storage')
 UsbStorage.set_default('devices_to_record', {})

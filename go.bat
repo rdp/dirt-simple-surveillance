@@ -1,1 +1,1 @@
-j %* -Ilib -rubygems bin\resurrect.rb
+j %* -Ilib bin\resurrect.rb
