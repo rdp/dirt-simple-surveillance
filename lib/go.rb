@@ -82,7 +82,7 @@ all_cameras = UsbStorage['devices_to_record']
   
   input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device_name}\" -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y_%Hh_%Mm_%Ss\" "
   if just_preview
-    c = %!ffplay #{input}!
+    c = %!ffplay #{input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name}"! # ffplay can't take vcodec?
 	puts c
     system c
     raise 'die this thread, you\'re done!' # smelly...

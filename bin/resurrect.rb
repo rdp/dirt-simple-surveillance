@@ -8,9 +8,13 @@ if File.exist? currently_running_filename
     require 'fileutils'
     FileUtils.touch wakeup_filename
     puts 'it should be coming up, if running at all...'
+    exit 0
   else
-    SimpleGuiCreator.show_text "already running in other window, use that instead..."
+    if SimpleGuiCreator.show_select_buttons_prompt("possibly already running in other window, run anyway?") == :yes
+	  File.delete currently_running_filename
+	else
+	  exit 1
+	end
   end
-else
- require File.dirname(__FILE__) + '/setup.rb'
 end
+require File.dirname(__FILE__) + '/setup.rb'
