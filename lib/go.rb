@@ -107,7 +107,7 @@ all_cameras = UsbStorage['devices_to_record']
   # LODO no -y, yes prompt the user maybe?...
   c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{video_take_time} #{output_framerate_text} -f mp4 "#{filename}.partial" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
   # -vcodec libx264 ?
-  p 'running', c
+  p 'running'
   puts c
   out_handle = IO.popen(c, "w") 
   @all_processes_since_inception << out_handle
@@ -139,23 +139,4 @@ def shutdown_current
 	  p.puts 'q' rescue nil # does this work after first has finished?
 	}
 	@all_threads.each &:join
-end
-
-if $0 == __FILE__
-	all_cameras = UsbStorage['devices_to_record']
-    if all_cameras.empty?
-	 p 'not recording anything, no devices specified'
-	 exit
-	end
-	do_something ARGV.detect{|a| a == '--preview'}
-	FileUtils.rm_rf 'stop' # if it exists :)
-	sleep 1 # make this show up lower on the display console
-	puts 'touch stop file to quit/cancel current recordings'
-	while !File.exist?('stop')
-	 sleep 1
-	end
-	FileUtils.rm 'stop'
-	puts 'stopping...'
-	shutdown_current
-	puts 'done stopping'
 end

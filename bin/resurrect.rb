@@ -11,10 +11,10 @@ if File.exist? currently_running_filename
     exit 0
   else
     if SimpleGuiCreator.show_select_buttons_prompt("possibly already running in other window, run anyway?") == :yes
-	  File.delete currently_running_filename
+	  FileUtils.rm_rf currently_running_filename
 	else
 	  exit 1
 	end
   end
 end
-require File.dirname(__FILE__) + '/setup.rb'
+require File.dirname(__FILE__) + '/../lib/setup.rb'

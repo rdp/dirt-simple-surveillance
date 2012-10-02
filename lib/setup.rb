@@ -60,12 +60,27 @@ a.elements[:add_new_url].on_clicked {
   SimpleGuiCreator.display_text "not implemented yet!"
 }
 
+def prettify_number n
+  if n % 1 != 0
+    n
+  else
+    n.to_i
+  end
+end
+
 def configure_device_options device_name, english_name
  video_fps_options = FfmpegHelpers.get_options_video_device device_name
  # like  {:video_type=>"vcodec", :video_type_name=>"mjpeg", :min_x=>"800", :max_x=>"800", :max_y=>"600", "30"=>"30"}
  displayable = []
- video_fps_options.each{|original| (original[:min_fps]..original[:max_fps]).step(5).each{|real_fps| displayable << original.dup.merge(:fps => real_fps, :x => original[:max_x], :y => original[:max_y])} }
- english_names = displayable.map{|options| "#{options[:x]}x#{options[:y]} #{options[:fps].to_i}fps (#{options[:video_type_name]})"}
+ 
+ video_fps_options.each{|original| 
+   step = 5
+   step = 2.5 if (original[:max_fps] % 5) == 2.5
+   (original[:min_fps]..original[:max_fps]).step(step).each{|real_fps| 
+     displayable << original.dup.merge(:fps => real_fps, :x => original[:max_x], :y => original[:max_y])
+   } 
+ }
+ english_names = displayable.map{|options| "#{options[:x]}x#{options[:y]} #{prettify_number options[:fps]}fps (#{options[:video_type_name]})"}
  idx = DropDownSelector.new(nil, ['default'] + english_names, "Select frame rate if desired").go_selected_index
  if idx == 0
    idx = 1 # reasonable default I guess, though starts with low fps...

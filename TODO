@@ -21,6 +21,10 @@ network input?
 
 = if I ever get serious = 
 
+warn on ffmpeg's still being alive at shutdown...
+
+give an option for "just save the mjpeg stream, save cpu!"
+
 query for devices when startup...
 
 icons for whether recording or not
