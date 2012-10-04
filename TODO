@@ -30,45 +30,33 @@ option for how frequently to slice the video files
 
 after doing a recording, high quality compress it optionally?
   
-only reveal "known" cameras' dirs with that one button
-
 "show latest recording" button per device (show snapshot at least):)
 
-take out one button I never use [?]
+take out some button I never use [?]
 
 default is 200 kb/s, what?
 
 warn on ffmpeg's still being alive at shutdown...
   graceful kill them optionally
   
-give an option for "just save the mjpeg stream, save cpu!"
+give an option for "just save the mjpeg stream, to save cpu!"
 
 query for devices when startup...
 
 icons for whether recording or not
 
 "every so often" jpeg, in the UI, of that camera recently
-
-"awesome" selector that shows jpegs of each LOL.
-
+  snapshots
+  every minute snaps LOL
+  
 show the 10G thing on the UI...
 
-a prompt saying "ok we're recording now"
-
-start capture should be disabled until you add something LOL.
-
-"show video recordings" shouldn't be enabled if you don't have any
-
 split snapshots off to their own directory or you'll think that's all there is [?]
-  also temp files [?]
+  also partial files [?]
   
-beta launch with people
+beta launch/test with people
 
 submit cnet [?]
-
-delete that one file always too...
-
-"take snapshot" option for now
 
 button per each one "preview camera" "record from camera"
   add to README "webcam recorder" :)  
@@ -76,8 +64,6 @@ button per each one "preview camera" "record from camera"
 screen cast
 
 better web page
-
-resurrect/start afresh [?]
 
 option for where to store stuff...trivial directory chooser
 
