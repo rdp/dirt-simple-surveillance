@@ -80,7 +80,7 @@ all_cameras = UsbStorage['devices_to_record']
   p options
   pixel_format = options[:video_type] == 'vcodec' ? "-vcodec #{options[:video_type_name]}" : "-pixel_format #{options[:video_type_name]}"
   
-  input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device_name}\" -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y_%Hh_%Mm_%Ss\" "
+  input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device_name}\" -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y %Hh %Mm %Ss\" "
   if just_preview
     c = %!ffplay #{input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name}"! # ffplay can't take vcodec?
 	puts c
@@ -104,7 +104,6 @@ all_cameras = UsbStorage['devices_to_record']
   
   p "recording #{camera_english_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
     
-  # LODO no -y, yes prompt the user maybe?...
   c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{video_take_time} #{output_framerate_text} -f mp4 "#{filename}.partial" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
   # -vcodec libx264 ?
   p 'running'

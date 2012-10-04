@@ -1,10 +1,8 @@
 better name
   assume I will someday have crossbar... :)
 
-report jruby bug forcing us to use '_' [?]
-  
 real installer
-  with bg window...
+  with bg window daemon mode icon...
   
 new README/simple website
   toot my own horn :)
@@ -21,14 +19,28 @@ network input?
 
 = if I ever get serious = 
 
-"show latest recording" button :)
+bucket by month/year?
+
+minimize on hitting the 'x' (or disable it?)
+
+save PID, ping it on restart
+
+option for how frequently to slice the video files
+  possibly hard slice them around noon, anyway?
+
+after doing a recording, high quality compress it optionally?
+  
+only reveal "known" cameras' dirs with that one button
+
+"show latest recording" button per device (show snapshot at least):)
 
 take out one button I never use [?]
 
-default is , 200 kb/s, what?
+default is 200 kb/s, what?
 
 warn on ffmpeg's still being alive at shutdown...
-
+  graceful kill them optionally
+  
 give an option for "just save the mjpeg stream, save cpu!"
 
 query for devices when startup...
