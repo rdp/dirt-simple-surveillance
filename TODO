@@ -1,6 +1,3 @@
-better name
-  assume I will someday have crossbar... :)
-
 real installer
   with bg window daemon mode icon...
   
@@ -17,7 +14,13 @@ network input?
 
 "fake launch"
 
-= if I ever get serious = 
+= if I ever get serious/maybe/never = 
+
+SMS/MMS/email alerts
+
+test what "8 input" video capture cards are in windows--crossbar?
+
+better icons
 
 bucket by month/year?
 
@@ -36,9 +39,8 @@ take out some button I never use [?]
 
 default is 200 kb/s, what?
 
-warn on ffmpeg's still being alive at shutdown...
-  graceful kill them optionally
-  
+better shutdown?
+
 give an option for "just save the mjpeg stream, to save cpu!"
 
 query for devices when startup...
@@ -66,13 +68,10 @@ screen cast
 better web page
 
 option for where to store stuff...trivial directory chooser
-
-fps and size
-
+  it's My Videos today...
+  
 "keep this many GB"
-
-can "just start" without prompting...
-    
+  
 get crossbar working...
 
 ask users what they want...
@@ -84,35 +83,18 @@ send daily "conglom" tiled images email LOL
 
 test/work with h264 native input...
 
-== maybe or never ==
-
-
-
-add "picture in picture" ability to record several at a time somehow/coordinated picture in picture...
-
 maybe SDL out can be made "reveal the window only if such and such a file exists" or the like...dynamic...
   probably don't need this if "normal" SDL out picture can be made to work...
 
 little picture next to each camera line of latest snapshot :)
 
-some way to select an english name while testing what the new one is since you dont' know which "USB Video Device" is which
-  low prio
-
-frame rate dropdown system is "too uhgly" :)
-
 preview option for each camera
 
 specify output codec/options
 
-allow for vcodec copy
-  
 with motion detect have a low fps optionally going as well always
 
 optional time lapse :)
-
-investigate what "normal" input cards give us in XP...are they all just crossbar dshow?
-
-can "tile" the various streams all together into one output frame...
 
 can overlay an image
 
