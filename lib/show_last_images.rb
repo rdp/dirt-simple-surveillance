@@ -36,13 +36,14 @@ dirs.each{|dir|
  all
 end
 
-def show_recent_snapshot_images
-start = 0
-get_sorted_dirs_by_camera.each{|camera_name, days|
-  last_image_day = days.last
-  last_snapshot = Dir[last_image_day + "/*.jpg"].sort.last
-  window = M::ShowImage.new(camera_name + ' ' + last_snapshot, last_snapshot).show
-  start += 10
-  # LODO window.set_location(start, start)
-}
+def show_recent_snapshot_images valid_camera_names
+  start = 0
+  get_sorted_dirs_by_camera.each{|camera_name, days|
+    next unless valid_camera_names.include? camera_name
+    last_image_day = days.last
+    last_snapshot = Dir[last_image_day + "/*.jpg"].sort.last
+    window = M::ShowImage.new(camera_name + ' ' + last_snapshot, last_snapshot).show
+    start += 10
+    # LODO window.set_location(start, start) 
+  }
 end

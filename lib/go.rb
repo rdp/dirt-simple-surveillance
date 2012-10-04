@@ -49,7 +49,7 @@ def delete_if_out_of_disk_space
 	  # lodo email instead? compact?
 	  $thread_start.synchronize {
 		  $deletor_thread ||= Thread.new {
-			oldest_day_dir =  get_sorted_day_dirs.first
+			oldest_day_dir = get_sorted_day_dirs.first
 			p "deleting old day dir #{oldest_day_dir} because free #{free_space.g} < #{Delete_if_we_have_less_than_this_much_free_space.g}"
 			FileUtils.rm_rf oldest_day_dir
 			p "done deleting " + oldest_day_dir

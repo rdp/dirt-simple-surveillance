@@ -1,11 +1,12 @@
 require 'shared'
+require './lib/go.rb'
 
 include SimpleGuiCreator
 a = ParseTemplate.new.parse_setup_filename('lib\\setup.sgc')
 
-old_existing = UsbStorage['devices_to_record']
+current_devices = UsbStorage['devices_to_record']
 
-if(old_existing.size == 0) # TODO something like 'add_text_at_current_spot' I guess...
+if(current_devices.size == 0)
  a.elements[:device_list_header].text += " (none yet, add one!):"
 end
 
@@ -16,7 +17,6 @@ def save_devices!
 end
 
 def get_descriptive_line device_name, english_name
-
   init_string = "#{english_name}"
   if device_name != english_name
     init_string += " (#{device_name})"
@@ -50,7 +50,7 @@ def add_device device_name, english_name, options, to_this
   to_this.set_size 400,450 # TODO not have to do this...
 end
 
-old_existing.each{|device_name, (name, options)|
+current_devices.each{|device_name, (name, options)|
   add_device device_name, name, options, a
 }
 
@@ -92,7 +92,7 @@ end
 
 a.elements[:add_new_local].on_clicked {
  video_devices = FfmpegHelpers.enumerate_directshow_devices[:video]
- video_devices.reject!{|name| UsbStorage['devices_to_record'][name]} # avoid re-adding same camera...
+ video_devices.reject!{|name| UsbStorage['devices_to_record'][name]} # avoid re-adding same camera by including it in the dropdown...
  device_name = DropDownSelector.new(nil, video_devices, "Select video device to capture").go_selected_value
  options, english_name = configure_device_options device_name, nil
  add_device device_name, english_name, options, a
@@ -101,8 +101,6 @@ a.elements[:add_new_local].on_clicked {
 a.elements[:reveal_recordings].on_clicked {
   SimpleGuiCreator.show_in_explorer Dir[UsbStorage['storage_dir'] + '/*'][0]
 }
-
-require './lib/go.rb'
 
 a.elements[:preview_capture].on_clicked {
   do_something true
@@ -135,13 +133,20 @@ a.elements[:start_stop_capture].on_clicked {
   end
 }
 
-a.elements[:reveal_snapshots].on_clicked {
-  require './lib/show_last_images.rb'
-  show_recent_snapshot_images
+a.after_closed {
+  if current_state == :running
+    SimpleGuiCreator.show_text "warning, shutting down recorder [hit disappear button to put continue recording...]"
+	a.elements[:start_stop_capture].simulate_click
+  end
 }
 
-currently_hidden_filename =  UsbStorage['storage_dir'] + '/currently_hidden'
-currently_running_filename =  UsbStorage['storage_dir'] + '/currently_running'
+a.elements[:reveal_snapshots].on_clicked {
+  require './lib/show_last_images.rb'
+  show_recent_snapshot_images UsbStorage['devices_to_record'].map{|dev_name, (english_name, options)| english_name}
+}
+
+currently_hidden_filename = UsbStorage['storage_dir'] + '/currently_hidden'
+currently_running_filename = UsbStorage['storage_dir'] + '/currently_running'
 
 a.elements[:disappear_window].on_clicked {
   if current_state == :stopped
@@ -152,7 +157,7 @@ a.elements[:disappear_window].on_clicked {
     Thread.new { 
       wakeup_filename = UsbStorage['storage_dir'] + '/wake_up'
       while(a.visible == false)
-	    sleep 2
+	    sleep 1
 	    if File.exist?(wakeup_filename) 
 		  a.visible=true
 		  File.delete wakeup_filename
