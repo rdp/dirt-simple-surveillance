@@ -4,7 +4,7 @@
     [Add new network stream (url) to record:add_new_url]
     [Preview camera positions:preview_capture]
     "Recording control:"
-    [Start recording!:start_stop_capture] ":start_recording_text,width=200"
+    [Start recording!:start_stop_capture] ":start_recording_text,width=200" "current status:current_state"
     "View recordings:"
     [Show video recordings:reveal_recordings]
     [Show recent video still frame:reveal_snapshots]

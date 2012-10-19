@@ -9,6 +9,8 @@ def current_devices
 end
 
 @a = a
+@current_state = :stopped # :running
+
 def setup_ui
  @a.elements[:currently_have].text = "currently have #{current_devices.length}"
  if current_devices.length == 0
@@ -16,6 +18,12 @@ def setup_ui
  else
    @a.elements[:start_stop_capture].enable!
  end
+ if @current_state == :running
+   @a.elements[:current_state].text = "Running!"
+ else
+   @a.elements[:current_state].text = "Stopped."
+  end
+ 
 end
 
 setup_ui
@@ -102,15 +110,18 @@ def configure_device_options device, english_name
      displayable << original.dup.merge(:fps => real_fps, :x => original[:max_x], :y => original[:max_y])
    } 
  }
- displayable.sort_by!{|hash| hash[:fps]}
+ displayable.sort_by!{|hash| hash[:max_x]*hash[:max_y]}
  english_names = displayable.map{|options| "#{options[:x]}x#{options[:y]} #{prettify_number options[:fps]}fps (#{options[:video_type_name]})"}
  idx = DropDownSelector.new(nil, ['default'] + english_names, "Select frame rate/output type if desired").go_selected_index
  if idx == 0
    idx = 1 # reasonable default I guess, though starts with low fps...
  end
- english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device[0]}:", english_name || device[0]
  selected_options = displayable[idx - 1]
- [selected_options, english_name]
+ if SimpleGuiCreator.show_select_buttons_prompt('would you like to preview it/view it?') == :yes
+   do_something({device => [english_name, selected_options]}, true) # conveniently, has the fps for it now...
+ end
+ english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device[0]}:", english_name || device[0]
+ [english_name, selected_options]
 end
 
 a.elements[:add_new_local].on_clicked {
@@ -118,7 +129,7 @@ a.elements[:add_new_local].on_clicked {
   video_devices.reject!{|name_idx| current_devices[name_idx]} # avoid re-adding same camera by including it in the dropdown...
   idx = DropDownSelector.new(nil, video_devices.map{|name, idx| name}, "Select video device to capture").go_selected_idx
   device = video_devices[idx]
-  options, english_name = configure_device_options device, nil
+  english_name, options = configure_device_options device, nil
   add_device device, english_name, options, a
 }
 
@@ -137,9 +148,8 @@ def assert_have_record_devices_setup
 	end
 end
 
-current_state = :stopped # :running
 a.elements[:start_stop_capture].on_clicked {
-  if current_state == :stopped
+  if @current_state == :stopped
     assert_have_record_devices_setup
 	video_size_time = 60*60
 	if ARGV[0] == '--small-videos'
@@ -149,16 +159,17 @@ a.elements[:start_stop_capture].on_clicked {
 	a.elements[:start_stop_capture].text = 'Stop recording'
 	a.elements[:start_recording_text].text = "Recording started!"
 	Thread.new { sleep 2.5; a.elements[:start_recording_text].text = ""; }
-	current_state = :running
+	@current_state = :running
   else
     shutdown_current
 	a.elements[:start_stop_capture].text = 'Start recording'
-	current_state = :stopped
+	@current_state = :stopped
   end
+  setup_ui
 }
 
 a.after_closed {
-  if current_state == :running
+  if @current_state == :running
     SimpleGuiCreator.show_text "warning, shutting down recorder [hit disappear button to put continue recording...]"
 	a.elements[:start_stop_capture].simulate_click
   end
@@ -173,7 +184,7 @@ currently_hidden_filename = UsbStorage['storage_dir'] + '/currently_hidden'
 currently_running_filename = UsbStorage['storage_dir'] + '/currently_running'
 
 a.elements[:disappear_window].on_clicked {
-  if current_state == :stopped
+  if @current_state == :stopped
     SimpleGuiCreator.show_text "you probably only want to do this [disappear the window] if you're already recording\n which you aren't yet!"
   else
     FileUtils.touch currently_hidden_filename
