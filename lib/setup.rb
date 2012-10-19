@@ -1,4 +1,4 @@
-	require 'shared'
+require 'shared'
 require './lib/go.rb'
 
 include SimpleGuiCreator
@@ -208,7 +208,9 @@ a.elements[:disappear_window].on_clicked {
 
 if ARGV.detect{|a| a == '--background-start'}
   a.elements[:start_stop_capture].click!
-  a.elements[:disappear_window].click!
+#  a.minimize! # lodo
+  # ffmpeg's can't stop?
+  # a.elements[:disappear_window].click!
 end
 
 FileUtils.touch currently_running_filename
