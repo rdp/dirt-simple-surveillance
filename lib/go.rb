@@ -63,8 +63,9 @@ end
 
 @all_processes_since_inception = []
 
-def do_something all_cameras, just_preview, video_take_time = 60*60 # 60 minutes
-
+def do_something all_cameras, just_preview_and_block
+# 60 minutes
+video_take_time = 60*60
 @keep_going = true
 
 @all_threads = all_cameras.map{|device, (camera_english_name, options)|
@@ -80,7 +81,7 @@ def do_something all_cameras, just_preview, video_take_time = 60*60 # 60 minutes
   pixel_format = options[:video_type] == 'vcodec' ? "-vcodec #{options[:video_type_name]}" : "-pixel_format #{options[:video_type_name]}"
   
   input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -video_device_number #{device[1]} -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y %Hh %Mm %Ss\" "
-  if just_preview
+  if just_preview_and_block
     c = %!ffplay #{input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name}"! # ffplay can't take vcodec?
 	puts c
     system c
@@ -117,7 +118,9 @@ def do_something all_cameras, just_preview, video_take_time = 60*60 # 60 minutes
   end
  }
 }
-
+if just_preview_and_block
+  @all_threads.each &:join
+end
 end
 
 def shutdown_current

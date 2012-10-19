@@ -15,12 +15,9 @@ network input?
 
 = if I ever get serious/maybe/never = 
 
-fix that it doesn't/didn't allow recording from both simultaneously?  
+fix that it doesn't/didn't allow recording from both, same name, simultaneously?  
 
 fix FFmpeg not enumerating right
-
-don't allow to record while still previewing
-  or at least fix FFmpeg
 
 detect early FFmpeg failures
 
