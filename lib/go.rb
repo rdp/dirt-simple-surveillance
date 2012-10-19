@@ -63,9 +63,8 @@ end
 
 @all_processes_since_inception = []
 
-def do_something all_cameras, just_preview_and_block
-# 60 minutes
-video_take_time = 60*60
+def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 60 minutes
+
 @keep_going = true
 
 @all_threads = all_cameras.map{|device, (camera_english_name, options)|

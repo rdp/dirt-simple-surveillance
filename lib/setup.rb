@@ -1,4 +1,4 @@
-require 'shared'
+	require 'shared'
 require './lib/go.rb'
 
 include SimpleGuiCreator
@@ -116,7 +116,7 @@ def configure_device_options device, english_name
  end
  selected_options = displayable[idx - 1]
  if SimpleGuiCreator.show_select_buttons_prompt('would you like to preview it/view it?') == :yes
-   do_something({device => [english_name, selected_options]}, truew) # conveniently, we have settings now so can preview it...
+   do_something({device => [english_name, selected_options]}, true) # conveniently, we have settings now so can preview it...
  end
  english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device[0]}:", english_name || device[0]
  [english_name, selected_options]
