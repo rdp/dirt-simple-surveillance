@@ -31,44 +31,48 @@ def save_devices!
   setup_ui
 end
 
-def get_descriptive_line device_name, english_name
+def get_descriptive_line device, english_name
   init_string = "#{english_name}"
-  if device_name != english_name
-    init_string += " (#{device_name})"
-  end
+  if device[0] != english_name || device[1] > 0
+    init_string += " (#{device[0]} #{ device[1] if device[1] > 0})"
+  end 
   init_string
 
 end
 
-def add_device device_name, english_name, options, to_this
-  current_devices[device_name] = [english_name, options]
+def add_device device, english_name, options, to_this
+  current_devices[device] = [english_name, options]
   save_devices!
   
-  init_string = get_descriptive_line device_name, english_name
+  init_string = get_descriptive_line device, english_name
   
   unique_number = @unique_line_number += 1
   init_string = '"' + init_string + ":name_string_#{unique_number}\""
   init_string += "[Remove:remove_#{unique_number}] [Configure:configure_#{unique_number}]"
+  init_string += "[Preview:preview_#{unique_number}]"
+  
   to_this.add_setup_string_at_bottom init_string
   to_this.elements[:"remove_#{unique_number}"].on_clicked {
-    current_devicess.delete(device_name)
+    current_devices.delete(device)
 	save_devices!
 	to_this.elements[:"name_string_#{unique_number}"].text = 'removed it!'
   }
+  
   to_this.elements[:"configure_#{unique_number}"].on_clicked {
-    options, english_name = configure_device_options device_name, english_name
-	to_this.elements[:"name_string_#{unique_number}"].text = get_descriptive_line device_name, english_name
-	current_devices[device_name] = [english_name, options]
+    options, english_name = configure_device_options device, english_name
+	to_this.elements[:"name_string_#{unique_number}"].text = get_descriptive_line device, english_name
+	current_devices[device] = [english_name, options]
 	save_devices!
   }
   
-  setup_ui
+  to_this.elements[:"preview_#{unique_number}"].on_clicked {
+    do_something current_devices, true    
+  }
   
-#  to_this.set_size 400,450 # TODO not have to do this...
 end
 
-current_devices.each{|device_name, (name, options)|
-  add_device device_name, name, options, a
+current_devices.each{|device, (name, options)|
+  add_device device, name, options, a
 }
 
 a.set_size 400,450 # TODO not have to do this...
@@ -85,34 +89,37 @@ def prettify_number n
   end
 end
 
-def configure_device_options device_name, english_name
- video_fps_options = FFmpegHelpers.get_options_video_device device_name
+def configure_device_options device, english_name
+ video_fps_options = FFmpegHelpers.get_options_video_device device[0], device[1]
  # like  {:video_type=>"vcodec", :video_type_name=>"mjpeg", :min_x=>"800", :max_x=>"800", :max_y=>"600", "30"=>"30"}
  displayable = []
+ frame_rates = []
  
- video_fps_options.each{|original| 
+ video_fps_options.each{|original|
    step = 5
    step = 2.5 if (original[:max_fps] % 5) == 2.5
    (original[:min_fps]..original[:max_fps]).step(step).each{|real_fps| 
      displayable << original.dup.merge(:fps => real_fps, :x => original[:max_x], :y => original[:max_y])
    } 
  }
+ displayable.sort_by!{|hash| hash[:fps]}
  english_names = displayable.map{|options| "#{options[:x]}x#{options[:y]} #{prettify_number options[:fps]}fps (#{options[:video_type_name]})"}
- idx = DropDownSelector.new(nil, ['default'] + english_names, "Select frame rate if desired").go_selected_index
+ idx = DropDownSelector.new(nil, ['default'] + english_names, "Select frame rate/output type if desired").go_selected_index
  if idx == 0
    idx = 1 # reasonable default I guess, though starts with low fps...
  end
- english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device_name}:", english_name || device_name
+ english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device[0]}:", english_name || device[0]
  selected_options = displayable[idx - 1]
  [selected_options, english_name]
 end
 
 a.elements[:add_new_local].on_clicked {
- video_devices = FFmpegHelpers.enumerate_directshow_devices[:video].map{|name, idx| name}
- video_devices.reject!{|name| current_devices[name]} # avoid re-adding same camera by including it in the dropdown...
- device_name = DropDownSelector.new(nil, video_devices, "Select video device to capture").go_selected_value
- options, english_name = configure_device_options device_name, nil
- add_device device_name, english_name, options, a
+  video_devices = FFmpegHelpers.enumerate_directshow_devices[:video]
+  video_devices.reject!{|name_idx| current_devices[name_idx]} # avoid re-adding same camera by including it in the dropdown...
+  idx = DropDownSelector.new(nil, video_devices.map{|name, idx| name}, "Select video device to capture").go_selected_idx
+  device = video_devices[idx]
+  options, english_name = configure_device_options device, nil
+  add_device device, english_name, options, a
 }
 
 a.elements[:reveal_recordings].on_clicked {
