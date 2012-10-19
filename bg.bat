@@ -1,0 +1,1 @@
+j %* -Ilib bin\startup.rb --background-start

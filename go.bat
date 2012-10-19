@@ -1,1 +1,1 @@
-j %* -Ilib bin\resurrect.rb
+j %* -Ilib bin\startup.rb

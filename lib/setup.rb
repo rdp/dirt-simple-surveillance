@@ -207,9 +207,9 @@ a.elements[:disappear_window].on_clicked {
 }
 
 if ARGV.detect{|a| a == '--background-start'}
-  a.elements[:disappear_window].simulate_click
+  a.elements[:start_stop_capture].click!
+  a.elements[:disappear_window].click!
 end
-
 
 FileUtils.touch currently_running_filename
 a.after_closed {
