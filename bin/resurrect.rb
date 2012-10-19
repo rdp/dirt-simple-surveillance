@@ -2,7 +2,7 @@ require 'shared'
 currently_running_filename =  UsbStorage['storage_dir'] + '/currently_running'
 currently_hidden_filename =  UsbStorage['storage_dir'] + '/currently_hidden'
 wakeup_filename = UsbStorage['storage_dir'] + '/wake_up'
-p currently_running_filename, currently_hidden_filename, wakeup_filename
+
 if File.exist? currently_running_filename
   if File.exist? currently_hidden_filename
     require 'fileutils'

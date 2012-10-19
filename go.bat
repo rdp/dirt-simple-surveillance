@@ -1,1 +1,1 @@
-java -jar c:\dev\screen-capture-recorder-to-video-windows-free\configuration_setup_utility\jruby-complete-1.6.4.jar %* -Ilib bin\resurrect.rb
+j %* -Ilib bin\resurrect.rb

@@ -4,7 +4,21 @@ require './lib/go.rb'
 include SimpleGuiCreator
 a = ParseTemplate.new.parse_setup_filename('lib\\setup.sgc')
 
-current_devices = UsbStorage['devices_to_record']
+def current_devices
+  UsbStorage['devices_to_record']
+end
+
+@a = a
+def setup_ui
+ @a.elements[:currently_have].text = "currently have #{current_devices.length}"
+ if current_devices.length == 0
+   @a.elements[:start_stop_capture].disable!
+ else
+   @a.elements[:start_stop_capture].enable!
+ end
+end
+
+setup_ui
 
 if(current_devices.size == 0)
  a.elements[:device_list_header].text += " (none yet, add one!):"
@@ -14,6 +28,7 @@ end
 
 def save_devices!
   UsbStorage['devices_to_record'] = UsbStorage['devices_to_record'] # force save [hmm...]
+  setup_ui
 end
 
 def get_descriptive_line device_name, english_name
@@ -26,7 +41,7 @@ def get_descriptive_line device_name, english_name
 end
 
 def add_device device_name, english_name, options, to_this
-  UsbStorage['devices_to_record'][device_name] = [english_name, options]
+  current_devices[device_name] = [english_name, options]
   save_devices!
   
   init_string = get_descriptive_line device_name, english_name
@@ -36,18 +51,20 @@ def add_device device_name, english_name, options, to_this
   init_string += "[Remove:remove_#{unique_number}] [Configure:configure_#{unique_number}]"
   to_this.add_setup_string_at_bottom init_string
   to_this.elements[:"remove_#{unique_number}"].on_clicked {
-    UsbStorage['devices_to_record'].delete(device_name)
+    current_devicess.delete(device_name)
 	save_devices!
 	to_this.elements[:"name_string_#{unique_number}"].text = 'removed it!'
   }
   to_this.elements[:"configure_#{unique_number}"].on_clicked {
     options, english_name = configure_device_options device_name, english_name
 	to_this.elements[:"name_string_#{unique_number}"].text = get_descriptive_line device_name, english_name
-	UsbStorage['devices_to_record'][device_name] = [english_name, options]
+	current_devices[device_name] = [english_name, options]
 	save_devices!
   }
   
-  to_this.set_size 400,450 # TODO not have to do this...
+  setup_ui
+  
+#  to_this.set_size 400,450 # TODO not have to do this...
 end
 
 current_devices.each{|device_name, (name, options)|
@@ -92,7 +109,7 @@ end
 
 a.elements[:add_new_local].on_clicked {
  video_devices = FfmpegHelpers.enumerate_directshow_devices[:video]
- video_devices.reject!{|name| UsbStorage['devices_to_record'][name]} # avoid re-adding same camera by including it in the dropdown...
+ video_devices.reject!{|name| current_devices[name]} # avoid re-adding same camera by including it in the dropdown...
  device_name = DropDownSelector.new(nil, video_devices, "Select video device to capture").go_selected_value
  options, english_name = configure_device_options device_name, nil
  add_device device_name, english_name, options, a
@@ -107,7 +124,7 @@ a.elements[:preview_capture].on_clicked {
 }
 
 def assert_have_record_devices_setup
-    if UsbStorage['devices_to_record'].length == 0
+    if current_devices.length == 0
 	  SimpleGuiCreator.display_text "you cannot start recording you don't have anything setup to record just yet\nadd something first"
 	  raise 'add something'
 	end
@@ -142,7 +159,7 @@ a.after_closed {
 
 a.elements[:reveal_snapshots].on_clicked {
   require './lib/show_last_images.rb'
-  show_recent_snapshot_images UsbStorage['devices_to_record'].map{|dev_name, (english_name, options)| english_name}
+  show_recent_snapshot_images current_devices.map{|dev_name, (english_name, options)| english_name}
 }
 
 currently_hidden_filename = UsbStorage['storage_dir'] + '/currently_hidden'
