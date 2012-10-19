@@ -86,7 +86,7 @@ def prettify_number n
 end
 
 def configure_device_options device_name, english_name
- video_fps_options = FfmpegHelpers.get_options_video_device device_name
+ video_fps_options = FFmpegHelpers.get_options_video_device device_name
  # like  {:video_type=>"vcodec", :video_type_name=>"mjpeg", :min_x=>"800", :max_x=>"800", :max_y=>"600", "30"=>"30"}
  displayable = []
  
@@ -108,7 +108,7 @@ def configure_device_options device_name, english_name
 end
 
 a.elements[:add_new_local].on_clicked {
- video_devices = FfmpegHelpers.enumerate_directshow_devices[:video]
+ video_devices = FFmpegHelpers.enumerate_directshow_devices[:video].map{|name, idx| name}
  video_devices.reject!{|name| current_devices[name]} # avoid re-adding same camera by including it in the dropdown...
  device_name = DropDownSelector.new(nil, video_devices, "Select video device to capture").go_selected_value
  options, english_name = configure_device_options device_name, nil

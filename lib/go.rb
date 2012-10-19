@@ -111,7 +111,7 @@ all_cameras = UsbStorage['devices_to_record']
   out_handle = IO.popen(c, "w") 
   @all_processes_since_inception << out_handle
   set_all_ffmpegs_as_lowest_prio
-  FfmpegHelpers.wait_for_ffmpeg_close out_handle
+  FFmpegHelpers.wait_for_ffmpeg_close out_handle
   raise c + " failed?" unless $?.exitstatus == 0 # don't generate preview if failed...
   File.rename(filename + ".partial", filename)
   generate_preview_image filename
