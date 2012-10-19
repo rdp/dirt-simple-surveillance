@@ -1,6 +1,6 @@
 real installer
   with bg window daemon mode icon...
-  
+
 new README/simple website
   toot my own horn :)
     simple, easy to use
@@ -8,7 +8,6 @@ new README/simple website
 	keeps out of the way while you use your computer.
 	accepts dshow/url's, anything else on demand.
 	ugly website with one picture :)
-	ML
 
 network input?
 
@@ -16,12 +15,16 @@ network input?
 
 = if I ever get serious/maybe/never = 
 
-don't allow to record while still previewing
-  or at least fix FFmpeg
-  
-detect early FFmpeg failures
+fix that it doesn't/didn't allow recording from both simultaneously?  
 
 fix FFmpeg not enumerating right
+
+don't allow to record while still previewing
+  or at least fix FFmpeg
+
+detect early FFmpeg failures
+
+fix FFmpeg using 100% cpu?
 
 tell people they may not *want* audio
 

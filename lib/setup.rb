@@ -67,14 +67,14 @@ def add_device device, english_name, options, to_this
   }
   
   to_this.elements[:"configure_#{unique_number}"].on_clicked {
-    options, english_name = configure_device_options device, english_name
+    english_name, options = configure_device_options device, english_name
 	to_this.elements[:"name_string_#{unique_number}"].text = get_descriptive_line device, english_name
 	current_devices[device] = [english_name, options]
 	save_devices!
   }
   
   to_this.elements[:"preview_#{unique_number}"].on_clicked {
-    do_something current_devices, true    
+    do_something current_devices.select{|d| d == device}, true    
   }
   
 end
@@ -82,8 +82,6 @@ end
 current_devices.each{|device, (name, options)|
   add_device device, name, options, a
 }
-
-a.set_size 400,450 # TODO not have to do this...
 
 a.elements[:add_new_url].on_clicked {
   SimpleGuiCreator.display_text "not implemented yet!"
@@ -129,8 +127,13 @@ a.elements[:add_new_local].on_clicked {
   video_devices.reject!{|name_idx| current_devices[name_idx]} # avoid re-adding same camera by including it in the dropdown...
   idx = DropDownSelector.new(nil, video_devices.map{|name, idx| name}, "Select video device to capture").go_selected_idx
   device = video_devices[idx]
+  if device[1] > 0
+    SimpleGuiCreator.show_text "this is a device with a name that matches another device on the system\n not supported yet, ask me to fix it and I will try.\nIn the meantime you can edit your registry for a FriendlyName\nentry that matches that one, and modify that."
+	raise
+  end
   english_name, options = configure_device_options device, nil
   add_device device, english_name, options, a
+  SimpleGuiCreator.show_text "Added it #{english_name}"
 }
 
 a.elements[:reveal_recordings].on_clicked {
