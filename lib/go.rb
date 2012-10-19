@@ -63,9 +63,7 @@ end
 
 @all_processes_since_inception = []
 
-def do_something just_preview = false, video_take_time = 60*60 # 60 minutes
-
-all_cameras = UsbStorage['devices_to_record']
+def do_something all_cameras, just_preview , video_take_time = 60*60 # 60 minutes
 
 @keep_going = true
 

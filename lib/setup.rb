@@ -24,7 +24,7 @@ if(current_devices.size == 0)
  a.elements[:device_list_header].text += " (none yet, add one!):"
 end
 
-@device_count = 0
+@unique_line_number = 0
 
 def save_devices!
   UsbStorage['devices_to_record'] = UsbStorage['devices_to_record'] # force save [hmm...]
@@ -46,7 +46,7 @@ def add_device device_name, english_name, options, to_this
   
   init_string = get_descriptive_line device_name, english_name
   
-  unique_number = @device_count += 1
+  unique_number = @unique_line_number += 1
   init_string = '"' + init_string + ":name_string_#{unique_number}\""
   init_string += "[Remove:remove_#{unique_number}] [Configure:configure_#{unique_number}]"
   to_this.add_setup_string_at_bottom init_string
@@ -120,7 +120,7 @@ a.elements[:reveal_recordings].on_clicked {
 }
 
 a.elements[:preview_capture].on_clicked {
-  do_something true
+  do_something current_devices, true
 }
 
 def assert_have_record_devices_setup
@@ -138,7 +138,7 @@ a.elements[:start_stop_capture].on_clicked {
 	if ARGV[0] == '--small-videos'
 	  video_size_time = 30 # seconds
 	end
-    do_something false, video_size_time
+    do_something current_devices, false, video_size_time
 	a.elements[:start_stop_capture].text = 'Stop recording'
 	a.elements[:start_recording_text].text = "Recording started!"
 	Thread.new { sleep 2.5; a.elements[:start_recording_text].text = ""; }
