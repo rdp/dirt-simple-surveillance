@@ -67,7 +67,7 @@ def add_device device, english_name, options, to_this
   }
   
   to_this.elements[:"configure_#{unique_number}"].on_clicked {
-    english_name, options = configure_device_options device, english_name
+    english_name, options = configure_device_options device, english_name, options
 	to_this.elements[:"name_string_#{unique_number}"].text = get_descriptive_line device, english_name
 	current_devices[device] = [english_name, options]
 	save_devices!
@@ -95,7 +95,7 @@ def prettify_number n
   end
 end
 
-def configure_device_options device, english_name
+def configure_device_options device, english_name, old_options
  video_fps_options = FFmpegHelpers.get_options_video_device device[0], device[1]
  # like  {:video_type=>"vcodec", :video_type_name=>"mjpeg", :min_x=>"800", :max_x=>"800", :max_y=>"600", "30"=>"30"}
  displayable = []
@@ -109,10 +109,14 @@ def configure_device_options device, english_name
    } 
  }
  displayable.sort_by!{|hash| hash[:max_x]*hash[:max_y]}
+ if old_options
+   # add it to the top
+   displayable = [old_options] + displayable
+ end
  english_names = displayable.map{|options| "#{options[:x]}x#{options[:y]} #{prettify_number options[:fps]}fps (#{options[:video_type_name]})"}
  idx = DropDownSelector.new(nil, ['default'] + english_names, "Select frame rate/output type if desired").go_selected_index
  if idx == 0
-   idx = 1 # reasonable default I guess, though starts with low fps...
+   idx = 1 # LODO somewhat wrong now...way too low fps on init...
  end
  selected_options = displayable[idx - 1]
  if SimpleGuiCreator.show_select_buttons_prompt('would you like to preview it/view it?') == :yes

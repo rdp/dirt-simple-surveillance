@@ -1,6 +1,10 @@
 real installer
   with bg window daemon mode icon...
 
+  close "coming up" window
+  
+  don't let preview while running
+  
 new README/simple website
   toot my own horn :)
     simple, easy to use
