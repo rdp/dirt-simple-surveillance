@@ -1,9 +1,8 @@
 real installer
   with bg window daemon mode icon...
 
-  close "coming up" window
+  doesn't detect ffpmeg exit?
   
-  don't let preview while running
   
 new README/simple website
   toot my own horn :)
@@ -18,6 +17,12 @@ network input?
 "fake launch"
 
 = if I ever get serious/maybe/never = 
+
+  close "coming up" window
+  
+  don't let preview while running
+  
+can cause "cannot connect pins" failures somehow?
 
 the "fake pan/zoom"...how does logitech seem to accomplish this, anyway?
 
