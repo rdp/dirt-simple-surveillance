@@ -95,7 +95,7 @@ def prettify_number n
   end
 end
 
-def configure_device_options device, english_name, old_options
+def configure_device_options device, english_name, old_options = nil
  video_fps_options = FFmpegHelpers.get_options_video_device device[0], device[1]
  # like  {:video_type=>"vcodec", :video_type_name=>"mjpeg", :min_x=>"800", :max_x=>"800", :max_y=>"600", "30"=>"30"}
  displayable = []

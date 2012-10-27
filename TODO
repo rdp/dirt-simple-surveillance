@@ -2,7 +2,10 @@ real installer
   with bg window daemon mode icon...
 
   doesn't detect ffpmeg exit?
-  
+
+  fails immediately with 
+can cause "cannot connect pins" failures somehow?
+
   
 new README/simple website
   toot my own horn :)
@@ -22,8 +25,6 @@ network input?
   
   don't let preview while running
   
-can cause "cannot connect pins" failures somehow?
-
 the "fake pan/zoom"...how does logitech seem to accomplish this, anyway?
 
 allow for lanczos? LOL
