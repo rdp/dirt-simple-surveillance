@@ -26,6 +26,8 @@ allow setting bitrate, show it "how many days worth" it plans on being able to a
   allow setting size to save
   allow setting q value instead of bitrate?
 
+auto adjust bitrate for different incoming sizes?
+  
   close "coming up" window
     wait for it, too
 	
