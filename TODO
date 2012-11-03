@@ -6,6 +6,7 @@ real installer
   fails immediately with 
 can cause "cannot connect pins" failures somehow?
 
+a few others in the FFmpeg todo
   
 new README/simple website
   toot my own horn :)
@@ -21,15 +22,19 @@ network input?
 
 = if I ever get serious/maybe/never = 
 
+allow setting bitrate, show it "how many days worth" it plans on being able to add, based on bitrate [?]
+  allow setting size to save
+  allow setting q value instead of bitrate?
+
   close "coming up" window
-  
+    wait for it, too
+	
   don't let preview while running
-  
+    button awesome notifier :P
+	
 the "fake pan/zoom"...how does logitech seem to accomplish this, anyway?
 
-allow for lanczos? LOL
-
-hqdn3d to accomodate for all those freaky blips?
+hqdn3d to accomodate for all those freaky blips/trees swaying?
   what do others use here?
 
 check how much power/%cpu various things use...

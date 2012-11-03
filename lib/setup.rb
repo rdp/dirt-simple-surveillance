@@ -56,7 +56,7 @@ def add_device device, english_name, options, to_this
   
   unique_number = @unique_line_number += 1
   init_string = '"' + init_string + ":name_string_#{unique_number}\""
-  init_string += "[Remove:remove_#{unique_number}] [Configure:configure_#{unique_number}]"
+  init_string += "[Remove:remove_#{unique_number}] [Configure:configure_#{unique_number}] [View Files:view_files_#{unique_number}]"
   init_string += "[Preview:preview_#{unique_number}]"
   
   to_this.add_setup_string_at_bottom init_string
@@ -75,6 +75,10 @@ def add_device device, english_name, options, to_this
   
   to_this.elements[:"preview_#{unique_number}"].on_clicked {
     do_something current_devices.select{|d| d == device}, true    
+  }
+  
+  to_this.elements[:"view_files_#{unique_number}"].on_clicked {
+    SimpleGuiCreator.show_in_explorer Dir[UsbStorage['storage_dir'] + '/' + english_name + '/*'].sort[-1] # latest day..
   }
   
 end

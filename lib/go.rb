@@ -103,7 +103,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   
   p "recording #{camera_english_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
     
-  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{video_take_time} #{output_framerate_text} -f mp4 "#{filename}.partial" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
+  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{video_take_time} #{output_framerate_text} -b:v 500k -f mp4 "#{filename}.partial" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
   # -vcodec libx264 ?
   p 'running'
   puts c
