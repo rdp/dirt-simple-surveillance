@@ -1,12 +1,10 @@
 real installer
-  with bg window daemon mode icon...
-
-  doesn't detect ffpmeg exit?
-
+  with bg window daemon mode icon...system tray yes  [fix doesn't disappear right]
+  
   fails immediately with 
-can cause "cannot connect pins" failures somehow?
+can cause "cannot connect pins" failures somehow? multiple devices
 
-a few others in the FFmpeg todo
+a few others in the FFmpeg todo (google docs)
   
 new README/simple website
   toot my own horn :)
@@ -21,6 +19,10 @@ network input?
 "fake launch"
 
 = if I ever get serious/maybe/never = 
+
+  doesn't detect ffpmeg exit?
+
+  doesn't restart right if already running/could be better?
 
 maybe "as it saves" grab a frame [possible?] to show them what quality they're getting finally?
   save as avi?
