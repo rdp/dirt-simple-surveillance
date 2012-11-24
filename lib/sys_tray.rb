@@ -3,29 +3,19 @@ class SysTray
 
   import java.awt.TrayIcon
   import java.awt.event.MouseListener
-  def initialize
+  def initialize name, icon_path
     tray = java.awt.SystemTray::system_tray
-    image = java.awt.Toolkit::default_toolkit.get_image("tray.gif")
+    image = java.awt.Toolkit::default_toolkit.get_image(icon_path)
 
     popup = java.awt.PopupMenu.new
-    exititem = java.awt.MenuItem.new("Exit")
-    exititem.addActionListener {java.lang.System::exit(0)}
-
-    oraitem = java.awt.MenuItem.new("Go To ORA")
-    oraitem.addActionListener do
-      java.awt.Desktop::desktop.browse(java.net.URI.new("http://www.ora.com"))
-    end
-
-    popup.add(exititem)
-    popup.add(oraitem)
+   
 	@popup = popup
-    trayIcon = TrayIcon.new(image, "Tray Demo", popup)
+    trayIcon = TrayIcon.new(image, name, popup)
     trayIcon.image_auto_size = true
 
     trayIcon.addActionListener do |evt|
-      # double left click
-      trayIcon.displayMessage("Action","Tray Action!",
-      TrayIcon::MessageType::WARNING) 
+      # occurs at double left click
+      # trayIcon.displayMessage("Action","Tray Action!", TrayIcon::MessageType::WARNING) 
     end
 
     trayIcon.addMouseListener() do |method|
@@ -47,8 +37,12 @@ class SysTray
 end
 
 if $0 == __FILE__
-  tray = SysTray.new
+  tray = SysTray.new 'test name', 'test icon'
   tray.add_menu_item('exit') {
     java.lang.System::exit(0)
   }
+  tray.add_menu_item('Go to ORA') do
+    java.awt.Desktop::desktop.browse(java.net.URI.new("http://www.ora.com"))
+  end
+  puts 'running...'
 end
