@@ -1,9 +1,10 @@
-
 class SysTray
 
   import java.awt.TrayIcon
   import java.awt.event.MouseListener
+  # icon_path can't be nil...
   def initialize name, icon_path
+    icon_path ||= '' # so it'll use the right get_image method...
     tray = java.awt.SystemTray::system_tray
     image = java.awt.Toolkit::default_toolkit.get_image(icon_path)
 
