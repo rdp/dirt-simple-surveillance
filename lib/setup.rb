@@ -191,29 +191,18 @@ a.elements[:reveal_snapshots].on_clicked {
   show_recent_snapshot_images current_devices.map{|dev_name, (english_name, options)| english_name}
 }
 
-currently_hidden_filename = UsbStorage['storage_dir'] + '/currently_hidden'
-currently_running_filename = UsbStorage['storage_dir'] + '/currently_running'
-
 a.elements[:disappear_window].on_clicked {
-  a.visible=false
   require 'sys_tray'
+  a.visible=false
   tray = SysTray.new('surveillance', nil)
   tray.add_menu_item('Reveal surveillance control window') do
     tray.close
 	a.visible=true
   end
-  trayIcon.displayMessage("Action", "Minimized it!", TrayIcon::MessageType::WARNING) 
+  tray.display_balloon_message "Surveillance", "Minimized it!"
 }
 
 if ARGV.detect{|a| a == '--background-start'}
-  a.elements[:start_stop_capture].click!
-#  a.minimize! # lodo
-  # ffmpeg's can't stop?
-  # a.elements[:disappear_window].click!
+  a.elements[:start_stop_capture].click! # start it
+  a.elements[:disappear_window].click!
 end
-
-FileUtils.touch currently_running_filename
-a.after_closed {
-  FileUtils.rm_rf currently_running_filename
-  FileUtils.rm_rf currently_hidden_filename
-}
