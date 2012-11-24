@@ -194,7 +194,7 @@ a.elements[:reveal_snapshots].on_clicked {
 a.elements[:disappear_window].on_clicked {
   require 'sys_tray'
   a.visible=false
-  tray = SysTray.new('surveillance', nil)
+  tray = SysTray.new('surveillance', 'vendor/webcam-clipart.png')
   tray.add_menu_item('Reveal surveillance control window') do
     tray.close
 	a.visible=true
