@@ -8,7 +8,7 @@
     "View recordings:"
     [Show video recordings:reveal_recordings]
     [Show recent video still frame:reveal_snapshots]
-    [Disappear this window:disappear_window]
+    [Minimize to tray:disappear_window]
     ""
     "Currently setup to record the following devices:device_list_header, width=500"
   --------------------------------------------

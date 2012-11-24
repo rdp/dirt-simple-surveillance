@@ -195,23 +195,14 @@ currently_hidden_filename = UsbStorage['storage_dir'] + '/currently_hidden'
 currently_running_filename = UsbStorage['storage_dir'] + '/currently_running'
 
 a.elements[:disappear_window].on_clicked {
-  if @current_state == :stopped
-    SimpleGuiCreator.show_text "you probably only want to do this [disappear the window] if you're already recording\n which you aren't yet!"
-  else
-    FileUtils.touch currently_hidden_filename
-    a.visible=false
-    Thread.new { 
-      wakeup_filename = UsbStorage['storage_dir'] + '/wake_up'
-      while(a.visible == false)
-	    sleep 1
-	    if File.exist?(wakeup_filename) 
-		  a.visible=true
-		  File.delete wakeup_filename
-		  File.delete currently_hidden_filename
-		end
-	  end 
-    }
+  a.visible=false
+  require 'sys_tray'
+  tray = SysTray.new('surveillance', nil)
+  tray.add_menu_item('Reveal surveillance control window') do
+    tray.close
+	a.visible=true
   end
+  trayIcon.displayMessage("Action", "Minimized it!", TrayIcon::MessageType::WARNING) 
 }
 
 if ARGV.detect{|a| a == '--background-start'}

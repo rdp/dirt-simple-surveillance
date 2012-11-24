@@ -25,6 +25,12 @@ class SysTray
     end
 
     tray.add(trayIcon)
+	@tray = tray
+	@tray_icon = trayIcon
+  end
+  
+  def display_balloon_message title, message
+    @tray_icon.displayMessage(title, message, TrayIcon::MessageType::WARNING) 
   end
   
   def add_menu_item name, &block
@@ -34,15 +40,23 @@ class SysTray
     end
 	@popup.add(oraitem)
   end
+  
+  def close
+    @tray.remove @tray_icon # I...umm...uh...guess this is right...don't know how to "close" this really, per se...this seems to work...
+  end
 end
 
 if $0 == __FILE__
   tray = SysTray.new 'test name', 'test icon'
   tray.add_menu_item('exit') {
-    java.lang.System::exit(0)
+    tray.close
   }
   tray.add_menu_item('Go to ORA') do
     java.awt.Desktop::desktop.browse(java.net.URI.new("http://www.ora.com"))
   end
+  tray.add_menu_item('Show balloon') do
+    tray.display_balloon_message 'a title', 'A balloon message!'
+  end
+  tray.display_balloon_message 'running!', 'its right here!'
   puts 'running...'
 end
