@@ -1,3 +1,4 @@
+$: << File.dirname(__FILE__) + '/../lib'
 require 'shared'
 currently_running_filename =  UsbStorage['storage_dir'] + '/currently_running'
 currently_hidden_filename =  UsbStorage['storage_dir'] + '/currently_hidden'
@@ -22,4 +23,4 @@ if File.exist? currently_running_filename
 	end
   end
 end
-require File.dirname(__FILE__) + '/../lib/setup.rb'
+require 'setup.rb'
