@@ -194,12 +194,16 @@ a.elements[:reveal_snapshots].on_clicked {
 a.elements[:disappear_window].on_clicked {
   require 'sys_tray'
   a.visible=false
-  tray = SysTray.new('surveillance', 'vendor/webcam-clipart.png')
+  if @current_state == :running
+    tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart.png')
+  else
+    tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart-disabled.png')
+  end
   tray.add_menu_item('Reveal surveillance control window') do
     tray.close
 	a.visible=true
   end
-  tray.display_balloon_message "Surveillance", "Minimized it!"
+  tray.display_balloon_message "Surveillance", "Minimized it! [currently #{@current_state}]"
 }
 
 if ARGV.detect{|a| a == '--background-start'}
