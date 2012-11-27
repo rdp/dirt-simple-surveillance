@@ -199,10 +199,16 @@ a.elements[:disappear_window].on_clicked {
   else
     tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart-disabled.png')
   end
-  tray.add_menu_item('Reveal surveillance control window') do
+  tray.add_menu_item('Reveal surveillance') do
     tray.close
 	a.visible=true
   end
+  
+  tray.on_double_left_click do
+    tray.close
+	a.visible=true
+  end
+  
   tray.display_balloon_message "Surveillance", "Minimized it! [currently #{@current_state}]"
 }
 

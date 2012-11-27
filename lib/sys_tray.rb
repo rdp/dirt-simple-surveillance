@@ -30,8 +30,14 @@ class SysTray
 	@tray_icon = trayIcon
   end
   
+  def on_double_left_click &block
+    @tray_icon.addActionListener do |evt|
+	  block.call
+	end
+  end
+  
   def display_balloon_message title, message
-    @tray_icon.displayMessage(title, message, TrayIcon::MessageType::WARNING) 
+    @tray_icon.displayMessage(title, message, TrayIcon::MessageType::INFO) # WARNING 
   end
   
   def add_menu_item name, &block
