@@ -195,7 +195,7 @@ a.elements[:disappear_window].on_clicked {
   require 'sys_tray'
   a.visible=false
   if @current_state == :running
-    tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart.png')
+    tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart-enabled.png')
   else
     tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart-disabled.png')
   end
