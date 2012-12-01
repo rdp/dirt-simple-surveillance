@@ -7,8 +7,8 @@ def generate_preview_image from_this
    to_file = from_this + '.still_frame.jpg'
    command = "ffmpeg.exe -y -i \"#{from_this}\" -vcodec mjpeg -vframes 1 -f image2 \"#{to_file}\" 2>&1" # seems to make a matching size jpeg.
     `#{command}`
-    raise command unless $?.exitstatus == 0
-	raise unless File.size(to_file) > 1000
+    raise 'failed thumbnail command? :' + command unless $?.exitstatus == 0
+	puts 'unexpected thumbnail size? report it!' + to_file unless File.size(to_file) > 1000
 end
 
 require 'sane'
@@ -111,7 +111,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   @all_processes_since_inception << out_handle
   set_all_ffmpegs_as_lowest_prio
   FFmpegHelpers.wait_for_ffmpeg_close out_handle
-  raise c + " failed?" unless $?.exitstatus == 0 # don't generate preview if failed...
+  raise 'ffmepg failed? :' + c unless $?.exitstatus == 0 # don't generate preview if failed...
   File.rename(filename + ".partial", filename)
   generate_preview_image filename
   end

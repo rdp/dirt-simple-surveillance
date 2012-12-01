@@ -18,10 +18,14 @@ def setup_ui
  else
    @a.elements[:start_stop_capture].enable!
  end
- if @current_state == :running
+ if @current_state == :running 
+   @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart-enabled.png')
    @a.elements[:current_state].text = "Running!"
+   @a.title = @a.original_title + " [running]"
  else
+   @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart-disabled.png')
    @a.elements[:current_state].text = "Stopped."
+   @a.title = @a.original_title + " [stopped]"
   end
  
 end
