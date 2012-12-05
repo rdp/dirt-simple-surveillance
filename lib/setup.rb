@@ -59,11 +59,17 @@ def add_device device, english_name, options, to_this
   init_string = get_descriptive_line device, english_name
   
   unique_number = @unique_line_number += 1
-  init_string = '"' + init_string + ":name_string_#{unique_number}\""
+  init_string = '"' + init_string + ":name_string_#{unique_number}\"\n"
   init_string += "[Remove:remove_#{unique_number}] [Configure:configure_#{unique_number}] [View Files:view_files_#{unique_number}]"
   init_string += "[Preview:preview_#{unique_number}]"
+  init_string += "[Show recent snapshot:snapshot_#{unique_number}"
   
   to_this.add_setup_string_at_bottom init_string
+  
+  #to_this.elements[:"snapshot_#{unique_number}"].on_clicked {
+  #  show_recent_snapshot_images english_name
+  #}
+  
   to_this.elements[:"remove_#{unique_number}"].on_clicked {
     current_devices.delete(device)
 	save_devices!
@@ -150,10 +156,6 @@ a.elements[:add_new_local].on_clicked {
 
 a.elements[:reveal_recordings].on_clicked {
   SimpleGuiCreator.show_in_explorer Dir[UsbStorage['storage_dir'] + '/*'][0]
-}
-
-a.elements[:preview_capture].on_clicked {
-  do_something current_devices, true
 }
 
 def assert_have_record_devices_setup

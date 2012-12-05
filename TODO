@@ -21,6 +21,9 @@ network input?
 
 = if I ever get serious/maybe/never = 
 
+it doesn't respond to "hard killed" ffmpeg's well:
+  prompt user, mark stopped
+
 not need a console (can show ffmpeg output "to the user" in the GUI)
 
   doesn't detect ffpmeg exit?

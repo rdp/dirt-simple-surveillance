@@ -2,7 +2,6 @@
     "Setup:"
     [Add new local camera for recording:add_new_local] "Currently have x:currently_have"
     [Add new network stream (url) to record:add_new_url]
-    [Preview camera positions:preview_capture]
     "Recording control:"
     [Start recording!:start_stop_capture] ":start_recording_text,width=200" "current status:current_state"
     "View recordings:"
