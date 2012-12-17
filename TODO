@@ -1,15 +1,13 @@
 tell them "will record until X GB" [just text] :)
-
+  can set save to dir
+  
 real installer
  	
   fails immediately with 
 can cause "cannot connect pins" failures somehow? multiple devices
 
-a few others in the FFmpeg todo (google docs)
+a few "yes do's" others in the FFmpeg todo (google docs)
   
-email myself once a week?
-  just use wimpy encryption LOL
-
 new README/simple website
   toot my own horn :)
     simple, easy to use
@@ -23,6 +21,11 @@ network input?
 "fake launch"
 
 = if I ever get serious/maybe/never = 
+
+email myself once a week?
+  just use wimpy encryption LOL
+
+I think the jpg snapshots cheapen...
 
 warn when startup, other one already running...or just open it :P
 
