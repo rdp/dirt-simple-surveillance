@@ -14,7 +14,26 @@ network input?
 
 remove global buttons [ask]
 
-= if I ever get serious/maybe/never = 
+more user feedback
+
+= if I ever get serious/never, high'ish-er at top = 
+
+cleanup interface, a bit confusing...global stuff...
+
+new button: "preview for real [10 seconds]"
+
+balloon text: more than "Surveillance"
+
+warn on exit "I'm not running, BTW!"
+  cleanup current "I am running" message
+
+make it so you can record your desktop...umm...like one snap every minute [?] etc.
+
+integrate VAC LOL
+
+warn "not deleting files!" on uninstall...
+
+make ffplay come up faster
 
 add an exit button
 
@@ -36,25 +55,16 @@ I think the jpg snapshots cheapen?...
 
 don't show "snapshot" button when it can't show one... [?]
 
-make remove device better
+make remove device work better
 
 warn when device *disappears* from computer...
   warn when ffmpeg exits early, always...
 
 warn when startup, other one already running...or just open it :P
 
-it doesn't respond to "hard killed" ffmpeg's well:
-  prompt user, mark stopped
+not need a console (can show ffmpeg output "to the user" in the GUI, too?)
 
-not need a console (can show ffmpeg output "to the user" in the GUI)
-
-  doesn't detect ffpmeg premature exit?
-
-  doesn't restart right if already running/could be better?
-
-maybe "as it saves" grab a frame [possible?] to show them what quality they're getting finally?
-  save as avi?
-  this might be a low prio...hmm...
+doesn't detect ffpmeg premature exit?
 
 allow setting bitrate, show it "how many days worth" it plans on being able to add, based on bitrate [?]
   allow setting size to save
@@ -151,7 +161,6 @@ little picture next to each camera line of latest snapshot :)
 
 with motion detect have a low fps optionally going as well always
 
-
 can overlay an image
 
 send an email on motion detect/allow them to view the stream somehow...
@@ -194,8 +203,6 @@ ask for user feedback
 
 "reveal current video" button per camera...
   or better yet, please fix SDL out...
-
-are still frames mixed in still too confusing? probably...
 
 new icon/splash screen
 
