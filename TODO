@@ -12,20 +12,11 @@ network input?
 
 "fake launch"
 
-remove global buttons [ask]
+= if I ever get serious/never, high'ish-er at top = 
 
 more user feedback
 
-= if I ever get serious/never, high'ish-er at top = 
-
-cleanup interface, a bit confusing...global stuff...
-
 new button: "preview for real [10 seconds]"
-
-balloon text: more than "Surveillance"
-
-warn on exit "I'm not running, BTW!"
-  cleanup current "I am running" message
 
 make it so you can record your desktop...umm...like one snap every minute [?] etc.
 

@@ -10,6 +10,7 @@ end
 
 @a = a
 @current_state = :stopped # :running
+@a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart.png')
 
 def setup_ui
  @a.elements[:currently_have].text = "currently have #{current_devices.length} setup"
@@ -23,14 +24,14 @@ def setup_ui
    @a.elements[:current_state].text = "Currently Recording!"
    @a.title = @a.original_title + " [running]"
  else
-   @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart-disabled.png')
+   @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart.png')
    @a.elements[:current_state].text = "Currently Stopped."
    @a.title = @a.original_title + " [stopped]"
   end
   
   free_space = java.io.File.new(base_storage_dir).freeSpace
 
-  @a.elements[:options_message].text = "Currently set to record to #{base_storage_dir.split('/')[-4..-1].join('/')} at 500 kb/s/camera until there is #{Delete_if_we_have_less_than_this_much_free_space.g} free"
+  @a.elements[:options_message].text = "Will record to #{base_storage_dir.split('/')[-4..-1].join('/')} at 500 kb/s/camera until there is #{Delete_if_we_have_less_than_this_much_free_space.g} free"
  
 end
 
@@ -62,10 +63,14 @@ def add_device device, english_name, options, to_this
   init_string = get_descriptive_line device, english_name
   
   unique_number = @unique_line_number += 1
-  init_string = '"' + init_string + ":name_string_#{unique_number}\" \"at #{options[:x]}x#{options[:y]}\""
+  init_string = '"' + init_string + ":name_string_#{unique_number}\" \"at #{options[:x]}x#{options[:y]}:\""
   init_string += "\n  \"      \" " # add an empty spacer in it...
-  init_string += "[Remove:remove_#{unique_number}] [Configure:configure_#{unique_number}] [View Files:view_files_#{unique_number}]"
-  init_string += "[Preview:preview_#{unique_number}]"
+  init_string += "[Remove:remove_#{unique_number}]"
+  init_string += "[Configure:configure_#{unique_number}]"
+  init_string += "[View Files:view_files_#{unique_number}]"
+  init_string += "[Preview capture:preview_#{unique_number}]"
+  init_string += "\n  \"      \" " # add an empty spacer in it...
+  #init_string += "[Preview save quality:preview_recording_#{unique_number}]"
   init_string += "[Show recent image:snapshot_#{unique_number}]"
   
   to_this.add_setup_string_at_bottom init_string
@@ -143,7 +148,7 @@ def configure_device_options device, english_name, old_options = nil
  end
  selected_options = displayable[idx - 1]
  if SimpleGuiCreator.show_select_buttons_prompt('would you like to preview it/view it?') == :yes
-   do_something({device => [english_name + " preview", selected_options]}, true) # conveniently, we have settings now so can preview it...
+   do_something({device => [english_name, selected_options]}, true) # conveniently, we have settings now so can use our existing preview code to preview it...
  end
  english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device[0]}:", english_name
  [english_name, selected_options]
@@ -162,10 +167,6 @@ a.elements[:add_new_local].on_clicked {
   english_name, options = configure_device_options device, nil
   add_device device, english_name, options, a
   SimpleGuiCreator.show_text "Added it as: #{english_name}\nClick start recording to start recording!"
-}
-
-a.elements[:reveal_recordings].on_clicked {
-  SimpleGuiCreator.show_in_explorer Dir[base_storage_dir + '/*'][0]
 }
 
 def assert_have_record_devices_setup
@@ -198,16 +199,12 @@ a.elements[:start_stop_capture].on_clicked {
 
 a.after_closed {
   if @current_state == :running
-    SimpleGuiCreator.show_text "warning, shutting down recorder [hit disappear button to put continue recording...]"
+    SimpleGuiCreator.show_text "warning, shutting down current recordings... [hit disappear button next time if what you wanted is to continue recording...]"
 	a.elements[:start_stop_capture].simulate_click
   end
 }
 
 require './lib/show_last_images.rb'
-
-a.elements[:reveal_snapshots].on_clicked {
-  show_recent_snapshot_images current_devices.map{|dev_name, (english_name, options)| english_name}
-}
 
 a.elements[:disappear_window].on_clicked {
   require 'sys_tray'
@@ -226,7 +223,7 @@ a.elements[:disappear_window].on_clicked {
     tray.close
 	a.visible=true
   end  
-  tray.display_balloon_message "Surveillance", "Minimized it to tray! [currently #{@current_state}]"
+  tray.display_balloon_message "Dirt Simple Surveillance", "Minimized it to tray! [currently #{@current_state}]"
 }
 
 if ARGV.detect{|a| a == '--background-start'}

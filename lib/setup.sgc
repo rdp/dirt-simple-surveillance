@@ -1,14 +1,11 @@
   ---------- Dirt Simple Surveillance -----------
+    "Recording control:"
+    [Start recording!:start_stop_capture] ":start_recording_text,width=200" "current status is a long string:current_state"
+    [Minimize window to tray:disappear_window]
     "Setup:"
     [Add new local camera for recording:add_new_local] "Currently have x:currently_have"
     [Add new network stream (url) to record:add_new_url]
     "Currently set to record x gigabytes to this folder c:\users\my long username\my videos\dirt simple usb surveillance:options_message"
-    "Recording control:"
-    [Start recording!:start_stop_capture] ":start_recording_text,width=200" "current status is a long string:current_state"
-    "View recordings:"
-    [Show video recordings:reveal_recordings]
-    [Show recent video still frames:reveal_snapshots]
-    [Minimize to tray:disappear_window]
-    ""
-    "Currently setup to record the following devices::device_list_header, width=500"
+    " "
+    "Currently will record the following devices::device_list_header, width=500"
   --------------------------------------------
