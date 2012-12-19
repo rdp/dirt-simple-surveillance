@@ -62,7 +62,7 @@ def add_device device, english_name, options, to_this
   init_string = get_descriptive_line device, english_name
   
   unique_number = @unique_line_number += 1
-  init_string = '"' + init_string + ":name_string_#{unique_number}\" \"at (#{options[:x]}x#{options[:y]})\""
+  init_string = '"' + init_string + ":name_string_#{unique_number}\" \"at #{options[:x]}x#{options[:y]}\""
   init_string += "\n  \"      \" " # add an empty spacer in it...
   init_string += "[Remove:remove_#{unique_number}] [Configure:configure_#{unique_number}] [View Files:view_files_#{unique_number}]"
   init_string += "[Preview:preview_#{unique_number}]"
@@ -225,9 +225,8 @@ a.elements[:disappear_window].on_clicked {
   tray.on_double_left_click do
     tray.close
 	a.visible=true
-  end
-  
-  tray.display_balloon_message "Surveillance", "Minimized it! [currently #{@current_state}]"
+  end  
+  tray.display_balloon_message "Surveillance", "Minimized it to tray! [currently #{@current_state}]"
 }
 
 if ARGV.detect{|a| a == '--background-start'}
