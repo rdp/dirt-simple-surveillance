@@ -70,10 +70,21 @@ def add_device device, english_name, options, to_this
   init_string += "[View Files:view_files_#{unique_number}]"
   init_string += "[Preview capture:preview_#{unique_number}]"
   init_string += "\n  \"      \" " # add an empty spacer in it...
-  #init_string += "[Preview save quality:preview_recording_#{unique_number}]"
+  init_string += "[Preview save quality:preview_recording_#{unique_number}]"
   init_string += "[Show recent image:snapshot_#{unique_number}]"
   
   to_this.add_setup_string_at_bottom init_string
+  
+  # TODO make these sensitive...
+  to_this.elements[:"preview_recording_#{unique_number}"].on_clicked {
+    SimpleGuiCreator.show_non_blocking_message_dialog "ok recording for 20 seconds, then revealing the saved file.\nThis will allow you to see what the encode quality is like"
+    do_something current_devices.select{|d| d == device}, false
+    sleep 20
+	shutdown_current
+	last_day = Dir[base_storage_dir + '/' + english_name + '/*'].sort[-1]
+    last_file = Dir[last_day + '/*.mp4'].sort_by{|f| File.mtime(f)}[-1]
+    SimpleGuiCreator.show_in_explorer last_file
+  }
   
   to_this.elements[:"snapshot_#{unique_number}"].on_clicked {
     show_recent_snapshot_images english_name
