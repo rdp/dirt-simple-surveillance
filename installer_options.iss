@@ -1,4 +1,4 @@
-#define AppVer "0.0.1"
+#define AppVer "0.0.2"
 
 #define AppName "Dirt Simple USB Surveillance"
 ; AppId === AppName by default BTW
@@ -26,5 +26,5 @@ OutputDir=releases
 [Icons]
 Name: {group}\Start surveillance; Filename: {app}\generic_run_rb.bat; WorkingDir: {app}; Parameters: -Ilib  bin\startup.rb; Flags: runminimized
 Name: {group}\Readme; Filename: {app}\README.TXT
-; Flags: isreadme
+; Flags: isreadme once it's prettier :)
 Name: {group}\Uninstall {#AppName}; Filename: {uninstallexe}

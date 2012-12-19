@@ -220,6 +220,15 @@ a.after_closed {
 
 require './lib/show_last_images.rb'
 
+# couldn't figure out how to make it pretty nuff...
+#a.elements[:exit].on_clicked {
+#  d = SimpleGuiCreator.show_non_blocking_message_dialog "Exiting [not recording!]"
+#  SimpleGuiCreator.run_later(1.5) {
+#    a.close
+#	d.close
+#  }
+#}
+
 a.elements[:disappear_window].on_clicked {
   require 'sys_tray'
   a.visible=false
