@@ -22,7 +22,9 @@ make it so it works with devices with same name
   it...should...also allow it to record simultaneously from both [possible bug]
 
 options
-  folder, priority, disk space ...
+  folder, priority, disk space ... bits per second
+  
+can upload to ustream.tv [cuh-razy]
 
 by default select the "right" resolution/pix_fmt...I guess by lowest fps highest res :)
   don't force them to select one [fix default to be prettier?]
