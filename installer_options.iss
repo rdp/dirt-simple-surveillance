@@ -12,7 +12,7 @@ Filename: {app}\generic_run_rb.bat; Description: Launch {#AppName} after finishi
 ; TODO delete files?
 
 [Files]
-Source: *; DestDir: {app}; Flags: recursesubdirs
+Source: *; DestDir: {app}; Excludes: releases; Flags: recursesubdirs
 
 [Setup]
 AppName={#AppName}
