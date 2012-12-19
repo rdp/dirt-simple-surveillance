@@ -16,18 +16,16 @@ remove global buttons [ask]
 
 = if I ever get serious/maybe/never = 
 
-an exit button
+add an exit button
 
 make it so it works with devices with same name
   it...should...also allow it to record simultaneously from both [possible bug]
 
 options
   folder, priority, disk space ...
-minimize on start button clicked
-fix clicking on balloon re-expands it
 
-by default select the "right" resolution/pix_fmt...I guess by just testing it with none [?]
-  don't force them to select one [fix default?]
+by default select the "right" resolution/pix_fmt...I guess by lowest fps highest res :)
+  don't force them to select one [fix default to be prettier?]
   
 email myself once a week?
   just use wimpy encryption LOL
@@ -36,7 +34,7 @@ I think the jpg snapshots cheapen?...
 
 don't show "snapshot" button when it can't show one... [?]
 
-make remove code better
+make remove device better
 
 warn when device *disappears* from computer...
   warn when ffmpeg exits early, always...
@@ -48,7 +46,7 @@ it doesn't respond to "hard killed" ffmpeg's well:
 
 not need a console (can show ffmpeg output "to the user" in the GUI)
 
-  doesn't detect ffpmeg exit?
+  doesn't detect ffpmeg premature exit?
 
   doesn't restart right if already running/could be better?
 
@@ -62,16 +60,13 @@ allow setting bitrate, show it "how many days worth" it plans on being able to a
 
 auto adjust bitrate for different incoming sizes?
   
-  close "coming up" window
-    wait for it, too
-	
   don't let preview while running
     button awesome notifier :P
 	
 the "fake pan/zoom"...how does logitech seem to accomplish this, anyway?
 
 hqdn3d to accomodate for all those freaky blips/trees swaying?
-  what do others use here?
+  what do others use?
 
 check how much power/%cpu various things use...
 
@@ -94,38 +89,33 @@ fix that it doesn't/didn't allow recording from both, same name, simultaneously?
 
 fix FFmpeg not enumerating right
 
-detect early FFmpeg failures
-
-fix FFmpeg using 100% cpu?
-
 tell people they may not *want* audio
 
 can "email you when it doesn't record" (google script?)
 
-SMS/MMS/email alerts
+SMS/MMS/email alerts on motion detected.
 
 test what "8 input" video capture cards are in windows--crossbar?
+
+do crossbar :)
 
 better icons
 
 bucket by month/year?
 
-minimize on hitting the 'x' (or disable it?)
+allow for re-compression instead of deletion [?]
+  640x480, 0.5/s ? hmm
+  
+optional time lapse :)
 
-save PID, ping it on restart
+minimize on hitting the 'x' (or disable it?)
 
 option for how frequently to slice the video files
   possibly hard slice them around noon, anyway?
 
 after doing a recording, high quality compress it optionally?
   
-"show latest recording" button per device (show snapshot at least):)
-
 take out some button I never use [?]
-
-default is 200 kb/s, what?
-
-better shutdown?
 
 give an option for "just save the mjpeg stream, to save cpu!"
 
@@ -137,35 +127,18 @@ icons for whether recording or not
   snapshots
   every minute snaps LOL
   
-show the 10G thing on the UI...
-
-split snapshots off to their own directory or you'll think that's all there is [?]
-  also partial files [?]
-  
 beta launch/test with people
 
 submit cnet [?]
 
-button per each one "preview camera" "record from camera"
-  add to README "webcam recorder" :)  
-
 screen cast
 
-better web page
-
-option for where to store stuff...trivial directory chooser
-  it's My Videos today...
-  
-"keep this many GB"
-  
-get crossbar working...
+web page
 
 ask users what they want...
 
 SDL out option
   fix it in doze :P
-
-send daily "conglom" tiled images email LOL
 
 test/work with h264 native input...
 
@@ -174,13 +147,8 @@ maybe SDL out can be made "reveal the window only if such and such a file exists
 
 little picture next to each camera line of latest snapshot :)
 
-preview option for each camera
-
-specify output codec/options
-
 with motion detect have a low fps optionally going as well always
 
-optional time lapse :)
 
 can overlay an image
 
