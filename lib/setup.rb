@@ -12,7 +12,7 @@ end
 @current_state = :stopped # :running
 
 def setup_ui
- @a.elements[:currently_have].text = "currently have #{current_devices.length}"
+ @a.elements[:currently_have].text = "currently have #{current_devices.length} setup"
  if current_devices.length == 0
    @a.elements[:start_stop_capture].disable!
  else
@@ -72,7 +72,7 @@ def add_device device, english_name, options, to_this
   to_this.elements[:"remove_#{unique_number}"].on_clicked {
     current_devices.delete(device)
 	save_devices!
-	to_this.elements[:"name_string_#{unique_number}"].text = 'removed it!'
+	to_this.elements[:"name_string_#{unique_number}"].text = 'removed it (restart app to see it gone)!'
   }
   
   to_this.elements[:"configure_#{unique_number}"].on_clicked {
@@ -127,7 +127,7 @@ def configure_device_options device, english_name, old_options = nil
    displayable = [old_options] + displayable
  end
  english_names = displayable.map{|options| "#{options[:x]}x#{options[:y]} #{prettify_number options[:fps]}fps (#{options[:video_type_name]})"}
- idx = DropDownSelector.new(nil, ['default'] + english_names, "Select frame rate/output type if desired").go_selected_index
+ idx = DropDownSelector.new(nil, ["default (#{english_names[0]})"] + english_names, "Select frame rate/output type if desired").go_selected_index
  if idx == 0
    idx = 1 # LODO somewhat wrong now...way too low fps on init...
  end
