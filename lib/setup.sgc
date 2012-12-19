@@ -10,5 +10,5 @@
     [Show recent video still frames:reveal_snapshots]
     [Minimize to tray:disappear_window]
     ""
-    "Currently setup to record the following devices:device_list_header, width=500"
+    "Currently setup to record the following devices::device_list_header, width=500"
   --------------------------------------------

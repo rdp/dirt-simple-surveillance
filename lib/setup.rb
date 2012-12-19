@@ -48,11 +48,11 @@ def save_devices!
 end
 
 def get_descriptive_line device, english_name
-  init_string = "#{english_name}"
+  output = "#{english_name}"
   if device[0] != english_name || device[1] > 0
-    init_string += " (#{device[0]} #{ device[1] if device[1] > 0})"
+    output += " (#{device[0]} #{device[1] if device[1] > 0})"
   end 
-  init_string
+  output
 end
 
 def add_device device, english_name, options, to_this
@@ -62,7 +62,8 @@ def add_device device, english_name, options, to_this
   init_string = get_descriptive_line device, english_name
   
   unique_number = @unique_line_number += 1
-  init_string = '"' + init_string + ":name_string_#{unique_number}\"\n"
+  init_string = '"' + init_string + ":name_string_#{unique_number}\" \"at (#{options[:x]}x#{options[:y]})\""
+  init_string += "\n  \"      \" " # add an empty spacer in it...
   init_string += "[Remove:remove_#{unique_number}] [Configure:configure_#{unique_number}] [View Files:view_files_#{unique_number}]"
   init_string += "[Preview:preview_#{unique_number}]"
   init_string += "[Show recent image:snapshot_#{unique_number}]"
@@ -121,20 +122,24 @@ def configure_device_options device, english_name, old_options = nil
  
  video_fps_options.each{|original|
    step = 5
-   step = 2.5 if (original[:max_fps] % 5) == 2.5
+   step = 2.5 if (original[:max_fps] % 5) == 2.5 # some only have from 7.5 to 10, so accomodate...
    (original[:min_fps]..original[:max_fps]).step(step).each{|real_fps| 
      displayable << original.dup.merge(:fps => real_fps, :x => original[:max_x], :y => original[:max_y])
    } 
  }
+ 
  displayable.sort_by!{|hash| hash[:max_x]*hash[:max_y]}
  if old_options
    # add it to the top
    displayable = [old_options] + displayable
+ else
+   good_default = displayable.sort_by{|settings| settings[:video_type]}.sort_by{|settings| - settings[:max_x] * settings[:max_y]}[0] # is pixel type, biggest, lowest fps [I think]
+   displayable = [good_default] + displayable
  end
  english_names = displayable.map{|options| "#{options[:x]}x#{options[:y]} #{prettify_number options[:fps]}fps (#{options[:video_type_name]})"}
- idx = DropDownSelector.new(nil, ["default (#{english_names[0]})"] + english_names, "Select frame rate/output type if desired").go_selected_index
+ idx = DropDownSelector.new(nil, ["default"] + english_names, "Select frame rate/output type if desired").go_selected_index
  if idx == 0
-   idx = 1 # LODO somewhat wrong now...way too low fps on init...
+   idx = 1 # skip from english 'default' to the top listed default in our local array :)
  end
  selected_options = displayable[idx - 1]
  if SimpleGuiCreator.show_select_buttons_prompt('would you like to preview it/view it?') == :yes
@@ -156,7 +161,7 @@ a.elements[:add_new_local].on_clicked {
   end
   english_name, options = configure_device_options device, nil
   add_device device, english_name, options, a
-  SimpleGuiCreator.show_text "Added it as: #{english_name}"
+  SimpleGuiCreator.show_text "Added it as: #{english_name}\nClick start recording to start recording!"
 }
 
 a.elements[:reveal_recordings].on_clicked {
