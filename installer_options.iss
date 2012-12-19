@@ -4,6 +4,8 @@
 ; AppId === AppName by default BTW
 
 [Run]
+; checkbox run
+Filename: {app}\generic_run_rb.bat; Description: Launch {#AppName} after finishing installation; WorkingDir: {app}; Parameters: -Ilib  bin\startup.rb; Flags: runminimized nowait postinstall
 
 [UninstallRun]
 
@@ -24,4 +26,5 @@ OutputDir=releases
 [Icons]
 Name: {group}\Start surveillance; Filename: {app}\generic_run_rb.bat; WorkingDir: {app}; Parameters: -Ilib  bin\startup.rb; Flags: runminimized
 Name: {group}\Readme; Filename: {app}\README.TXT
+; Flags: isreadme
 Name: {group}\Uninstall {#AppName}; Filename: {uninstallexe}
