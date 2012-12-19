@@ -30,7 +30,7 @@ def setup_ui
   
   free_space = java.io.File.new(base_storage_dir).freeSpace
 
-  @a.elements[:options_message].text = "Currently set to record to #{base_storage_dir.split('/')[-4..-1].join('/')} until there is #{Delete_if_we_have_less_than_this_much_free_space.g} free"
+  @a.elements[:options_message].text = "Currently set to record to #{base_storage_dir.split('/')[-4..-1].join('/')} at 500 kb/s/camera until there is #{Delete_if_we_have_less_than_this_much_free_space.g} free"
  
 end
 
@@ -113,6 +113,7 @@ def prettify_number n
 end
 
 def configure_device_options device, english_name, old_options = nil
+ english_name ||= device[0]
  video_fps_options = FFmpegHelpers.get_options_video_device device[0], device[1]
  # like  {:video_type=>"vcodec", :video_type_name=>"mjpeg", :min_x=>"800", :max_x=>"800", :max_y=>"600", "30"=>"30"}
  displayable = []
@@ -137,9 +138,9 @@ def configure_device_options device, english_name, old_options = nil
  end
  selected_options = displayable[idx - 1]
  if SimpleGuiCreator.show_select_buttons_prompt('would you like to preview it/view it?') == :yes
-   do_something({device => [english_name, selected_options]}, true) # conveniently, we have settings now so can preview it...
+   do_something({device => [english_name + " preview", selected_options]}, true) # conveniently, we have settings now so can preview it...
  end
- english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device[0]}:", english_name || device[0]
+ english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device[0]}:", english_name
  [english_name, selected_options]
  
 end
