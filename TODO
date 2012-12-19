@@ -23,9 +23,13 @@ network input?
 = if I ever get serious/maybe/never = 
 
 add message on disk space/options
-minimize on start button
+  folder, priority, disk space ...
+minimize on start button clicked
 fix clicking on balloon re-expands it
 
+by default select the "right" resolution/pix_fmt...I guess by just testing it with none [?]
+  don't force them to select one
+  
 email myself once a week?
   just use wimpy encryption LOL
 
