@@ -155,7 +155,7 @@ a.elements[:add_new_local].on_clicked {
   end
   english_name, options = configure_device_options device, nil
   add_device device, english_name, options, a
-  SimpleGuiCreator.show_text "Added it #{english_name}"
+  SimpleGuiCreator.show_text "Added it as: #{english_name}"
 }
 
 a.elements[:reveal_recordings].on_clicked {
@@ -181,6 +181,7 @@ a.elements[:start_stop_capture].on_clicked {
 	a.elements[:start_recording_text].text = "Recording started!"
 	Thread.new { sleep 2.5; a.elements[:start_recording_text].text = ""; }
 	@current_state = :running
+    a.elements[:disappear_window].click! # auto minimize on start...
   else
     shutdown_current
 	a.elements[:start_stop_capture].text = 'Start recording'
