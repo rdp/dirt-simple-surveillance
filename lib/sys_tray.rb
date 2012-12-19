@@ -14,16 +14,16 @@ class SysTray
     trayIcon = TrayIcon.new(image, name, popup)
     trayIcon.image_auto_size = true
 
-    trayIcon.addActionListener do |evt|
-      # occurs at double left click
+    #trayIcon.addActionListener do |evt|
+      # occurs at double left click [also balloon clicked, too, unfortunately]
       # trayIcon.displayMessage("Action","Tray Action!", TrayIcon::MessageType::WARNING) 
-    end
+    #end
 
-    trayIcon.addMouseListener() do |method|
+    #trayIcon.addMouseListener() do |method|
       # all mouse clicks
 	  # LODO on left click [release?], show menu too...
       # puts "mouse event #{method.to_s}"
-    end
+    #end
 
     tray.add(trayIcon)
 	@tray = tray
@@ -31,8 +31,15 @@ class SysTray
   end
   
   def on_double_left_click &block
-    @tray_icon.addActionListener do |evt|
-	  block.call
+  # unfortunately this also gets fired indistinguishably, on balloon "clicked" too?
+  #  @tray_icon.addActionListener do |evt|
+  #	  block.call
+  #	end
+    # http://stackoverflow.com/questions/12274370/how-to-detect-single-clicks-to-system-trayicon-for-java-app
+    @tray_icon.add_mouse_listener do |mouse_evt|
+	  if mouse_evt.click_count == 2 && (mouse_evt.id == java.awt.event.MouseEvent::MOUSE_CLICKED) # ignore mouse up, mouse down
+	    block.call
+	  end
 	end
   end
   
@@ -65,5 +72,10 @@ if $0 == __FILE__
     tray.display_balloon_message 'a title', 'A balloon message!'
   end
   tray.display_balloon_message 'running!', 'its right here!'
+  
+  tray.on_double_left_click {
+    puts 'double left click'
+  }
+  
   puts 'running...'
 end
