@@ -20,11 +20,11 @@ def setup_ui
  end
  if @current_state == :running 
    @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart-enabled.png')
-   @a.elements[:current_state].text = "Running!"
+   @a.elements[:current_state].text = "Currently Recording!"
    @a.title = @a.original_title + " [running]"
  else
    @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart-disabled.png')
-   @a.elements[:current_state].text = "Stopped."
+   @a.elements[:current_state].text = "Currently Stopped."
    @a.title = @a.original_title + " [stopped]"
   end
  
@@ -142,7 +142,7 @@ end
 a.elements[:add_new_local].on_clicked {
   video_devices = FFmpegHelpers.enumerate_directshow_devices[:video]
   video_devices.reject!{|name_idx| current_devices[name_idx]} # avoid re-adding same camera by including it in the dropdown...
-  idx = DropDownSelector.new(nil, video_devices.map{|name, idx| name}, "Select video device to capture").go_selected_idx
+  idx = DropDownSelector.new(nil, video_devices.map{|name, idx| name}, "Select new video device to capture").go_selected_idx
   device = video_devices[idx]
   if device[1] > 0
     SimpleGuiCreator.show_text "this is a device with a name that matches another device on the system\n not supported yet, ask me to fix it and I will try.\nIn the meantime you can edit your registry for a FriendlyName\nentry that matches that one, and modify that."
