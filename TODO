@@ -12,6 +12,8 @@ network input?
 
 "fake launch"
 
+remove global buttons [ask]
+
 = if I ever get serious/maybe/never = 
 
 an exit button
@@ -31,6 +33,13 @@ email myself once a week?
   just use wimpy encryption LOL
 
 I think the jpg snapshots cheapen?...
+
+don't show "snapshot" button when it can't show one... [?]
+
+make remove code better
+
+warn when device *disappears* from computer...
+  warn when ffmpeg exits early, always...
 
 warn when startup, other one already running...or just open it :P
 
