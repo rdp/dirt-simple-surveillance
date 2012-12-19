@@ -5,10 +5,11 @@ require 'java' # requires jruby <sigh>
 
 def generate_preview_image from_this
    to_file = from_this + '.still_frame.jpg'
-   command = "ffmpeg.exe -y -i \"#{from_this}\" -vcodec mjpeg -vframes 1 -f image2 \"#{to_file}\" 2>&1" # seems to make a matching size jpeg.
-    `#{command}`
-    raise 'failed thumbnail command? :' + command unless $?.exitstatus == 0
-	puts 'unexpected thumbnail size? report it!' + to_file unless File.size(to_file) > 1000
+   # start at second 50 to get higher quality frame...
+   command = "ffmpeg.exe -y -i \"#{from_this}\" -vcodec mjpeg -vframes 1 -ss 50 -f image2 \"#{to_file}\" 2>&1" # seems to make a matching size jpeg.
+   got = `#{command}`
+   raise 'failed thumbnail command? :' + command  + " " + got unless $?.exitstatus == 0
+   puts 'unexpected thumbnail size? too small! please report this!' + to_file unless File.size(to_file) > 1000
 end
 
 require 'sane'
