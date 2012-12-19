@@ -27,6 +27,10 @@ def setup_ui
    @a.elements[:current_state].text = "Currently Stopped."
    @a.title = @a.original_title + " [stopped]"
   end
+  
+  free_space = java.io.File.new(base_storage_dir).freeSpace
+
+  @a.elements[:options_message].text = "Currently set to record to #{base_storage_dir.split('/')[-4..-1].join('/')} until there is #{Delete_if_we_have_less_than_this_much_free_space.g} free"
  
 end
 
@@ -87,7 +91,7 @@ def add_device device, english_name, options, to_this
   }
   
   to_this.elements[:"view_files_#{unique_number}"].on_clicked {
-    SimpleGuiCreator.show_in_explorer Dir[UsbStorage['storage_dir'] + '/' + english_name + '/*'].sort[-1] # latest day..
+    SimpleGuiCreator.show_in_explorer Dir[base_storage_dir + '/' + english_name + '/*'].sort[-1] # latest day..
   }
   
 end
@@ -137,6 +141,7 @@ def configure_device_options device, english_name, old_options = nil
  end
  english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device[0]}:", english_name || device[0]
  [english_name, selected_options]
+ 
 end
 
 a.elements[:add_new_local].on_clicked {
@@ -154,7 +159,7 @@ a.elements[:add_new_local].on_clicked {
 }
 
 a.elements[:reveal_recordings].on_clicked {
-  SimpleGuiCreator.show_in_explorer Dir[UsbStorage['storage_dir'] + '/*'][0]
+  SimpleGuiCreator.show_in_explorer Dir[base_storage_dir + '/*'][0]
 }
 
 def assert_have_record_devices_setup

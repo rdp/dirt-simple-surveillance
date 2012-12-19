@@ -1,13 +1,5 @@
-tell them "will record until X GB" [just text] :)
-  can set save to dir
-  
 real installer
  	
-  fails immediately with 
-can cause "cannot connect pins" failures somehow? multiple devices
-
-a few "yes do's" others in the FFmpeg todo (google docs)
-  
 new README/simple website
   toot my own horn :)
     simple, easy to use
@@ -22,18 +14,21 @@ network input?
 
 = if I ever get serious/maybe/never = 
 
-add message on disk space/options
+make it so it works with devices with same name
+  it...should...also allow it to record simultaneously from both [possible bug]
+
+options
   folder, priority, disk space ...
 minimize on start button clicked
 fix clicking on balloon re-expands it
 
 by default select the "right" resolution/pix_fmt...I guess by just testing it with none [?]
-  don't force them to select one
+  don't force them to select one [fix default?]
   
 email myself once a week?
   just use wimpy encryption LOL
 
-I think the jpg snapshots cheapen...
+I think the jpg snapshots cheapen?...
 
 warn when startup, other one already running...or just open it :P
 

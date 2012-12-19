@@ -24,7 +24,24 @@ dir = File.expand_path(dir + '/dirt_simple_surveillance')
 Dir.mkdir dir unless File.directory?(dir)
 UsbStorage.set_default('storage_dir', dir)
 
+def base_storage_dir
+  UsbStorage['storage_dir']
+end
+
 def get_sorted_day_dirs
 	dirs = Dir[UsbStorage['storage_dir'] + '/*/*'] # camera_name/day
 	dirs.sort_by{|name| name.split('/')[2]}
 end
+
+
+class Numeric
+  # meaning "gigs" :)
+  def g
+    "%.02fG" % (self/1_000_000_000.0)
+  end
+  def gig
+    self*1e9
+  end
+end
+
+Delete_if_we_have_less_than_this_much_free_space = 10.gig

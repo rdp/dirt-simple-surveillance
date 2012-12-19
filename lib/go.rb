@@ -1,7 +1,7 @@
 require 'shared'
 
 require 'fileutils'
-require 'java' # require jruby <sigh>
+require 'java' # requires jruby <sigh>
 
 def generate_preview_image from_this
    to_file = from_this + '.still_frame.jpg'
@@ -27,23 +27,8 @@ def set_all_ffmpegs_as_lowest_prio
             end
 end
 
-class Numeric
-  # meaning "gigs" :)
-  def g
-    "%.02fG" % (self/1_000_000_000.0)
-  end
-  def gig
-    self*1e9
-  end
-end
-
-Delete_if_we_have_less_than_this_much_free_space = 10.gig # TODO ...
-free_space = java.io.File.new('.').freeSpace
-
-p "deleting old days when you have less than #{Delete_if_we_have_less_than_this_much_free_space.g} free, you currently have #{free_space.g} free"
-
 def delete_if_out_of_disk_space
-    free_space = java.io.File.new('.').freeSpace
+    free_space = java.io.File.new(base_storage_dir).freeSpace
   
     if free_space < Delete_if_we_have_less_than_this_much_free_space
 	  # lodo email instead? compact?
@@ -89,31 +74,31 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   
   while(@keep_going)
   
-  delete_if_out_of_disk_space
-  current = Time.now
-  bucket_day_dir = UsbStorage['storage_dir'] + '/' + camera_english_name + '/' + current.strftime("%Y-%m-%d")
-  FileUtils.mkdir_p bucket_day_dir
+   delete_if_out_of_disk_space
+   current = Time.now
+   bucket_day_dir = UsbStorage['storage_dir'] + '/' + camera_english_name + '/' + current.strftime("%Y-%m-%d")
+   FileUtils.mkdir_p bucket_day_dir
   
-  current_file_timestamp = current.strftime "%Hh-%Mm.mp4"
-  filename = "#{bucket_day_dir}/#{current_file_timestamp}"
-  if File.exist? filename
-    current_file_timestamp = current.strftime "%Hh-%Mm-%Ss.mp4"
-    filename = "#{bucket_day_dir}/#{current_file_timestamp}"
-  end
+   current_file_timestamp = current.strftime "%Hh-%Mm.mp4"
+   filename = "#{bucket_day_dir}/#{current_file_timestamp}"
+   if File.exist? filename
+     current_file_timestamp = current.strftime "%Hh-%Mm-%Ss.mp4"
+     filename = "#{bucket_day_dir}/#{current_file_timestamp}"
+   end
   
-  p "recording #{camera_english_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
+   p "recording #{camera_english_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
     
-  c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{video_take_time} #{output_framerate_text} -b:v 500k -f mp4 "#{filename}.partial" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
-  # -vcodec libx264 ?
-  p 'running'
-  puts c
-  out_handle = IO.popen(c, "w") 
-  @all_processes_since_inception << out_handle
-  set_all_ffmpegs_as_lowest_prio
-  FFmpegHelpers.wait_for_ffmpeg_close out_handle
-  raise 'ffmepg failed? :' + c unless $?.exitstatus == 0 # don't generate preview if failed...
-  File.rename(filename + ".partial", filename)
-  generate_preview_image filename
+   c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{video_take_time} #{output_framerate_text} -b:v 500k -f mp4 "#{filename}.partial" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
+   # -vcodec libx264 ?
+   p 'running'
+   puts c
+   out_handle = IO.popen(c, "w") 
+   @all_processes_since_inception << out_handle
+   set_all_ffmpegs_as_lowest_prio
+   FFmpegHelpers.wait_for_ffmpeg_close out_handle
+   raise 'ffmepg failed? :' + c unless $?.exitstatus == 0 # don't generate preview if failed...
+   File.rename(filename + ".partial", filename)
+   generate_preview_image filename
   end
  }
 }
