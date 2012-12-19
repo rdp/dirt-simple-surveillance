@@ -39,7 +39,7 @@ end
 @unique_line_number = 0
 
 def save_devices!
-  UsbStorage['devices_to_record'] = UsbStorage['devices_to_record'] # force save [hmm...]
+  UsbStorage['devices_to_record'] = UsbStorage['devices_to_record'] # force a save [hmm...]
   setup_ui
 end
 
@@ -49,7 +49,6 @@ def get_descriptive_line device, english_name
     init_string += " (#{device[0]} #{ device[1] if device[1] > 0})"
   end 
   init_string
-
 end
 
 def add_device device, english_name, options, to_this
@@ -62,13 +61,13 @@ def add_device device, english_name, options, to_this
   init_string = '"' + init_string + ":name_string_#{unique_number}\"\n"
   init_string += "[Remove:remove_#{unique_number}] [Configure:configure_#{unique_number}] [View Files:view_files_#{unique_number}]"
   init_string += "[Preview:preview_#{unique_number}]"
-  init_string += "[Show recent snapshot:snapshot_#{unique_number}"
+  init_string += "[Show recent image:snapshot_#{unique_number}]"
   
   to_this.add_setup_string_at_bottom init_string
   
-  #to_this.elements[:"snapshot_#{unique_number}"].on_clicked {
-  #  show_recent_snapshot_images english_name
-  #}
+  to_this.elements[:"snapshot_#{unique_number}"].on_clicked {
+    show_recent_snapshot_images english_name
+  }
   
   to_this.elements[:"remove_#{unique_number}"].on_clicked {
     current_devices.delete(device)
@@ -192,8 +191,9 @@ a.after_closed {
   end
 }
 
+require './lib/show_last_images.rb'
+
 a.elements[:reveal_snapshots].on_clicked {
-  require './lib/show_last_images.rb'
   show_recent_snapshot_images current_devices.map{|dev_name, (english_name, options)| english_name}
 }
 
