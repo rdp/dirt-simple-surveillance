@@ -16,9 +16,12 @@ def setup_ui
  @a.elements[:currently_have].text = "currently have #{current_devices.length} setup"
  if current_devices.length == 0
    @a.elements[:start_stop_capture].disable!
+   @a.elements[:disappear_window].disable!
  else
    @a.elements[:start_stop_capture].enable!
+   @a.elements[:disappear_window].enable!
  end
+ 
  if @current_state == :running 
    @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart-enabled.png')
    @a.elements[:current_state].text = "Currently Recording!"
@@ -31,13 +34,17 @@ def setup_ui
   
   free_space = java.io.File.new(base_storage_dir).freeSpace
   @a.elements[:options_message].text = "Will record to #{base_storage_dir.split('/')[-4..-1].join('/')} at 500 kb/s/camera until there is #{Delete_if_we_have_less_than_this_much_free_space.g} free"
+  
+  if(current_devices.size == 0)
+    @a.elements[:current_state].text += " (no devices yet, add one first!):"
+	@a.elements[:start_stop_capture].text = "add a device first!"
+  else
+    @a.elements[:start_stop_capture].text = @a.elements[:start_stop_capture].original_text
+  end
+  
 end
 
 setup_ui
-
-if(current_devices.size == 0)
- a.elements[:device_list_header].text += " (none yet, add one!):"
-end
 
 @unique_line_number = 0
 
@@ -94,7 +101,8 @@ def add_device device, english_name, options, to_this
   to_this.elements[:"remove_#{unique_number}"].on_clicked {
     current_devices.delete(device)
 	save_devices!
-	to_this.elements[:"name_string_#{unique_number}"].text = 'removed it (restart app to see it gone)!'
+	show_message "ok removed it, please restart app..."	
+	to_this.close!
   }
   
   to_this.elements[:"configure_#{unique_number}"].on_clicked {
@@ -112,6 +120,10 @@ def add_device device, english_name, options, to_this
     SimpleGuiCreator.show_in_explorer Dir[base_storage_dir + '/' + english_name + '/*'].sort[-1] # latest day..
   }
   
+end
+
+def show_message message
+  SimpleGuiCreator.show_message message
 end
 
 current_devices.each{|device, (name, options)|
@@ -228,8 +240,8 @@ require './lib/show_last_images.rb'
 #}
 
 a.elements[:disappear_window].on_clicked {
+  a.minimize! # fake minimize to tray :)
   require 'sys_tray'
-  a.visible=false
   if @current_state == :running
     tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart-enabled.png')
   else
@@ -241,12 +253,13 @@ a.elements[:disappear_window].on_clicked {
   end
   
   tray.on_double_left_click do
-    tray.close
+    # restore from tray :)
 	a.visible=true
-	a.unmimize! # restore from tray :)
+	a.unminimize! 
+    tray.close
   end  
   tray.display_balloon_message "Dirt Simple Surveillance", "Minimized it to tray! [currently #{@current_state}]"
-  a.minimize! # minimize to tray :)
+  a.visible=false
 }
 
 if ARGV.detect{|a| a == '--background-start'}

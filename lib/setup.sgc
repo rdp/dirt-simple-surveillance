@@ -1,6 +1,6 @@
   ---------- Dirt Simple Surveillance -----------
     "Recording control:"
-    [Start recording!:start_stop_capture] ":start_recording_text,width=200" "current status is a long string:current_state"
+    [Start recording!:start_stop_capture] ":start_recording_text,width=200" "current status is a very very long string:current_state"
     [Minimize window:disappear_window]
     "Setup:"
     [Add new local camera for recording:add_new_local] "Currently have x:currently_have"
