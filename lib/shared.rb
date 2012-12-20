@@ -29,8 +29,8 @@ def base_storage_dir
 end
 
 def get_sorted_day_dirs
-	dirs = Dir[UsbStorage['storage_dir'] + '/*/*'] # camera_name/day
-	dirs.sort_by{|name| name.split('/')[2]}
+  dirs = Dir[UsbStorage['storage_dir'] + '/*/*'] # camera_name/day
+  dirs.reject!{|d| File.file? d}.sort_by{|name| name.split('/')[2]} # only directories
 end
 
 class Numeric

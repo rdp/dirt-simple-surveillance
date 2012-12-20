@@ -6,7 +6,7 @@ require 'java' # requires jruby <sigh>
 def generate_preview_image from_this
    to_file = from_this + '.still_frame.jpg'
    # start at second 50 to get higher quality frame...
-   command = "ffmpeg.exe -y -i \"#{from_this}\" -vcodec mjpeg -vframes 1 -ss 50 -f image2 \"#{to_file}\" 2>&1" # seems to make a matching size jpeg.
+   command = "ffmpeg -y -i \"#{from_this}\" -vcodec mjpeg -vframes 1 -ss 50 -f image2 \"#{to_file}\" 2>&1" # seems to make a matching size jpeg.
    got = `#{command}`
    raise 'failed thumbnail command? :' + command  + " " + got unless $?.exitstatus == 0
    puts 'unexpected thumbnail size? too small! please report this!' + to_file unless File.size(to_file) > 1000
@@ -59,10 +59,9 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   
   framerate = options[:fps] # else "timebase not supported by mpeg4" hmm...LODO fix in FFmpeg if I can...TODO allow specifying/force them to choose it here, too...
   framerate_text = "-framerate #{framerate}"
-  output_framerate_text = "-r #{framerate}"
+  output_framerate_text = "-r #{framerate}"  # avoid it bugging out sometimes on multiples of 15 fps or something weird like that...LODO
   resolution = "-s #{options[:x]}x#{options[:y]}"
-  index = "-video_device_number #{index}" if index # TODO
-  p options
+  index = "-video_device_number #{index}" if index # TODO actually use :)
   pixel_format = options[:video_type] == 'vcodec' ? "-vcodec #{options[:video_type_name]}" : "-pixel_format #{options[:video_type_name]}"
   
   input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -video_device_number #{device[1]} -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y %Hh %Mm %Ss\" "
@@ -76,20 +75,24 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   while(@keep_going)
   
    delete_if_out_of_disk_space
-   current = Time.now
-   bucket_day_dir = UsbStorage['storage_dir'] + '/' + camera_english_name + '/' + current.strftime("%Y-%m-%d")
+   current_time = Time.now
+   camera_dir = UsbStorage['storage_dir'] + '/' + camera_english_name
+   bucket_day_dir =  camera_dir + '/' + current_time.strftime("%Y-%m-%d")
    FileUtils.mkdir_p bucket_day_dir
   
-   current_file_timestamp = current.strftime "%Hh-%Mm.mp4"
+   current_file_timestamp = current_time.strftime "%Hh-%Mm.mp4"
    filename = "#{bucket_day_dir}/#{current_file_timestamp}"
    if File.exist? filename
-     current_file_timestamp = current.strftime "%Hh-%Mm-%Ss.mp4"
+     # quick repeat/stop and start...maybe should just override here...
+     current_file_timestamp = current_time.strftime "%Hh-%Mm-%Ss.mp4"
      filename = "#{bucket_day_dir}/#{current_file_timestamp}"
    end
   
    p "recording #{camera_english_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
     
-   c = %!ffmpeg -y #{input} -vcodec mpeg4 -t #{video_take_time} #{output_framerate_text} -b:v 500k -f mp4 "#{filename}.partial" ! # I guess we don't "need" the trailing -r 5 anymore...oh wait except it bugs on multiples of 15 fps or something... 
+   output_1 = "-vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}.partial\""
+   output_2 = "-updatefirst 1 -r 1/10 \"#{camera_dir}/latest_out.jpg\"" # once every 10 seconds
+   c = %!ffmpeg -y #{input}  -t #{video_take_time} #{output_framerate_text} #{output_1} #{output_2}!
    # -vcodec libx264 ?
    p 'running'
    puts c

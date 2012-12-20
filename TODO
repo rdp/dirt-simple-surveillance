@@ -17,6 +17,8 @@ network input?
 can make it less grainy... (which is a symptom of not enough light, or so I'm told...)
   ask ffmpeg?
   does this show up in the recordings?
+  
+output a jpg every 5 seconds? Is that too expensive (maybe can test for expensive by running it *just* with the jpg side...
 
 more user feedback
 
