@@ -4,7 +4,7 @@
 ; AppId === AppName by default BTW
 
 [Run]
-; checkbox run
+; a checkbox run
 Filename: {app}\generic_run_rb.bat; Description: Launch {#AppName} after finishing installation; WorkingDir: {app}; Parameters: -Ilib  bin\startup.rb; Flags: runminimized nowait postinstall
 
 [UninstallRun]
