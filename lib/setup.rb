@@ -247,6 +247,10 @@ a.elements[:disappear_window].on_clicked {
   else
     tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart-disabled.png')
   end
+  tray.add_menu_item('Exit and close') do
+    tray.close
+    a.close
+  end
   tray.add_menu_item('Reveal surveillance') do
     tray.close
 	a.visible=true
@@ -258,7 +262,7 @@ a.elements[:disappear_window].on_clicked {
 	a.unminimize! 
     tray.close
   end  
-  tray.display_balloon_message "Dirt Simple Surveillance", "Minimized it to tray! [currently #{@current_state}]"
+  tray.display_balloon_message "Simple Surveillance", "Minimized it to tray! [currently #{@current_state}]"
   a.visible=false
 }
 
