@@ -4,6 +4,10 @@ require './lib/go.rb'
 include SimpleGuiCreator
 a = ParseTemplate.new.parse_setup_filename('lib\\setup.sgc')
 
+if ARGV.detect{|a| a == '--background-start'}
+ a.visible=false # try to hide it quickly...LODO add as an option :)
+end
+
 def current_devices
   UsbStorage['devices_to_record']
 end
@@ -36,7 +40,6 @@ def setup_ui
   @a.elements[:options_message].text = "Will record to #{base_storage_dir.split('/')[-4..-1].join('/')} at 500 kb/s/camera until there is #{Delete_if_we_have_less_than_this_much_free_space.g} free"
   
   if(current_devices.size == 0)
-    @a.elements[:current_state].text += " (no devices yet, add one first!):"
 	@a.elements[:start_stop_capture].text = "add a device first!"
   else
     @a.elements[:start_stop_capture].text = @a.elements[:start_stop_capture].original_text
@@ -214,7 +217,7 @@ a.elements[:start_stop_capture].on_clicked {
 	@current_state = :running
     a.elements[:disappear_window].click! # auto minimize on start...
   else
-    shutdown_current
+    shutdown_current # just in case?
 	a.elements[:start_stop_capture].text = 'Start recording'
 	@current_state = :stopped
   end
@@ -241,6 +244,7 @@ require './lib/show_last_images.rb'
 
 a.elements[:disappear_window].on_clicked {
   a.minimize! # fake minimize to tray :)
+  puts 'creating tray...'
   require 'sys_tray'
   if @current_state == :running
     tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart-enabled.png')
@@ -261,12 +265,11 @@ a.elements[:disappear_window].on_clicked {
 	a.visible=true
 	a.unminimize! 
     tray.close
-  end  
+  end
   tray.display_balloon_message "Simple Surveillance", "Minimized it to tray! [currently #{@current_state}]"
   a.visible=false
 }
 
 if ARGV.detect{|a| a == '--background-start'}
   a.elements[:start_stop_capture].click! # start it
-  a.elements[:disappear_window].click!
 end
