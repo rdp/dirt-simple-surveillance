@@ -1,2 +1,5 @@
+0.0.4
+  fix some bugs with auto minimize, also some introduced in 0.0.3 (swing can freeze/hang? what?)
+
 0.0.3
  do recent snapshots a lot differently, some GUI changes
