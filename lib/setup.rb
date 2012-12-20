@@ -90,7 +90,7 @@ def add_device device, english_name, options, to_this
   }
   
   to_this.elements[:"snapshot_#{unique_number}"].on_clicked {
-    show_recent_snapshot_images english_name
+    show_recent_snapshot_image english_name
   }
   
   to_this.elements[:"remove_#{unique_number}"].on_clicked {

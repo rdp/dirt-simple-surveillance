@@ -1,5 +1,7 @@
 require 'java'
 require 'shared'
+
+# possibly unused now?
 module M
   include_package "javax.swing"
   include_package "java.awt"
@@ -9,6 +11,7 @@ module M
   include_package 'javax.imageio'
   [BufferedImage, Font, Color, RenderingHints, ImageIO, ImageIcon, JLabel] 
   JFile = java.io.File
+  
   class ShowImage < JFrame
     def initialize title, path
 	  super title
@@ -17,12 +20,13 @@ module M
 	   picLabel = JLabel.new(ImageIcon.new(@image))
        add( picLabel )
 	end
-   # def paint(g)
-   #   g.drawImage(@image,0,0,self)
-   # end
-end
+    # def paint(g)
+    #   g.drawImage(@image,0,0,self)
+    # end
+  end
 end
 
+# unused now?
 def get_sorted_dirs_by_camera
 
   dirs = get_sorted_day_dirs
@@ -36,14 +40,9 @@ dirs.each{|dir|
  all
 end
 
-def show_recent_snapshot_images valid_camera_names
-  start = 0
-  get_sorted_dirs_by_camera.each{|camera_name, days|
-    next unless valid_camera_names.include? camera_name
-    last_image_day = days.last
-    last_snapshot = Dir[last_image_day + "/*.jpg"].sort.last
-    window = M::ShowImage.new(camera_name + ' ' + last_snapshot, last_snapshot).show
-    start += 10
-    # LODO window.set_location(start, start) 
-  }
+def show_recent_snapshot_image camera_name
+require 'rubygems'
+require 'ruby-debug'
+debugger
+   window = M::ShowImage.new(camera_name + ' recent still image', base_storage_dir + '/' + camera_name + '/latest.jpg').show
 end
