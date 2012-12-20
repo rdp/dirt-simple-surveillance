@@ -27,12 +27,10 @@ def setup_ui
    @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart.png')
    @a.elements[:current_state].text = "Currently Stopped."
    @a.title = @a.original_title + " [stopped]"
-  end
+  end  
   
   free_space = java.io.File.new(base_storage_dir).freeSpace
-
   @a.elements[:options_message].text = "Will record to #{base_storage_dir.split('/')[-4..-1].join('/')} at 500 kb/s/camera until there is #{Delete_if_we_have_less_than_this_much_free_space.g} free"
- 
 end
 
 setup_ui
@@ -231,7 +229,6 @@ require './lib/show_last_images.rb'
 
 a.elements[:disappear_window].on_clicked {
   require 'sys_tray'
-  a.minimize! # minimize to tray, baby :)
   a.visible=false
   if @current_state == :running
     tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart-enabled.png')
@@ -246,8 +243,10 @@ a.elements[:disappear_window].on_clicked {
   tray.on_double_left_click do
     tray.close
 	a.visible=true
+	a.unmimize! # restore from tray :)
   end  
   tray.display_balloon_message "Dirt Simple Surveillance", "Minimized it to tray! [currently #{@current_state}]"
+  a.minimize! # minimize to tray :)
 }
 
 if ARGV.detect{|a| a == '--background-start'}

@@ -31,18 +31,20 @@ def get_sorted_dirs_by_camera
 
   dirs = get_sorted_day_dirs
   all = {}
-dirs.each{|dir|
- # like captured_video/camera_name
- camera_name = dir.split('/')[-2]
- all[camera_name] ||= []
- all[camera_name] << dir
-}
- all
+  dirs.each{|dir|
+   # like captured_video/camera_name
+   camera_name = dir.split('/')[-2]
+   all[camera_name] ||= []
+   all[camera_name] << dir
+  }
+  all  
 end
 
 def show_recent_snapshot_image camera_name
-require 'rubygems'
-require 'ruby-debug'
-debugger
-   window = M::ShowImage.new(camera_name + ' recent still image', base_storage_dir + '/' + camera_name + '/latest.jpg').show
+   filename = base_storage_dir + '/' + camera_name + '/latest.jpg'
+   if File.exist? filename
+     window = M::ShowImage.new(camera_name + ' recent still image', filename).show
+   else
+     SimpleGuiCreator.show_message "you can only see a recent image after starting a recording, use preview instead until then"
+   end
 end

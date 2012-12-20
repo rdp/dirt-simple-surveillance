@@ -85,17 +85,17 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   
    p "recording #{camera_english_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
     
+   # -vcodec libx264 ?
    output_1 = "-vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}.partial\""
    output_2 = "-updatefirst 1 -r 1/10 \"#{camera_dir}/latest.jpg\"" # once every 10 seconds
    c = %!ffmpeg -y #{input}  -t #{video_take_time} #{output_framerate_text} #{output_1} #{output_2}!
-   # -vcodec libx264 ?
-   p 'running'
-   puts c
+   
+   print 'running ', c
    out_handle = IO.popen(c, "w") 
    @all_processes_since_inception << out_handle
    set_all_ffmpegs_as_lowest_prio
    begin
-     FFmpegHelpers.wait_for_ffmpeg_close out_handle, video_take_time
+     FFmpegHelpers.wait_for_ffmpeg_close out_handle, 15 # should never exit in like 15 seconds...should it?
    rescue Exception => exited_early
      SimpleGuiCreator.show_message "appears ffmpeg exited early?\nplease kill any rogue ffmpeg processes, or make sure you don't try and capture it twice at the same time!\n#{c} #{exited_early}"
 	 raise
