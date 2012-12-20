@@ -97,8 +97,12 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    begin
      FFmpegHelpers.wait_for_ffmpeg_close out_handle, 15 # should never exit in like 15 seconds...should it?
    rescue Exception => exited_early
-     SimpleGuiCreator.show_message "appears ffmpeg exited early?\nplease kill any rogue ffmpeg processes, or make sure you don't try and capture it twice at the same time!\n#{c} #{exited_early}"
-	 raise
+     if @current_state == :running
+       SimpleGuiCreator.show_non_blocking_message_dialog "appears an ffmpeg recording process exited early (within 15s)?\nplease kill any rogue ffmpeg processes, or make sure you don't try and capture it twice at the same time!\n#{c} #{exited_early}"
+	   raise
+	 else
+	   puts "I hope they just hit stop quickly..."
+	 end
    end
    File.rename(filename + ".partial", filename)
    generate_preview_image filename, camera_dir

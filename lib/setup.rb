@@ -41,8 +41,6 @@ def setup_ui
   
   if(current_devices.size == 0)
 	@a.elements[:start_stop_capture].text = "add a device first!"
-  else
-    @a.elements[:start_stop_capture].text = @a.elements[:start_stop_capture].original_text
   end
   
 end
@@ -217,9 +215,9 @@ a.elements[:start_stop_capture].on_clicked {
 	@current_state = :running
     a.elements[:disappear_window].click! # auto minimize on start...
   else
-    shutdown_current # just in case?
-	a.elements[:start_stop_capture].text = 'Start recording'
 	@current_state = :stopped
+    shutdown_current
+	a.elements[:start_stop_capture].text = 'Start recording'
   end
   setup_ui
 }
@@ -244,7 +242,6 @@ require './lib/show_last_images.rb'
 
 a.elements[:disappear_window].on_clicked {
   a.minimize! # fake minimize to tray :)
-  puts 'creating tray...'
   require 'sys_tray'
   if @current_state == :running
     tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart-enabled.png')
