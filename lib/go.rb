@@ -92,7 +92,9 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    
    print 'running ', c
    out_handle = IO.popen(c, "w") 
-   @all_processes_since_inception << out_handle
+   $thread_start.synchronize {
+     @all_processes_since_inception << out_handle
+   }
    set_all_ffmpegs_as_lowest_prio
    begin
      FFmpegHelpers.wait_for_ffmpeg_close out_handle, 15 # should never exit in like 15 seconds...should it?
@@ -112,12 +114,17 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
 if just_preview_and_block
   @all_threads.each &:join
 end
+
 end
 
 def shutdown_current
     @keep_going = false
-	@all_processes_since_inception.each{|p|
-	  p.puts 'q' rescue nil # does this work after first has finished? with closed processes?
+	$thread_start.synchronize {
+	  @all_processes_since_inception.each{|p|
+	    p.puts 'q' rescue nil # does this work after first has finished? with closed processes?
+	  }
+	  @all_processes_since_inception = []
 	}
+	# might still be some race condition here...
 	@all_threads.each &:join
 end

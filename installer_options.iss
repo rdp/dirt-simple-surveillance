@@ -1,15 +1,15 @@
-#define AppVer "0.0.4"
+#define AppVer "0.0.5pre"
 
 #define AppName "Dirt Simple USB Surveillance"
 ; AppId === AppName by default BTW
 
 [Run]
-; a checkbox run
+; a checkbox run after install
 Filename: {app}\generic_run_rb.bat; Description: Launch {#AppName} after finishing installation; WorkingDir: {app}; Parameters: -Ilib  bin\startup.rb; Flags: runminimized nowait postinstall
 
 [UninstallRun]
 
-; TODO delete files?
+; LODO optionally delete files?
 
 [Files]
 Source: *; DestDir: {app}; Excludes: releases; Flags: recursesubdirs
@@ -29,3 +29,6 @@ Name: {group}\Start surveillance without console window; Filename: javaw.exe; Wo
 Name: {group}\Readme; Filename: {app}\README.TXT
 ; Flags: isreadme once it's prettier :)
 Name: {group}\Uninstall {#AppName}; Filename: {uninstallexe}
+
+[Messages]
+ConfirmUninstall=Are you sure you want to remove %1 (saved videos will be left on the disk)?
