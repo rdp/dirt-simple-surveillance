@@ -202,7 +202,7 @@ def assert_have_record_devices_setup
 end
 
 UsbStorage.set_default(:minimize_on_start, true)
-p 'init is', UsbStorage[:minimize_on_start]
+
 if UsbStorage[:minimize_on_start] # init value :)
   a.elements[:minimize_checkbox].check!
 end

@@ -121,6 +121,7 @@ def shutdown_current
     @keep_going = false
 	$thread_start.synchronize {
 	  @all_processes_since_inception.each{|p|
+	    puts 'sending q string'
 	    p.puts 'q' rescue nil # does this work after first has finished? with closed processes?
 	  }
 	  @all_processes_since_inception = []
