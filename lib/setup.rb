@@ -282,5 +282,11 @@ a.elements[:disappear_window].on_clicked {
 }
 
 if ARGV.detect{|a| a == '--background-start'}
-  a.elements[:start_stop_capture].click! # start it
+  a.visible=false
+  SimpleGuiCreator.run_later(1) {
+    a.elements[:start_stop_capture].click! # start it
+    if !(UsbStorage[:minimize_on_start])
+       a.elements[:disappear_window].click!
+    end
+  }
 end
