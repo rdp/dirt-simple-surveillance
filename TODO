@@ -11,11 +11,18 @@ new README/simple website
 network input?
 
 "fake launch"
-
-sometimes it can't track ffmpeg to close it? ai ai maybe jruby is sucking the keystroke?
-
+	
 = if I ever get serious/never, high'ish-er at top = 
 
+investigate the freaky startup thing...hmm...or is it a "first time jruby runs something" bug? but it only happens if it's too fast? huh?
+  what about just jruby -e "just_run_ffmpeg.rb"
+  repro with icon to run java.exe -jar, I know...
+    what about local jruby.exe? jruby bug? java bug?
+
+  sometimes it can't track ffmpeg to close it? ai ai maybe jruby is sucking the keystroke?
+    if (stdin->_cnt > 0)
+	return 1; // data is available ... windows only?
+  
 more user feedback
 
 can make it less grainy... (which is a symptom of not enough light, or so I'm told...)
