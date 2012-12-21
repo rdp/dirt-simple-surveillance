@@ -201,6 +201,18 @@ def assert_have_record_devices_setup
 	end
 end
 
+UsbStorage.set_default(:minimize_on_start, true)
+p 'init is', UsbStorage[:minimize_on_start]
+if UsbStorage[:minimize_on_start] # init value :)
+  a.elements[:minimize_checkbox].check!
+end
+a.elements[:minimize_checkbox].on_checked {
+  UsbStorage[:minimize_on_start] = true
+}
+a.elements[:minimize_checkbox].on_unchecked {
+  UsbStorage[:minimize_on_start] = false
+}
+
 a.elements[:start_stop_capture].on_clicked {
   if @current_state == :stopped
     assert_have_record_devices_setup
@@ -213,7 +225,9 @@ a.elements[:start_stop_capture].on_clicked {
 	a.elements[:start_recording_text].text = "Recording started!"
 	Thread.new { sleep 2.5; a.elements[:start_recording_text].text = ""; }
 	@current_state = :running
-    a.elements[:disappear_window].click! # auto minimize on start...
+	if(UsbStorage[:minimize_on_start])
+      a.elements[:disappear_window].click!
+	end
   else
 	@current_state = :stopped
     shutdown_current
