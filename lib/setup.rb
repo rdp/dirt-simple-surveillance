@@ -2,11 +2,8 @@ require 'shared'
 require './lib/go.rb'
 
 include SimpleGuiCreator
-a = ParseTemplate.new.parse_setup_filename('lib\\setup.sgc')
-
-if ARGV.detect{|a| a == '--background-start'}
- a.visible=false # try to hide it quickly...LODO add as an option :)
-end
+background_start = ARGV.detect{|a| a == '--background-start'}
+a = ParseTemplate.new(!background_start).parse_setup_filename('lib\\setup.sgc')
 
 def current_devices
   UsbStorage['devices_to_record']
@@ -217,9 +214,6 @@ a.elements[:start_stop_capture].on_clicked {
   if @current_state == :stopped
     assert_have_record_devices_setup
 	video_size_time = 60*60
-	if ARGV[0] == '--small-videos'
-	  video_size_time = 30 # seconds
-	end
     do_something current_devices, false, video_size_time
 	a.elements[:start_stop_capture].text = 'Stop recording'
 	a.elements[:start_recording_text].text = "Recording started!"
@@ -245,7 +239,7 @@ a.after_closed {
 
 require './lib/show_last_images.rb'
 
-# couldn't figure out how to make it pretty nuff...
+# couldn't figure out how to make it pretty yet...
 #a.elements[:exit].on_clicked {
 #  d = SimpleGuiCreator.show_non_blocking_message_dialog "Exiting [not recording!]"
 #  SimpleGuiCreator.run_later(1.5) {
@@ -255,6 +249,9 @@ require './lib/show_last_images.rb'
 #}
 
 a.elements[:disappear_window].on_clicked {
+  if @current_state != :running
+    show_message "minimizing it without it running--did you mean to click the start button first?"
+  end
   a.minimize! # fake minimize to tray :)
   require 'sys_tray'
   if @current_state == :running
@@ -281,12 +278,21 @@ a.elements[:disappear_window].on_clicked {
   a.visible=false
 }
 
-if ARGV.detect{|a| a == '--background-start'}
-  a.visible=false
-  SimpleGuiCreator.run_later(1) {
-    a.elements[:start_stop_capture].click! # start it
-    if !(UsbStorage[:minimize_on_start])
-       a.elements[:disappear_window].click!
-    end
-  }
+if ARGV[0]
+  if background_start
+    if current_devices.size == 0
+	  show_message "need to add some devices first!"
+	  exit 1
+	end
+    a.visible=false
+    SimpleGuiCreator.run_later(1) {
+      a.elements[:start_stop_capture].click! # start it
+      if !(UsbStorage[:minimize_on_start])
+        a.elements[:disappear_window].click!
+      end
+    }
+  else
+    puts 'only current option is --background-start'
+    exit 1
+  end
 end
