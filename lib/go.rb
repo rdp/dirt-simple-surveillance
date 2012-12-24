@@ -61,7 +61,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   
   input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -video_device_number #{device[1]} -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y %Hh %Mm %Ss\" "
   if just_preview_and_block
-    c = %!ffplay -probesize 32 #{input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name} [capture preview--close when ready]"! # ffplay can't take vcodec?
+    c = %!ffplay -probesize 32 #{input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name} [capture preview--close when ready to move on]"! # ffplay can't take vcodec?
 	puts c
     system c
     raise 'die this thread, you\'re done!' # smelly...
