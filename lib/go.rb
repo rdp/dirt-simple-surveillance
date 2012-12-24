@@ -5,7 +5,7 @@ require 'java' # requires jruby <sigh>
 require 'sane'
 require 'thread'
 
-def generate_preview_image from_this, camera_dir
+def save_preview_image from_this, camera_dir
  to_file = from_this + '.still_frame.jpg'
  FileUtils.cp camera_dir + '/latest.jpg', to_file
 end
@@ -50,8 +50,6 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
 
 @all_threads = all_cameras.map{|device, (camera_english_name, options)|
 
-  Thread.new {
-  
   framerate = options[:fps] # else "timebase not supported by mpeg4" hmm...LODO fix in FFmpeg if I can...TODO allow specifying/force them to choose it here, too...
   framerate_text = "-framerate #{framerate}"
   output_framerate_text = "-r #{framerate}"  # avoid it bugging out sometimes on multiples of 15 fps or something weird like that...LODO
@@ -59,13 +57,15 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   index = "-video_device_number #{index}" if index # TODO actually use :)
   pixel_format = options[:video_type] == 'vcodec' ? "-vcodec #{options[:video_type_name]}" : "-pixel_format #{options[:video_type_name]}"
   
-  input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -video_device_number #{device[1]} -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y %Hh %Mm %Ss\" "
+  ffmpeg_input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -video_device_number #{device[1]} -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y %Hh %Mm %Ss\" "
   if just_preview_and_block
-    c = %!ffplay -probesize 32 #{input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name} [capture preview--close when ready to move on]"! # ffplay can't take vcodec?
+    c = %!ffplay -probesize 32 #{ffmpeg_input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name} [capture preview--close when ready to move on]"! # ffplay can't take vcodec?
 	puts c
     system c
-    raise 'die this thread, you\'re done!' # smelly...
+    return
   end
+
+  Thread.new {
   
   while(@keep_going)
   
@@ -88,7 +88,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    # -vcodec libx264 ?
    output_1 = "-vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}.partial\""
    output_2 = "-updatefirst 1 -r 1/10 \"#{camera_dir}/latest.jpg\"" # once every 10 seconds
-   c = %!ffmpeg -y #{input}  -t #{video_take_time} #{output_framerate_text} #{output_1} #{output_2}!
+   c = %!ffmpeg #{ffmpeg_input} -t #{video_take_time} #{output_framerate_text} #{output_1} #{output_2}!
    
    print 'running ', c
    out_handle = IO.popen(c, "w") 
@@ -96,6 +96,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
      @all_processes_since_inception << out_handle
    }
    set_all_ffmpegs_as_lowest_prio
+   
    begin
      FFmpegHelpers.wait_for_ffmpeg_close out_handle, 15 # should never exit in like 15 seconds...should it?
    rescue Exception => exited_early
@@ -103,17 +104,14 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
        SimpleGuiCreator.show_non_blocking_message_dialog "appears an ffmpeg recording process exited early (within 15s)?\nplease kill any rogue ffmpeg processes, or make sure you don't try and capture it twice at the same time!\n#{c} #{exited_early}"
 	   raise
 	 else
-	   puts "I hope they just hit stop quickly..."
+	   puts "I hope they just hit stop quickly...should be safe..."
 	 end
    end
    File.rename(filename + ".partial", filename)
-   generate_preview_image filename, camera_dir
+   save_preview_image filename, camera_dir
   end
  }
 }
-if just_preview_and_block
-  @all_threads.each &:join
-end
 
 end
 

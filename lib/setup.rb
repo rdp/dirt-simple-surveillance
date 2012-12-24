@@ -78,16 +78,17 @@ def add_device device, english_name, options, to_this
   
   to_this.add_setup_string_at_bottom init_string
   
-  # TODO make these sensitive...
+  # TODO make these state sensitive...
   to_this.elements[:"preview_recording_#{unique_number}"].on_clicked {
     SimpleGuiCreator.show_non_blocking_message_dialog "ok recording for 20 seconds, then will reveal the saved file....
 	This will allow you to see what the encode quality is like
-	Also sometimes it starts out very poor quality grainy but improves with time, so meter it by how it becomes, not how it starts."
+	Also sometimes it starts out very poor quality grainy but improves with time,\n so meter it by how it becomes, not how it starts."
     do_something current_devices.select{|d| d == device}, false
 	SimpleGuiCreator.run_later(20) {
 	  shutdown_current
 	  last_day = Dir[base_storage_dir + '/' + english_name + '/*'].sort[-1]
       last_file = Dir[last_day + '/*.mp4'].sort_by{|f| File.mtime(f)}[-1]
+	  p last_day, last_file # TODO
       SimpleGuiCreator.show_in_explorer last_file
 	}
   }
@@ -98,11 +99,10 @@ def add_device device, english_name, options, to_this
 	  if File.mtime(filename) < (Time.now - 60)
 	    show_message "warning, this image is a little bit out of date, since an active recording isn't going on"
 	  end
-      window = M::ShowImage.new(english_name + ' recent still image', filename).show
+      show_image english_name + " recent still image", filename
     else
-      SimpleGuiCreator.show_message "you can only see a recent image after starting a recording, use preview instead until then"
+      SimpleGuiCreator.show_message "you can only see a recent image after first starting a recording, use preview instead until then"
     end
-    show_image english_name, filename
   }
   
   to_this.elements[:"remove_#{unique_number}"].on_clicked {
