@@ -169,7 +169,7 @@ def configure_device_options device, english_name, old_options = nil
    idx = 1 # skip from english 'default' to the top listed default in our local array :)
  end
  selected_options = displayable[idx - 1]
- if SimpleGuiCreator.show_select_buttons_prompt('would you like to preview it/view it?') == :yes
+ if SimpleGuiCreator.show_select_buttons_prompt("would you like to preview it/view it with these settings?\n(Useful for figuring out which camera it is/seeing it with the resolution you selected)") == :yes
    do_something({device => [english_name, selected_options]}, true) # conveniently, we have settings now so can use our existing preview code to preview it...
  end
  english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device[0]}:", english_name
@@ -188,7 +188,7 @@ a.elements[:add_new_local].on_clicked {
   end
   english_name, options = configure_device_options device, nil
   add_device device, english_name, options, a
-  SimpleGuiCreator.show_text "Added it as: #{english_name}\nClick start recording to start recording!"
+  SimpleGuiCreator.show_text "Added it as: #{english_name}\nClick start recording to start recording, or add device to add another device."
 }
 
 def assert_have_record_devices_setup
