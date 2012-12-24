@@ -57,7 +57,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   index = "-video_device_number #{index}" if index # TODO actually use :)
   pixel_format = options[:video_type] == 'vcodec' ? "-vcodec #{options[:video_type_name]}" : "-pixel_format #{options[:video_type_name]}"
   
-  ffmpeg_input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -video_device_number #{device[1]} -vf drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y %Hh %Mm %Ss\" "
+  ffmpeg_input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -video_device_number #{device[1]} -vf \"drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\\\"%m/%d/%y %Hh %Mm %Ss\\\"\" "
   if just_preview_and_block
     c = %!ffplay -probesize 32 #{ffmpeg_input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name} [capture preview--close when ready to move on]"! # ffplay can't take vcodec?
 	puts c
@@ -90,7 +90,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    output_2 = "-updatefirst 1 -r 1/10 \"#{camera_dir}/latest.jpg\"" # once every 10 seconds
    c = %!ffmpeg #{ffmpeg_input} -t #{video_take_time} #{output_framerate_text} #{output_1} #{output_2}!
    
-   print 'running ', c
+   puts 'running ', c
    out_handle = IO.popen(c, "w") 
    $thread_start.synchronize {
      @all_processes_since_inception << out_handle
