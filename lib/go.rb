@@ -57,7 +57,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   index = "-video_device_number #{index}" if index # TODO actually use :)
   pixel_format = options[:video_type] == 'vcodec' ? "-vcodec #{options[:video_type_name]}" : "-pixel_format #{options[:video_type_name]}"
   
-  ffmpeg_input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -video_device_number #{device[1]} -vf \"drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\\\"%m/%d/%y %Hh %Mm %Ss\\\"\" "
+  ffmpeg_input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -vf \"drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\\\"%m/%d/%y %Hh %Mm %Ss\\\"\" "
   if just_preview_and_block
     c = %!ffplay -probesize 32 #{ffmpeg_input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name} [capture preview--close when ready to move on]"! # ffplay can't take vcodec?
 	puts c
