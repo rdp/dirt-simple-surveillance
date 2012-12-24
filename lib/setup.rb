@@ -93,7 +93,16 @@ def add_device device, english_name, options, to_this
   }
   
   to_this.elements[:"snapshot_#{unique_number}"].on_clicked {
-    show_recent_snapshot_image english_name
+    filename = base_storage_dir + '/' + english_name + '/latest.jpg'
+    if File.exist? filename
+	  if File.mtime(filename) < (Time.now - 60)
+	    show_message "warning, this image is a little bit out of date, since an active recording isn't going on"
+	  end
+      window = M::ShowImage.new(english_name + ' recent still image', filename).show
+    else
+      SimpleGuiCreator.show_message "you can only see a recent image after starting a recording, use preview instead until then"
+    end
+    show_image english_name, filename
   }
   
   to_this.elements[:"remove_#{unique_number}"].on_clicked {

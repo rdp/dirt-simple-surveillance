@@ -14,6 +14,12 @@ network input?
 	
 = if I ever get serious/never, high'ish-er at top = 
 
+the interface is too cluttered with multiple cameras
+
+better icons
+
+add "recent images" to the UI.
+
 investigate the freaky startup thing...hmm...or is it a "first time jruby runs something" bug? but it only happens if it's too fast? huh?
   what about just jruby -e "just_run_ffmpeg.rb"
   repro with icon to run java.exe -jar, I know...
@@ -30,8 +36,6 @@ can make it less grainy... (which is a symptom of not enough light, or so I'm to
   does this show up in the recordings?
     no
 	
-better icons
-
 better windows 7 "group" icon [yikes]
 
 a "photobooth" equivalent :)
@@ -42,10 +46,9 @@ make it so you can record your desktop...umm...like one snap every minute [?] et
 
 integrate VAC LOL
 
-warn "not deleting files!" on uninstall...
-
 make ffplay come up faster
-
+  this may be a camera relic...
+  
 add an exit button
 
 make it so it works with devices with same name
