@@ -20,6 +20,8 @@ the interface is too cluttered with multiple cameras
 
 better icons
 
+add timestamp to the still snaps [yikes]
+
 add "recent images" to the UI.
 
 investigate the freaky startup thing...hmm...or is it a "first time jruby runs something" bug? but it only happens if it's too fast? huh?
