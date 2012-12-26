@@ -249,6 +249,7 @@ a.after_closed {
     SimpleGuiCreator.show_text "warning, shutting down current recordings... [hit disappear button next time if what you wanted is to continue recording...]"
 	a.elements[:start_stop_capture].simulate_click
   end
+  SimpleGuiCreator.hard_exit! # case we're still running, closed pipe bug...
 }
 
 require './lib/show_last_images.rb'
@@ -304,14 +305,11 @@ if ARGV[0]
 	  show_message "need to add some devices first!"
 	  exit 1
 	end
-	@current_state = :running
-	# closed pipe bug
-	# a.elements[:start_stop_capture].click!
-	start_recordings
+	a.elements[:start_stop_capture].click!
     if !(UsbStorage[:minimize_on_start])
       a.elements[:disappear_window].click!
     end
-	sleep
+	sleep # closed pipe bug...
   else
     puts 'only current option is --background-start'
     exit 1
