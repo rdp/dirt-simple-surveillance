@@ -14,21 +14,38 @@ network input?
 	
 = if I ever get serious/never, high'ish-er at top = 
 
+rename ffmpeg.exe to ffmpeg_simple_surveillance and warn if any are up when you start
+
+change any error messages that say "ffmpeg" :)
+
 assert they use different names for each camera
 
 the interface is too cluttered with multiple cameras
 
-better icons
+better start menu icons
 
-add timestamp to the still snaps [yikes]
+add timestamp to the still snaps [yikes ffmpeg...]
 
 add "recent images" to the UI.
 
+ffmpeg -t 10 -f dshow -pixel_format yuyv422  -framerate 5.0 -s 1280x960 -i video="USB Video Device" -vf "drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y %Hh %Mm %Ss\""  -t 10 -r 5.0 -vcodec mpeg4 -b:v 500k -f mp4 "C:/Documents and Settings/Melissa/My Documents/My Videos/dirt_simple_surveillance/sideways/2012-12-24/09h-43m.mp4.partial" -updatefirst 1 -r 1/10 "C:/Documents and Settings/Melissa/My Documents/My Videos/dirt_simple_surveillance/sideways/latest.jpg"
+  does not just record for 10 seconds...yikes!
+
+tell them it reports current time poorly with -r 1/10 jpeg [?]
+  
 investigate the freaky startup thing...hmm...or is it a "first time jruby runs something" bug? but it only happens if it's too fast? huh?
   what about just jruby -e "just_run_ffmpeg.rb"
+  pipe seems broken "without any input from jruby yet"...
+  extra time before any other interaction doesn't help...if a window not shown anyway...
+  reproducible at home with bg.bat
+  second time through it always works...
+  having it "have an up jframe window when it starts" doesn't help
   repro with icon to run java.exe -jar, I know...
     what about local jruby.exe? jruby bug? java bug?
-
+  the first one through that button seems to have a broken pipe?
+    but not if that button was clicked by a human?
+	  yep, even fast seemingly.
+  
   sometimes it can't track ffmpeg to close it? ai ai maybe jruby is sucking the keystroke?
     if (stdin->_cnt > 0)
 	return 1; // data is available ... windows only?

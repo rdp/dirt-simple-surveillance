@@ -14,6 +14,7 @@ end
 @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart.png')
 
 def setup_ui
+
  @a.elements[:currently_have].text = "currently have #{current_devices.length} setup"
  if current_devices.length == 0
    @a.elements[:start_stop_capture].disable!
@@ -219,11 +220,15 @@ a.elements[:minimize_checkbox].on_unchecked {
   UsbStorage[:minimize_on_start] = false
 }
 
+def start_recordings time = 60*60 # 1 hr
+  do_something current_devices, false, time
+end
+
 a.elements[:start_stop_capture].on_clicked {
+
   if @current_state == :stopped
     assert_have_record_devices_setup
-	video_size_time = 60*60
-    do_something current_devices, false, video_size_time
+    start_recordings
 	a.elements[:start_stop_capture].text = 'Stop recording'
 	a.elements[:start_recording_text].text = "Recording started!"
 	Thread.new { sleep 2.5; a.elements[:start_recording_text].text = ""; }
@@ -232,7 +237,7 @@ a.elements[:start_stop_capture].on_clicked {
       a.elements[:disappear_window].click!
 	end
   else
-	@current_state = :stopped
+	@current_state = :stopped # early so we skip ffmpeg early out warnings if they click stop too early
     shutdown_current
 	a.elements[:start_stop_capture].text = 'Start recording'
   end
@@ -282,10 +287,16 @@ a.elements[:disappear_window].on_clicked {
 	a.visible=true
 	a.unminimize! 
     tray.close
+	setup_ui # just in case
   end
   tray.display_balloon_message "Simple Surveillance", "Minimized it to tray! [currently #{@current_state}]"
   a.visible=false
+  
 }
+
+def in_gui_thread
+  SimpleGuiCreator.invoke_in_gui_thread { yield }
+end
 
 if ARGV[0]
   if background_start
@@ -293,13 +304,14 @@ if ARGV[0]
 	  show_message "need to add some devices first!"
 	  exit 1
 	end
-    a.visible=false
-    SimpleGuiCreator.run_later(1) {
-      a.elements[:start_stop_capture].click! # start it
-      if !(UsbStorage[:minimize_on_start])
-        a.elements[:disappear_window].click!
-      end
-    }
+	@current_state = :running
+	# closed pipe bug
+	# a.elements[:start_stop_capture].click!
+	start_recordings
+    if !(UsbStorage[:minimize_on_start])
+      a.elements[:disappear_window].click!
+    end
+	sleep
   else
     puts 'only current option is --background-start'
     exit 1

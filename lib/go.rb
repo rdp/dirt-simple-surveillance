@@ -86,9 +86,10 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    p "recording #{camera_english_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
     
    # -vcodec libx264 ?
-   output_1 = "-vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}.partial\""
-   output_2 = "-updatefirst 1 -r 1/10 \"#{camera_dir}/latest.jpg\"" # once every 10 seconds
-   c = %!ffmpeg #{ffmpeg_input} -t #{video_take_time} #{output_framerate_text} #{output_1} #{output_2}!
+   # TODO try it with just one -t XXX does it ever end?
+   output_1 = "-t #{video_take_time} -vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}.partial\""
+   output_2 = "-t #{video_take_time} -updatefirst 1 -r 1/10 \"#{camera_dir}/latest.jpg\"" # once every 10 seconds
+   c = %!ffmpeg #{ffmpeg_input} #{output_framerate_text} #{output_1} #{output_2}!
    
    puts 'running ', c
    out_handle = IO.popen(c, "w") 
@@ -98,7 +99,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    set_all_ffmpegs_as_lowest_prio
    
    begin
-     FFmpegHelpers.wait_for_ffmpeg_close out_handle, 15 # should never exit in like 15 seconds...should it?
+     FFmpegHelpers.wait_for_ffmpeg_close out_handle, [15, video_take_time].min # should never exit in like 15 seconds...should it?
    rescue Exception => exited_early
      if @current_state == :running
        SimpleGuiCreator.show_non_blocking_message_dialog "appears an ffmpeg recording process exited early (within 15s)?\nplease kill any rogue ffmpeg processes, or make sure you don't try and capture it twice at the same time!\n#{c} #{exited_early}"
@@ -126,4 +127,5 @@ def shutdown_current
 	}
 	# might still be some race condition here...
 	@all_threads.each &:join
+	@all_threads = []
 end
