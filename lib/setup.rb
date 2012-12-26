@@ -250,7 +250,8 @@ a.elements[:start_stop_capture].on_clicked {
 
 a.after_closed {
   if @current_state == :running
-    SimpleGuiCreator.show_text "warning, shutting down current recordings... [hit disappear button next time if what you wanted is to continue recording...]"
+    
+    show_message "warning, shutting down current recordings... [hit disappear button next time if what you wanted is to continue recording...]"
 	a.elements[:start_stop_capture].simulate_click
   end
   SimpleGuiCreator.hard_exit! # case we're still running, closed pipe bug...
