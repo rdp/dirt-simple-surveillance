@@ -39,7 +39,14 @@ def setup_ui
   @a.elements[:options_message].text = "Will record to #{base_storage_dir.split('/')[-4..-1].join('/')} at 500 kb/s/camera until there is #{Delete_if_we_have_less_than_this_much_free_space.g} free"
   
   if(current_devices.size == 0)
-	@a.elements[:start_stop_capture].text = "add a device first!"
+	@a.elements[:start_stop_capture].text = "add a camera 1st!"
+  else
+    if @current_state == :stopped
+      @a.elements[:start_stop_capture].text = 'Start recording'
+	else
+	  raise @current_state.to_s unless @current_state == :running
+	  @a.elements[:start_stop_capture].text = 'Stop recording'
+	end
   end
   
 end
@@ -234,7 +241,6 @@ a.elements[:start_stop_capture].on_clicked {
   if @current_state == :stopped
     assert_have_record_devices_setup
     start_recordings
-	a.elements[:start_stop_capture].text = 'Stop recording'
 	a.elements[:start_recording_text].text = "Recording started!"
 	Thread.new { sleep 2.5; a.elements[:start_recording_text].text = ""; }
 	@current_state = :running
@@ -244,7 +250,6 @@ a.elements[:start_stop_capture].on_clicked {
   else
 	@current_state = :stopped # early so we skip ffmpeg early out warnings if they click stop too early
     shutdown_current
-	a.elements[:start_stop_capture].text = 'Start recording'
   end
   setup_ui
 }
