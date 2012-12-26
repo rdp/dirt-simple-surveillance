@@ -28,10 +28,12 @@ add timestamp to the still snaps [yikes ffmpeg...]
 
 add "recent images" to the UI.
 
+maybe some day optionally delete recordings on uninstall?
+
 ffmpeg -t 10 -f dshow -pixel_format yuyv422  -framerate 5.0 -s 1280x960 -i video="USB Video Device" -vf "drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y %Hh %Mm %Ss\""  -t 10 -r 5.0 -vcodec mpeg4 -b:v 500k -f mp4 "C:/Documents and Settings/Melissa/My Documents/My Videos/dirt_simple_surveillance/sideways/2012-12-24/09h-43m.mp4.partial" -updatefirst 1 -r 1/10 "C:/Documents and Settings/Melissa/My Documents/My Videos/dirt_simple_surveillance/sideways/latest.jpg"
   does not just record for 10 seconds...yikes!
 
-tell them it reports current time poorly with -r 1/10 jpeg [?]
+tell them it seems to report current time poorly with -r 1/10 jpeg [?]
   
 investigate the freaky startup thing...hmm...or is it a "first time jruby runs something" bug? but it only happens if it's too fast? huh?
   what about just jruby -e "just_run_ffmpeg.rb"

@@ -1,3 +1,6 @@
+0.0.5
+  cleanup the UI, fix closing bug with background start [yikes jruby]
+
 0.0.4
   fix some bugs with auto minimize, also some introduced in 0.0.3 (swing can freeze/hang? what?)
 

@@ -1,4 +1,4 @@
-#define AppVer "0.0.5pre"
+#define AppVer "0.0.5"
 
 #define AppName "Dirt Simple USB Surveillance"
 ; AppId === AppName by default BTW
@@ -8,8 +8,6 @@
 Filename: {app}\generic_run_rb.bat; Description: Launch {#AppName} after finishing installation; WorkingDir: {app}; Parameters: -Ilib  bin\startup.rb; Flags: runminimized nowait postinstall
 
 [UninstallRun]
-
-; LODO optionally delete files?
 
 [Files]
 Source: *; DestDir: {app}; Excludes: releases; Flags: recursesubdirs
