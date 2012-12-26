@@ -53,15 +53,18 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   framerate = options[:fps] # else "timebase not supported by mpeg4" hmm...LODO fix in FFmpeg if I can...TODO allow specifying/force them to choose it here, too...
   framerate_text = "-framerate #{framerate}"
   output_framerate_text = "-r #{framerate}"  # avoid it bugging out sometimes on multiples of 15 fps or something weird like that...LODO
-  resolution = "-s #{options[:x]}x#{options[:y]}"
+  resolution = "-video_size #{options[:x]}x#{options[:y]}"
   index = "-video_device_number #{index}" if index # TODO actually use :)
   pixel_format = options[:video_type] == 'vcodec' ? "-vcodec #{options[:video_type_name]}" : "-pixel_format #{options[:video_type_name]}"
   
-  ffmpeg_input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -vf \"drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\\\"%m/%d/%y %Hh %Mm %Ss\\\"\" "
+  ffmpeg_input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -vf \"drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\\\"%m/%d/%y %Hh %Mm %Ss\\\"\"    "
   if just_preview_and_block
-    c = %!ffplay -probesize 32 #{ffmpeg_input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name} [capture preview--close when ready to move on]"! # ffplay can't take vcodec?
+    c = %!ffplay -probesize 32 #{ffmpeg_input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name} capture preview close when ready to move on"! # ffplay can't take vcodec?
 	puts c
-    system c
+    # system c # avoid JRUBY-7042 yikes!
+	a = IO.popen(c)
+	a.read
+	a.close
     return
   end
 
@@ -86,7 +89,6 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    p "recording #{camera_english_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
     
    # -vcodec libx264 ?
-   # TODO try it with just one -t XXX does it ever end?
    output_1 = "-t #{video_take_time} -vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}.partial\""
    output_2 = "-t #{video_take_time} -updatefirst 1 -r 1/10 \"#{camera_dir}/latest.jpg\"" # once every 10 seconds
    c = %!ffmpeg #{ffmpeg_input} #{output_framerate_text} #{output_1} #{output_2}!

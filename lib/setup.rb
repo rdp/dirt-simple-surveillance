@@ -72,24 +72,27 @@ def add_device device, english_name, options, to_this
   init_string += "[Remove:remove_#{unique_number}]"
   init_string += "[Configure:configure_#{unique_number}]"
   init_string += "[View Files:view_files_#{unique_number}]"
-  init_string += "[Preview capture:preview_#{unique_number}]"
+  init_string += "[Preview camera angle:preview_#{unique_number}]"
   init_string += "\n  \"      \" " # add an empty spacer in it...
-  init_string += "[Preview save quality:preview_recording_#{unique_number}]"
+  init_string += "[Preview camera end save quality:preview_recording_#{unique_number}]"
   init_string += "[Show recent image:snapshot_#{unique_number}]"
   
   to_this.add_setup_string_at_bottom init_string
   
   # TODO make these state sensitive...
   to_this.elements[:"preview_recording_#{unique_number}"].on_clicked {
-    SimpleGuiCreator.show_non_blocking_message_dialog "ok recording for 20 seconds, then will reveal the saved file....
-	This will allow you to see what the encode quality is like
-	Also sometimes it starts out very poor quality grainy but improves with time,\n so meter it by how it becomes, not how it starts."
+    SimpleGuiCreator.show_non_blocking_message_dialog %!
+	The "record" quality for a camera is different than the camera preview show,
+	because it encodes the video into something that saves space on the hard drive.
+	This button will record for 20 seconds, then will reveal the recorded file,
+	which you can playback to see the end quality of your recordings will be like.
+	Nb that sometimes it starts out very poor quality (grainy) but improves with time,
+	so meter it by how it becomes/ends, not how it starts.!
     do_something current_devices.select{|d| d == device}, false
 	SimpleGuiCreator.run_later(20) {
 	  shutdown_current
-	  last_day = Dir[base_storage_dir + '/' + english_name + '/*'].sort[-1]
+	  last_day = Dir[base_storage_dir + '/' + english_name + '/*'].select{|f| File.directory?(f) }.sort[-1]
       last_file = Dir[last_day + '/*.mp4'].sort_by{|f| File.mtime(f)}[-1]
-	  p last_day, last_file # TODO
       SimpleGuiCreator.show_in_explorer last_file
 	}
   }
@@ -97,8 +100,9 @@ def add_device device, english_name, options, to_this
   to_this.elements[:"snapshot_#{unique_number}"].on_clicked {
     filename = base_storage_dir + '/' + english_name + '/latest.jpg'
     if File.exist? filename
-	  if File.mtime(filename) < (Time.now - 60)
-	    show_message "warning, this image is a little bit out of date, since an active recording isn't going on"
+	  seconds_old = Time.now - File.mtime(filename)
+	  if seconds_old > 60
+	    show_message "warning, this image is a little bit out of date (#{seconds_old.to_i} seconds old),\nsince an active recording isn't going on.  While recording it will be more up to date."
 	  end
       show_image english_name + " recent still image", filename
     else
