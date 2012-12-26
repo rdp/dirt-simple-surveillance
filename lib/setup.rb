@@ -249,12 +249,16 @@ a.elements[:start_stop_capture].on_clicked {
 }
 
 a.after_closed {
-  if @current_state == :running
-    
-    show_message "warning, shutting down current recordings... [hit disappear button next time if what you wanted is to continue recording...]"
-	a.elements[:start_stop_capture].simulate_click
+  if @current_state == :running    
+	if SimpleGuiCreator.show_select_buttons_prompt("warning, currently running, would you like to:", :yes => "minimize and keep running", :no => "exit and stop recording") == :yes
+      a.elements[:disappear_window].simulate_click # have to do this whether it was closed from the 'X' or the tray, as the tray will have closed itself, too
+	  break # out of proc [?]
+	else
+	  # click stop
+	  a.elements[:start_stop_capture].simulate_click
+	end
   end
-  SimpleGuiCreator.hard_exit! # case we're still running, closed pipe bug...
+  SimpleGuiCreator.hard_exit! # case we're still running, for the closed pipe bug...
 }
 
 require './lib/show_last_images.rb'

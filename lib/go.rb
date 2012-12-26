@@ -78,20 +78,15 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    bucket_day_dir =  camera_dir + '/' + current_time.strftime("%Y-%m-%d")
    FileUtils.mkdir_p bucket_day_dir
   
-   current_file_timestamp = current_time.strftime "%Hh-%Mm.mp4"
+   current_file_timestamp = current_time.strftime "%Hh-%Mm.mp4.partial"
    filename = "#{bucket_day_dir}/#{current_file_timestamp}"
-   if File.exist? filename
-     # quick repeat/stop and start...maybe should just override here...
-     current_file_timestamp = current_time.strftime "%Hh-%Mm-%Ss.mp4"
-     filename = "#{bucket_day_dir}/#{current_file_timestamp}"
-   end
-  
+
    p "recording #{camera_english_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
     
    # -vcodec libx264 ?
-   output_1 = "-t #{video_take_time} -vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}.partial\""
+   output_1 = "-t #{video_take_time} -vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}\""
    output_2 = "-t #{video_take_time} -updatefirst 1 -r 1/10 \"#{camera_dir}/latest.jpg\"" # once every 10 seconds
-   c = %!ffmpeg #{ffmpeg_input} #{output_framerate_text} #{output_1} #{output_2}!
+   c = %!ffmpeg -y #{ffmpeg_input} #{output_framerate_text} #{output_1} #{output_2}! # needs -y to clobber previous .partial's...
    
    puts 'running ', c
    out_handle = IO.popen(c, "w") 
@@ -110,7 +105,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
 	   puts "I hope they just hit stop quickly...should be safe..."
 	 end
    end
-   File.rename(filename + ".partial", filename)
+   File.rename(filename, filename.sub('.partial', ''))
    save_preview_image filename, camera_dir
   end
  }
