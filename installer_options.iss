@@ -29,4 +29,4 @@ Name: {group}\Readme; Filename: {app}\README.TXT
 Name: {group}\Uninstall {#AppName}; Filename: {uninstallexe}
 
 [Messages]
-ConfirmUninstall=Are you sure you want to remove %1 (saved videos will be left on the disk)?
+ConfirmUninstall=Are you sure you want to remove %1 (any saved videos will still be left on the disk)?
