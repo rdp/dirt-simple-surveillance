@@ -1,18 +1,22 @@
-real installer
- 	
 new README/simple website
   toot my own horn :)
     simple, easy to use
 	efficient, uses very little cpu compared to other solutions
 	keeps out of the way while you use your computer.
 	accepts dshow/url's, anything else on demand.
-	ugly website with one picture :)
+	an ugly website with one picture :)
 
-network input?
+take network input?
 
 "fake launch"
+  beta friends
+  "real"  
 
 = if I ever get serious/never, high'ish-er at top = 
+
+it says "unknown publisher" in the installer
+
+there are extra quotes in the OSD
 
 rename ffmpeg.exe to ffmpeg_simple_surveillance and warn if any are up when you start
 
@@ -28,7 +32,7 @@ options
   
 change any error messages that say "ffmpeg" :)
 
-assert they use different names for each camera
+assert they use/have different names for each camera
 
 the interface is too cluttered with multiple cameras
 
