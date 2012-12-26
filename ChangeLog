@@ -1,3 +1,6 @@
+0.0.6
+  fix some startup oddness, warn on ffmpeg's if running already
+
 0.0.5
   cleanup the UI, fix closing bug with background start [yikes jruby]
 
