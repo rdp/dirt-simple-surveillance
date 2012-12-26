@@ -11,58 +11,48 @@ new README/simple website
 network input?
 
 "fake launch"
-	
+
 = if I ever get serious/never, high'ish-er at top = 
-
-keep running after they click 'close' accidentally...
-
-use an older ffmpeg.exe [?]
-  or a newer one eventually [?]
 
 rename ffmpeg.exe to ffmpeg_simple_surveillance and warn if any are up when you start
 
+keep running after they click 'close' accidentally...
+	
+detect when ffmpeg's die--it means your state should change to "stopped"!
+
+use an older ffmpeg.exe [?]
+  or a newer one eventually [?]
+  
+options
+  folder, priority, disk space ... bits per second ("days worth, see other entry")
+  
 change any error messages that say "ffmpeg" :)
 
 assert they use different names for each camera
 
 the interface is too cluttered with multiple cameras
 
-better start menu icons
+never have a console window [low prio]
 
 add timestamp to the still snaps [yikes ffmpeg...]
 
-add "recent images" to the UI.
+add "recent images" to the UI--the images themselves...
 
-maybe some day optionally delete recordings on uninstall?
+only record the jpg's when...the thing is up?
 
-ffmpeg -t 10 -f dshow -pixel_format yuyv422  -framerate 5.0 -s 1280x960 -i video="USB Video Device" -vf "drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y %Hh %Mm %Ss\""  -t 10 -r 5.0 -vcodec mpeg4 -b:v 500k -f mp4 "C:/Documents and Settings/Melissa/My Documents/My Videos/dirt_simple_surveillance/sideways/2012-12-24/09h-43m.mp4.partial" -updatefirst 1 -r 1/10 "C:/Documents and Settings/Melissa/My Documents/My Videos/dirt_simple_surveillance/sideways/latest.jpg"
+optionally delete recordings on uninstall?
+
+ffmpeg -t 10 -f dshow -pixel_format yuyv422  -framerate 5.0 -s 1280x960 -i video="screen-capture-recorder" -vf "drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y %Hh %Mm %Ss\""  -t 10 -r 5.0 -vcodec mpeg4 -b:v 500k -f mp4 "C:/Documents and Settings/Melissa/My Documents/My Videos/dirt_simple_surveillance/sideways/2012-12-24/09h-43m.mp4.partial" -updatefirst 1 -r 1/10 "C:/Documents and Settings/Melissa/My Documents/My Videos/dirt_simple_surveillance/sideways/latest.jpg"
   does not just record for 10 seconds...yikes!
 
-tell them it seems to report current time poorly with -r 1/10 jpeg [?]
-  
-investigate the freaky startup thing...hmm...or is it a "first time jruby runs something" bug? but it only happens if it's too fast? huh?
-  what about just jruby -e "just_run_ffmpeg.rb"
-  pipe seems broken "without any input from jruby yet"...
-  extra time before any other interaction doesn't help...if a window not shown anyway...
-  reproducible at home with bg.bat
-  second time through it always works...
-  having it "have an up jframe window when it starts" doesn't help
-  repro with icon to run java.exe -jar, I know...
-    what about local jruby.exe? jruby bug? java bug?
-  the first one through that button seems to have a broken pipe?
-    but not if that button was clicked by a human?
-	  yep, even fast seemingly.
-  
-  sometimes it can't track ffmpeg to close it? ai ai maybe jruby is sucking the keystroke?
-    if (stdin->_cnt > 0)
-	return 1; // data is available ... windows only?
+tell them it seems to report current time poorly with -r 1/10 out.jpeg [?] it gets way ahead? like 20 s?
   
 more user feedback
 
 can make it less grainy... (which is a symptom of not enough light, or so I'm told...)
   ask ffmpeg?
   does this show up in the recordings?
-    no
+    not too bad :)
 	
 better windows 7 "group" icon [yikes]
 
@@ -75,38 +65,27 @@ make it so you can record your desktop...umm...like one snap every minute [?] et
 integrate VAC LOL
 
 make ffplay come up faster
-  this may be a camera relic...
+  this may be impossible, maybe show a splash screen...
   
-add an exit button
+add an exit button, or prompt when they exit...
 
 make it so it works with devices with same name
   it...should...also allow it to record simultaneously from both [possible bug]
 
-options
-  folder, priority, disk space ... bits per second
-  
 can upload to ustream.tv [cuh-razy]
 
-by default select the "right" resolution/pix_fmt...I guess by lowest fps highest res :)
-  don't force them to select one [fix default to be prettier?]
-  
 email myself once a week?
   just use wimpy encryption LOL
 
 I think the jpg snapshots cheapen?...
 
-don't show "snapshot" button when it can't show one... [?]
+don't show "snapshot" button when it can't actually show one... [?]
+  some other buttons need to be 'sensitie'
 
-make remove device work better
+make remove device work better, no restart
 
 warn when device *disappears* from computer...
   warn when ffmpeg exits early, always...
-
-warn when startup, other one already running...or just open it :P
-
-not need a console (can show ffmpeg output "to the user" in the GUI, too?)
-
-doesn't detect ffpmeg premature exit?
 
 allow setting bitrate, show it "how many days worth" it plans on being able to add, based on bitrate [?]
   allow setting size to save

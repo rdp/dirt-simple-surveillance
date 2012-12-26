@@ -22,8 +22,8 @@ OutputBaseFilename=Setup {#AppName} v{#AppVer}
 OutputDir=releases
 
 [Icons]
-Name: {group}\Run surveillance; Filename: {app}\generic_run_rb.bat; WorkingDir: {app}; Parameters: -Ilib  bin\startup.rb; Flags: runminimized
-Name: {group}\Start surveillance without console window; Filename: javaw.exe; WorkingDir: {app}; Parameters: -jar vendor/jruby-complete-1.7.0.jar -Ilib bin\startup.rb --background-start
+Name: {group}\Run surveillance; Filename: {app}\generic_run_rb.bat; WorkingDir: {app}; Parameters: -Ilib  bin\startup.rb; Flags: runminimized; IconFilename: {app}/vendor/webcam-clipart.ico
+Name: {group}\Start surveillance without console window; Filename: javaw.exe; WorkingDir: {app}; Parameters: -jar vendor/jruby-complete-1.7.0.jar -Ilib bin\startup.rb --background-start; IconFilename: {app}/vendor/webcam-clipart.ico
 Name: {group}\Readme; Filename: {app}\README.TXT
 ; Flags: isreadme once it's prettier :)
 Name: {group}\Uninstall {#AppName}; Filename: {uninstallexe}
