@@ -3,6 +3,7 @@ require './lib/go.rb'
 
 include SimpleGuiCreator
 background_start = ARGV.detect{|a| a == '--background-start'}
+
 a = ParseTemplate.new(!background_start).parse_setup_filename('lib\\setup.sgc')
 
 def current_devices
@@ -250,13 +251,18 @@ a.elements[:start_stop_capture].on_clicked {
 
 a.after_closed {
   if @current_state == :running    
-	if SimpleGuiCreator.show_select_buttons_prompt("warning, currently running, would you like to:", :yes => "minimize and keep running", :no => "exit and stop recording") == :yes
-      a.elements[:disappear_window].simulate_click # have to do this whether it was closed from the 'X' or the tray, as the tray will have closed itself, too
-	  break # out of proc [?]
-	else
-	  # click stop
-	  a.elements[:start_stop_capture].simulate_click
-	end
+    show_message "warning--shutting down current recording processes\n[perhaps next time you want to click minimize to tray, instead?"
+	# click stop
+	a.elements[:start_stop_capture].simulate_click
+	
+	# can't reset up the thing yet, and after_closed only runs once...
+	#if SimpleGuiCreator.show_select_buttons_prompt("warning, currently running, would you like to:", :yes => "minimize and keep running", :no => "exit and stop recording") == :yes
+    #  a.elements[:disappear_window].simulate_click # have to do this whether it was closed from the 'X' or the tray, as the tray will have closed itself, too
+	#  raise 'early out of proc, don't want to exit!'
+	#else
+	#  # click stop
+	#  a.elements[:start_stop_capture].simulate_click
+	#end
   end
   SimpleGuiCreator.hard_exit! # case we're still running, for the closed pipe bug...
 }
