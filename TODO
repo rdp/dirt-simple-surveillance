@@ -14,6 +14,18 @@ take network input?
 
 = if I ever get serious/never, high'ish-er at top = 
 
+is my "preview capture end quality" actually accurate even?
+
+"preview capture end quality" popup should wait until ffmpeg exits, then reveal the file...
+
+It should have a huge button "start"
+
+after adding a camera, it should ask "do you want to start recording?" or something like that
+
+warn if it's "already running" and they re-start it...
+
+a youtube showing you how to set it up...
+
 show stats "this many kbps currently, this many total saved, this many total days worth"
 
 it says "unknown publisher" in the installer

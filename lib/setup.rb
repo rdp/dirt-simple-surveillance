@@ -89,12 +89,11 @@ def add_device device, english_name, options, to_this
   
   # TODO make these state sensitive...
   to_this.elements[:"preview_recording_#{unique_number}"].on_clicked {
-    SimpleGuiCreator.show_non_blocking_message_dialog %!
-	The "record" quality for a camera is different than the camera preview show,
-	because it encodes the video into something that saves space on the hard drive.
+    SimpleGuiCreator.show_non_blocking_message_dialog %!The "record" quality for a camera is different than the camera preview show,
+	because it encodes the video into a video codec [mpeg4video] that then saves space on the hard drive.
 	This button will record for 20 seconds, then will reveal the recorded file,
 	which you can playback to see the end quality of your recordings will be like.
-	Nb that sometimes it starts out very poor quality (grainy) but improves with time,
+	NB that sometimes it starts out very poor quality (grainy) but improves with time,
 	so meter it by how it becomes/ends, not how it starts.!
     do_something current_devices.select{|d| d == device}, false
 	SimpleGuiCreator.run_later(20) {
@@ -317,6 +316,10 @@ a.elements[:disappear_window].on_clicked {
 
 def in_gui_thread
   SimpleGuiCreator.invoke_in_gui_thread { yield }
+end
+
+if get_all_ffmpeg_pids.length > 0
+  show_message "warning--some ffmpeg recording instances are currently already going\nmaybe they're left overs from a previous run/running instance?!"
 end
 
 if ARGV[0]

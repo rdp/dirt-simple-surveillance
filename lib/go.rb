@@ -12,9 +12,13 @@ end
 
 $thread_start = Mutex.new # disallow 2 deletes from happening at once...
 
+def get_all_ffmpeg_pids
+  # avoid win32ole which apparently leaks in jruby...though I could probably fix it...
+  piddys = `tasklist`.lines.select{|l| l =~ /ffmpeg.exe/}.map{|l| l.split[1].to_i} # get just pid's
+end
+
 def set_all_ffmpegs_as_lowest_prio
-	# avoid win32ole which apparently leaks in jruby...though I could probably fix it...
-	piddys = `tasklist`.lines.select{|l| l =~ /ffmpeg.exe/}.map{|l| l.split[1].to_i} # get just pid's
+	piddys = get_all_ffmpeg_pids
 	for pid in piddys
 	  system(c = "SetPriority -BelowNormal #{pid} > NUL 2>&1") # uses PID for the command line
 	  if $?.exitstatus != 0
@@ -57,9 +61,9 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   index = "-video_device_number #{index}" if index # TODO actually use :)
   pixel_format = options[:video_type] == 'vcodec' ? "-vcodec #{options[:video_type_name]}" : "-pixel_format #{options[:video_type_name]}"
   
-  ffmpeg_input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -vf \"drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\\\"%m/%d/%y %Hh %Mm %Ss\\\"\"    "
+  ffmpeg_input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -vf \"drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=%m/%d/%y %Hh %Mm %Ss\"    "
   if just_preview_and_block
-    c = %!ffplay -probesize 32 #{ffmpeg_input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name} capture preview close when ready to move on"! # ffplay can't take vcodec?
+    c = %!ffplay -probesize 32 #{ffmpeg_input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name} capture preview--[close when ready to move on]"! # ffplay can't take vcodec?
 	puts c
     # system c # avoid JRUBY-7042 yikes!
 	a = IO.popen(c)
