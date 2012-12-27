@@ -14,6 +14,8 @@ take network input?
 
 = if I ever get serious/never, high'ish-er at top = 
 
+add specs
+
 is my "preview capture end quality" actually accurate even?
 
 "preview capture end quality" popup should wait until ffmpeg exits, then reveal the file...
