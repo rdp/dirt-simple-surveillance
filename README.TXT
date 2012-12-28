@@ -10,19 +10,20 @@ It can record from multiple attached cameras, and doesn't use much cpu!
 
 Free and open source!
 
+Usage =
+
+Basically start it up (start menu -> programs -> Dirt Simple Surveillance), 
+then click "add" to add some cameras, then click "start recording".
+
+It will create multiple video files in your "My Movies/dirt simple surveillance/date" folder, one every half an hour.
+
+It will delete the oldest recordings when the disk starts to get full (currently when the disk used reaches 10 GB free).
+
 Why? =
 
 The existing solutions for windows seemed to totally be cpu and memory hogs, or not be
 totally open source/free.
 Also they weren't too user friendly, at least for me.  These things should be simple.
-
-Usage =
-
-Basically start it up, click "add" to add some cameras, then click "start recording".
-
-It will create multiple video files in your "My Movies/dirt simple surveillance/date" folder, one every half an hour.
-
-It will delete the oldest recordings when the disk starts to get full (currently when the disk used reaches 10 GB free).
 
 FAQ =
 
@@ -36,7 +37,7 @@ Ping me with any feature requests/feedback at all, anytime!
 
 roger-projects@googlegroups.com
 
-or web-based
+or web-based browseable
 
 https://groups.google.com/forum/?fromgroups#!forum/roger-projects
 
