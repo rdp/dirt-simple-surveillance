@@ -1,3 +1,5 @@
+= Dirt Simple Surveillance =
+
 This aims to be a camera surveillance system (open source, cross platform) that is actually
 user friendly, and runs on windows.
 
