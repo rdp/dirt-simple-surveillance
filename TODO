@@ -14,6 +14,14 @@ take network input?
 
 = if I ever get serious/never, high'ish-er at top = 
 
+run javaw after the installer...no console, they use that thing
+
+show image jpegs to let you pick which device more easily
+
+when it minimizes say "recording in the background" (not "running" at least "recording")
+
+make "start" button more noticeable
+
 add specs
 
 remember aliases even after removed...
@@ -41,6 +49,10 @@ rename ffmpeg.exe to ffmpeg_simple_surveillance and warn if any are up when you 
 keep running after they click 'close' accidentally...
 	
 detect when ffmpeg's die--it means your state should change to "stopped"!
+
+for background start don't show balloon [?]
+
+windows service?
 
 use an older ffmpeg.exe [?]
   or a newer one eventually [?]
