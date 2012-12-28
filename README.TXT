@@ -10,18 +10,13 @@ Does work with various resolutions coming from the camera.
 Why?
 
 The existing solutions for windows seemed to totally be cpu and memory hogs (yawcam), or not be
-totally open source (iSpy, yawcam).
+totally open source/free  (iSpy, yawcam).
 
 Also they weren't too user friendly.
 
 How to use:
-install avisynth 32-bit
-install windows SDK, which has graphedt.exe
-edit tee.GRF, replace the capture device with your own, right click on the output pin to set capture properties.
-also connect it the "tee" box in there.
-Now run ruby go.rb (install ruby if needed, too, any version will do).
 
-It will create nicely packaged capture files for you in captured_files/day/hour-minute.mp4
+download from here: http://code.google.com/p/dirt-simple-usb-surveillance/downloads/list
 
 Ping me if you are interested in this project, or feature requests et al.
 
