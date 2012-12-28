@@ -1,11 +1,11 @@
 This aims to be a camera surveillance system (open source, cross platform) that is actually
 user friendly, and runs on windows.
 
-What it does do:
+It can record from attached scameras using any supported resolution, and doesn't use much cpu!
 
-Saves off a directshow capture device, splitting the video each hour, into its own folder.
-Good performance via ffmpeg mpegv4 codec, doesn't hog RAM.  Doesn't use too much disk space.
-Does work with various resolutions coming from the camera.
+Ping me if you are interested in this project, or have any feature requests at all.
+
+rogerdpack@gmail.com
 
 Why?
 
@@ -14,10 +14,6 @@ totally open source/free  (iSpy, yawcam).
 
 Also they weren't too user friendly.
 
-How to use:
+How to get it:
 
 download from here: http://code.google.com/p/dirt-simple-usb-surveillance/downloads/list
-
-Ping me if you are interested in this project, or feature requests et al.
-
-rogerdpack@gmail.com
