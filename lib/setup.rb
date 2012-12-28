@@ -29,10 +29,12 @@ def setup_ui
    @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart-enabled.png')
    @a.elements[:current_state].text = "Currently Recording!"
    @a.title = @a.original_title + " [running]"
+   @a.elements[:minimize_message].disable!
  else
    @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart.png')
    @a.elements[:current_state].text = "Currently Stopped."
    @a.title = @a.original_title + " [stopped]"
+   @a.elements[:minimize_message].enable!
   end  
   
   free_space = java.io.File.new(base_storage_dir).freeSpace
