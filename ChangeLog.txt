@@ -1,3 +1,6 @@
+0.0.7
+  show timestamp in the previews, try to make it run smoother (start menu, minor GUI)
+
 0.0.6
   fix some startup oddness, warn on ffmpeg's if running already
 

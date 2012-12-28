@@ -1,8 +1,7 @@
 = Dirt Simple Surveillance =
 
-This aims to be a camera surveillance system that is
-user friendly and easy to use, and doesn't use many
-system resoureces.
+This aims to be a camera surveillance system that is user friendly and easy to use, 
+and that doesn't use many system resources (cpu).
 
 Turn your PC into a full blown surveillance system!
 
