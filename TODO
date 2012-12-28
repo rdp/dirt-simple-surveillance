@@ -27,6 +27,8 @@ warn if it's "already running" and they re-start it...
 
 = never =
 
+if they reveal files, it should warn them that it's still recording [?]
+
 -> tray option if they close it
 
 put latest snapshot jpeg in the GUI
