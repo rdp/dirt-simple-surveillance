@@ -14,6 +14,8 @@ take network input?
 
 = if I ever get serious/never, high'ish-er at top = 
 
+get Oliver feedback/do it
+
 run javaw after the installer...no console, they use that thing
 
 show image jpegs to let you pick which device more easily
@@ -41,6 +43,8 @@ do we need vlc for them to play these recordings?
 add specs
 
 remember aliases even after removed...
+
+can use GUID's
 
 is my "preview capture end quality" actually accurate even?
 
@@ -85,9 +89,6 @@ only record the jpg's when...the thing is up?
 
 optionally delete recordings on uninstall?
 
-ffmpeg -t 10 -f dshow -pixel_format yuyv422  -framerate 5.0 -s 1280x960 -i video="screen-capture-recorder" -vf "drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=\"%m/%d/%y %Hh %Mm %Ss\""  -t 10 -r 5.0 -vcodec mpeg4 -b:v 500k -f mp4 "C:/Documents and Settings/Melissa/My Documents/My Videos/dirt_simple_surveillance/sideways/2012-12-24/09h-43m.mp4.partial" -updatefirst 1 -r 1/10 "C:/Documents and Settings/Melissa/My Documents/My Videos/dirt_simple_surveillance/sideways/latest.jpg"
-  does not just record for 10 seconds...yikes!
-
 tell them it seems to report current time poorly with -r 1/10 out.jpeg [?] it gets way ahead? like 20 s?
   
 more user feedback
@@ -95,7 +96,8 @@ more user feedback
 can make it less grainy... (which is a symptom of not enough light, or so I'm told...)
   ask ffmpeg?
   does this show up in the recordings?
-    not too bad :)
+    it probably has at least some effect...mpeg4video is massively trying to catch all these blips :)
+	is it less with less webcam resolution?
 	
 better windows 7 "group" icon [yikes]
 
