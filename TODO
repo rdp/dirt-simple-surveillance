@@ -21,6 +21,18 @@ show image jpegs to let you pick which device more easily
 when it minimizes say "recording in the background" (not "running" at least "recording")
 
 make "start" button more noticeable
+  prompt after camera add
+
+warn if it's "already running" and they re-start it...
+
+= never =
+
+put latest snapshot jpeg in the GUI
+
+don't just reveal the captured snapshot, play it in ffplay for them prolly
+
+do we need vlc for them to play these recordings?
+  maybe warn if they don't have it? redirect them to get it the first time?
 
 add specs
 
@@ -30,19 +42,11 @@ is my "preview capture end quality" actually accurate even?
 
 "preview capture end quality" popup should wait until ffmpeg exits, then reveal the file...
 
-It should have a huge button "start"
-
-after adding a camera, it should ask "do you want to start recording?" or something like that
-
-warn if it's "already running" and they re-start it...
-
 a youtube showing you how to set it up...
 
 show stats "this many kbps currently, this many total saved, this many total days worth"
 
 it says "unknown publisher" in the installer
-
-there are extra quotes in the OSD
 
 rename ffmpeg.exe to ffmpeg_simple_surveillance and warn if any are up when you start
 
@@ -51,6 +55,7 @@ keep running after they click 'close' accidentally...
 detect when ffmpeg's die--it means your state should change to "stopped"!
 
 for background start don't show balloon [?]
+  maybe ok
 
 windows service?
 
