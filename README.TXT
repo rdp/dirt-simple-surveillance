@@ -31,9 +31,15 @@ Q. Is it good/ok to use USB Webcams for surveillance?  Won't they over heat or s
 A. I have had great luck using them 24/7.  They seem to work splendidly, and most of them can capture at high resolution,
 like 1024x768 et al.
 
+How =
+
+Basically it wraps ffmpeg, which receives lots of different types of input, including local attached cameras
+(via directshow), etc.
+
 Feedback =
 
 Ping me with any feature requests/feedback at all, anytime!
+I'd even be happy to add a "network out" option so that you can stream your cameras to places like ustream.tv, et al. 
 
 roger-projects@googlegroups.com
 
