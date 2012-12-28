@@ -60,16 +60,23 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   resolution = "-video_size #{options[:x]}x#{options[:y]}"
   index = "-video_device_number #{index}" if index # TODO actually use :)
   pixel_format = options[:video_type] == 'vcodec' ? "-vcodec #{options[:video_type_name]}" : "-pixel_format #{options[:video_type_name]}"
+
+  filters = "-filter_complex \"drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=%m/%d/%y %Hh %Mm %SsSPLIT\"  "
   
-  ffmpeg_input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" -vf \"drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=%m/%d/%y %Hh %Mm %Ss\"    "
+  ffmpeg_input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" #{filters}"
   if just_preview_and_block
-    c = %!ffplay -probesize 32 #{ffmpeg_input.gsub(/-vcodec [^ ]+/, '')} -window_title "#{camera_english_name} capture preview--[close when ready to move on]"! # ffplay can't take vcodec?
+    ffmpeg_input.gsub!(/-vcodec [^ ]+/, '') # it can't take this [?] LODO ask them
+	ffmpeg_input.gsub!('SPLIT', '') # don't want a split for ffplay
+	ffmpeg_input.gsub!('filter_complex', 'vf') # it doesn't like filter_complex with -i ?
+    c = %!ffplay -probesize 32 #{ffmpeg_input} -window_title "#{camera_english_name} capture preview--[close when ready to move on]"!
 	puts c
     # system c # avoid JRUBY-7042 yikes!
 	a = IO.popen(c)
-	a.read
+	a.read # blocks :)
 	a.close
     return
+  else
+  	ffmpeg_input.gsub!('SPLIT', ',split=2 [out1] [out2]')
   end
 
   Thread.new {
@@ -88,8 +95,8 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    p "recording #{camera_english_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
     
    # -vcodec libx264 ?
-   output_1 = "-t #{video_take_time} -vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}\""
-   output_2 = "-t #{video_take_time} -updatefirst 1 -r 1/10 \"#{camera_dir}/latest.jpg\"" # once every 10 seconds
+   output_1 = "-map \"[out1]\" -t #{video_take_time} -vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}\""
+   output_2 = "-map \"[out2]\" -t #{video_take_time} -updatefirst 1 -r 1/10 \"#{camera_dir}/latest.jpg\"" # once every 10 seconds
    c = %!ffmpeg -y #{ffmpeg_input} #{output_framerate_text} #{output_1} #{output_2}! # needs -y to clobber previous .partial's...
    
    puts 'running ', c

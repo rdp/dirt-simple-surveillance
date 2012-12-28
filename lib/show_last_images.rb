@@ -16,9 +16,10 @@ module M
     def initialize title, path
 	  super title
 	   @image = ImageIO.read(JFile.new(path));
-	   set_size @image.width,@image.height
+	   content_pane.set_size @image.width, @image.height
 	   picLabel = JLabel.new(ImageIcon.new(@image))
        add( picLabel )
+	   pack
 	end
     # def paint(g)
     #   g.drawImage(@image,0,0,self)
