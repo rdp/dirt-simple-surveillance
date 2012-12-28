@@ -1,31 +1,36 @@
 = Dirt Simple Surveillance =
 
-This aims to be a camera surveillance system (open source, cross platform) that is actually
-user friendly and easy to use.
+This aims to be a camera surveillance system that is
+user friendly and easy to use, and doesn't use many
+system resoureces.
 
-It can record from attached cameras using any supported resolution, and doesn't use much cpu!
+Turn your PC into a full blown surveillance system!
 
-= Why? =
+It can record from multiple attached cameras, and doesn't use much cpu!
 
-The existing solutions for windows seemed to totally be cpu and memory hogs (yawcam), or not be
-totally open source/free  (iSpy, yawcam).
+Free and open source!
 
-Also they weren't too user friendly, at least for me.
+Why? =
 
-= Installation =
+The existing solutions for windows seemed to totally be cpu and memory hogs, or not be
+totally open source/free.
+Also they weren't too user friendly, at least for me.  These things should be simple.
 
-Download and run the latest installer from here: 
-http://code.google.com/p/dirt-simple-usb-surveillance/downloads/list
-
-= Usage =
+Usage =
 
 Basically start it up, click "add" to add some cameras, then click "start recording".
 
-It will create video files in your "My Movies/dirt simple surveillance/date" folder, one every half an hour.
+It will create multiple video files in your "My Movies/dirt simple surveillance/date" folder, one every half an hour.
 
-It will delete them if the disk starts to get full (currently hard coded to delete them when the disk reaches 10 GB free).
+It will delete the oldest recordings when the disk starts to get full (currently when the disk used reaches 10 GB free).
 
-= feedback =
+FAQ =
+
+Q. Is it good/ok to use USB Webcams for surveillance?  Won't they over heat or something?
+A. I have had great luck using them 24/7.  They seem to work splendidly, and most of them can capture at high resolution,
+like 1024x768 et al.
+
+Feedback =
 
 Ping me with any feature requests/feedback at all, anytime!
 
@@ -34,3 +39,8 @@ roger-projects@googlegroups.com
 or web-based
 
 https://groups.google.com/forum/?fromgroups#!forum/roger-projects
+
+Installation =
+
+Download and run the latest installer from here: 
+http://code.google.com/p/dirt-simple-usb-surveillance/downloads/list
