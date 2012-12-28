@@ -25,9 +25,9 @@ make "start" button more noticeable
 
 warn if it's "already running" and they re-start it...
 
--> tray option if they close it
-
 = never =
+
+-> tray option if they close it
 
 put latest snapshot jpeg in the GUI
 
