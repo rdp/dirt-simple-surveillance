@@ -321,7 +321,9 @@ def in_gui_thread
 end
 
 if get_all_ffmpeg_pids.length > 0
-  show_message "warning--some ffmpeg recording instances are currently already going\nmaybe they're left overs from a previous run/running instance?!"
+  if SimpleGuiCreator.show_select_buttons_prompt("warning--some ffmpeg recording instances are currently already going\nmaybe they're left overs from a previous run, or maybe you're already running the program somewhere else?!\nDo you want to kill them?") == :yes
+    system("taskkill /f /im ffmpeg*")
+  end
 end
 
 if ARGV[0]
