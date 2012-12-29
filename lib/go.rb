@@ -99,7 +99,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    output_2 = "-map \"[out2]\" -t #{video_take_time} -updatefirst 1 -r 1/10 \"#{camera_dir}/latest.jpg\"" # once every 10 seconds
    c = %!ffmpeg -y #{ffmpeg_input} #{output_framerate_text} #{output_1} #{output_2}! # needs -y to clobber previous .partial's...
    
-   puts 'running ', c
+   puts "running at #{Time.now}", c
    out_handle = IO.popen(c, "w") 
    $thread_start.synchronize {
      @all_processes_since_inception << out_handle
@@ -135,5 +135,6 @@ def shutdown_current
 	}
 	# might still be some race condition here tho...
 	@all_threads.each &:join
+	puts 'detected all ffmpegs done'
 	@all_threads = []
 end
