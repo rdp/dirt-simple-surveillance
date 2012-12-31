@@ -225,7 +225,10 @@ UsbStorage.set_default(:minimize_on_start, true)
 
 if UsbStorage[:minimize_on_start] # init value :)
   a.elements[:minimize_checkbox].check!
+else
+  a.elements[:minimize_checkbox].uncheck!
 end
+
 a.elements[:minimize_checkbox].on_checked {
   UsbStorage[:minimize_on_start] = true
 }
