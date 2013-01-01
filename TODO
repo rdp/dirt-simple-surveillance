@@ -17,11 +17,14 @@ fix the "pausers"
   
 = if I ever get serious/never, high'ish-er at top = 
 
+add button "do one time recording"
+  with preview, of course :)
+
 record audio "with a warning" :)
 
-add icon to desktop
+add icon to desktop at install time
 
-auto start again <sniff>
+auto start again <sniff> installer
 
 instead of every pixel type imaginable in the dropdown, just say high quality, medium, low. and an option for compressed and 
   uncompressed and another option for advanced settings where someone who knows more on this or cares can go and pick other options. 
