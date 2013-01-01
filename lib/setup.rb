@@ -292,6 +292,7 @@ a.elements[:disappear_window].on_clicked {
     show_message "minimizing it without it running--did you mean to click the start button first?"
   end
   a.minimize! # fake minimize to tray :)
+  
   require 'sys_tray'
   if @current_state == :running
     tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart-enabled.png')
@@ -303,21 +304,24 @@ a.elements[:disappear_window].on_clicked {
     a.close
   end
   tray.add_menu_item('Reveal surveillance') do
-    tray.close
-	a.visible=true
+    restore_from_tray
   end
   
   tray.on_double_left_click do
-    # restore from tray :)
-	a.visible=true
-	a.unminimize! 
-    tray.close
-	setup_ui # just in case
+    restore_from_tray
   end
   tray.display_balloon_message "Simple Surveillance", "Minimized it to tray! [currently #{@current_state}]"
   a.visible=false
-  
+  @tray = tray
 }
+
+def restore_from_tray
+   # restore from tray :)
+	@a.visible=true
+	@a.unminimize! 
+    @tray.close
+	setup_ui # just in case 
+end
 
 def in_gui_thread
   SimpleGuiCreator.invoke_in_gui_thread { yield }
