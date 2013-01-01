@@ -344,8 +344,10 @@ if ARGV[0]
       a.elements[:disappear_window].click!
     end
 	sleep # closed pipe bug...
+	puts 'should never see this'
   else
     puts 'only current option is --background-start'
     exit 1
   end
+  puts 'should never see this2'
 end
