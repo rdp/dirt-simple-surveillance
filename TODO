@@ -17,6 +17,8 @@ fix the "pausers"
   
 = if I ever get serious/never, high'ish-er at top = 
 
+it only clears the 'sending q' queue when you hit the stop button...
+
 add button "do one time recording"
   with preview, of course :)
 
