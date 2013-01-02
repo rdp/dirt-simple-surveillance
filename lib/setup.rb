@@ -343,8 +343,11 @@ if ARGV[0]
     if !(UsbStorage[:minimize_on_start])
       a.elements[:disappear_window].click!
     end
-	sleep # closed pipe bug...
-	puts 'should never see this'
+	begin
+	  sleep # closed pipe bug...
+	ensure 
+ 	  puts 'should never see this'
+	end
   else
     puts 'only current option is --background-start'
     exit 1
