@@ -28,7 +28,7 @@ def setup_ui
  if @current_state == :running 
    @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart-enabled.png')
    @a.elements[:current_state].text = "Currently Recording!"
-   @a.title = @a.original_title + " [running]"
+   @a.title = @a.original_title + " [recording]"
    @a.elements[:minimize_message].disable!
  else
    @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart.png')
@@ -295,9 +295,9 @@ a.elements[:disappear_window].on_clicked {
   
   require 'sys_tray'
   if @current_state == :running
-    tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart-enabled.png')
+    tray = SysTray.new('surveillance [recording]', 'vendor/webcam-clipart-enabled.png')
   else
-    tray = SysTray.new('surveillance [running]', 'vendor/webcam-clipart-disabled.png')
+    tray = SysTray.new('surveillance [stopped!]', 'vendor/webcam-clipart-disabled.png')
   end
   tray.add_menu_item('Exit and close') do
     tray.close
