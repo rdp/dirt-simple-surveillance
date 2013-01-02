@@ -345,6 +345,8 @@ if ARGV[0]
     end
 	begin
 	  sleep # closed pipe bug...
+	rescue Exception => e
+	 p e, e.backtrace
 	ensure 
  	  puts 'should never see this'
 	end
