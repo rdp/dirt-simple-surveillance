@@ -36,18 +36,13 @@ instead of every pixel type imaginable in the dropdown, just say high quality, m
 
 get "current time" from an ntp server, for higher...quality?
 
-make priority an option
+make process priority an option
 
 get Oliver feedback/do it
 
-run javaw after the installer...no console, they use that thing
-
 show image jpegs to let you pick which device more easily
 
-when it minimizes say "recording in the background" (not "running" at least "recording")
-
-make "start" button more noticeable
-  prompt after camera add
+prompt to start after camera add
 
 warn if it's "already running" and they re-start it...
 
