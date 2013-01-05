@@ -22,7 +22,7 @@ def set_all_ffmpegs_as_lowest_prio
 	for pid in piddys
 	  system(c = "SetPriority -BelowNormal #{pid} > NUL 2>&1") # uses PID for the command line
 	  if $?.exitstatus != 0
-		p c + ' failed? ignoring... [race condition for process dying?]'
+		p c + ' failed setting priority? ignoring... [possible race condition for process dying?]'
 	  end
 	end
 end

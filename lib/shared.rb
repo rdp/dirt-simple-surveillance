@@ -1,6 +1,8 @@
-Dir['./vendor/**/lib'].each{|lib_dir|
+# add vendored gems
+Dir[File.dirname(__FILE__) + '/../vendor/**/lib'].each{|lib_dir|
   $:.unshift lib_dir
 }
+
 require 'simple_gui_creator'
 require 'fileutils'
 
@@ -30,7 +32,7 @@ end
 
 def get_sorted_day_dirs
   dirs = Dir[base_storage_dir + '/*/*'] # camera_name/day
-  dirs.reject!{|d| File.file? d}.sort_by{|name| name.split('/')[2]} # only directories
+  dirs.reject!{|d| File.file? d}.sort_by{|name| date = name.split('/')[2]; p date; date} # only directories
 end
 
 class Numeric
@@ -44,3 +46,7 @@ class Numeric
 end
 
 Delete_if_we_have_less_than_this_much_free_space = 10.gig
+
+if $0 == __FILE__
+  p get_sorted_day_dirs
+end
