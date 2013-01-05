@@ -32,7 +32,7 @@ end
 
 def get_sorted_day_dirs
   dirs = Dir[base_storage_dir + '/*/*'] # camera_name/day
-  dirs.reject!{|d| File.file? d}.sort_by{|name| date = name.split('/')[2]; p date; date} # only directories
+  dirs.reject{|d| File.file? d}.sort_by{|name| date = name.split('/')[-1]} # only directories, sort
 end
 
 class Numeric
