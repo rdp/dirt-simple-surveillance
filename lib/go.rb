@@ -35,9 +35,16 @@ def delete_if_out_of_disk_space
 	  $thread_start.synchronize {
 		  $deletor_thread ||= Thread.new {
 			oldest_day_dir = get_sorted_day_dirs.first
-			p "deleting old day dir #{oldest_day_dir} because free #{free_space.g} < #{Delete_if_we_have_less_than_this_much_free_space.g}"
-			FileUtils.rm_rf oldest_day_dir
-			p "done deleting " + oldest_day_dir
+			date = oldest_day_dir.split('/')[-1]
+			if date == current_year_month_day(Time.now)
+			  # LODO cleanup because it will just keep prompting them forever?
+			  # at least show stats or something?
+			  show_message "warning, maybe disk space is low?\nwant to delete #{oldest_day_dir} to keep disk space low, but that's today, not deleting it\nrecommend installing and using windirstat to examine and free up some disk space"
+			else
+			  p "deleting old day dir #{oldest_day_dir} because free #{free_space.g} < #{Delete_if_we_have_less_than_this_much_free_space.g}"
+			  FileUtils.rm_rf oldest_day_dir
+			  p "done deleting " + oldest_day_dir
+			end
 			$deletor_thread = nil # let next guy through delete if more should be deleted...
 		  }
 	  }
@@ -50,6 +57,10 @@ end
 $start_time = Time.now
 
 @all_processes_since_inception = []
+
+def current_year_month_day time
+  time.strftime("%Y-%m-%d")
+end
 
 def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 60 minutes
 
@@ -89,7 +100,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    delete_if_out_of_disk_space
    current_time = Time.now
    camera_dir = UsbStorage['storage_dir'] + '/' + camera_english_name
-   bucket_day_dir =  camera_dir + '/' + current_time.strftime("%Y-%m-%d")
+   bucket_day_dir =  camera_dir + '/' + current_year_month_day(current_time)
    FileUtils.mkdir_p bucket_day_dir
   
    current_file_timestamp = current_time.strftime "%Hh-%Mm.mp4.partial"
