@@ -119,8 +119,12 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
 	   puts "I hope they just hit stop quickly...should be safe..."
 	 end
    end
-   File.rename(filename, filename.sub('.partial', ''))
-   save_preview_image filename, camera_dir
+   if File.exist? filename
+     File.rename(filename, filename.sub('.partial', ''))
+     save_preview_image filename, camera_dir
+   else
+     show_message "ffmpeg did not create file #{filename}?"
+   end
   end
  }
 }
