@@ -18,12 +18,14 @@ fix the "weird random crashes"
 
 = if I ever get serious/never, high'ish-er at top = 
 
+add version to title.
+
 make start button bigger
 
 it only clears the 'sending q' queue when you hit the stop button...
 
 add button "do one time recording"
-  with preview, of course :)
+  with live preview, of course :)
 
 record audio "with a warning" :)
 
@@ -38,14 +40,13 @@ get "current time" from an ntp server, for higher...quality?
 
 make process priority an option
 
-get Oliver feedback/do it
-
 show image jpegs to let you pick which device more easily
 
 prompt to start after camera add
 
 warn if it's "already running" and they re-start it...
-
+  single file, no communication
+  
 = never =
 
 if they reveal files, it should warn them that it's still recording [?]
