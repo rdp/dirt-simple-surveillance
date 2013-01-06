@@ -24,12 +24,13 @@ describe 'stuff' do
     d= @camera_dir + '/2013-01-30'
 	e = @camera_dir + '/2012-01-01'
 	f = @camera_dir + '/2012-01-30'
-	all = [a,b,c,d,e,f]
-	for dir in all
+	g = @camera_dir + '/2012-10-20'
+	all = [a,b,c,d,e,f,g]
+	for dir in all.shuffle
 	  Dir.mkdir dir
 	end
 	# should be oldest first
-    get_sorted_day_dirs.should == [e,f,c,b,a,d]
+    get_sorted_day_dirs.should == [e,f,g,c,b,a,d]
   end
   
   after do
