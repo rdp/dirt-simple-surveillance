@@ -6,22 +6,20 @@ new README for humans/simple website
 	accepts dshow/url's, anything else on demand.
 	an ugly website with one picture :)
 
-take network input?
+take network video as input?
 
 "fake launch"
   beta friends
-  "real"  
-
-fix the "weird random crashes"
-  no restart
-  sleep exits?
+  "real"
 
 = if I ever get serious/never, high'ish-er at top = 
 
-handle unplugged devices
+warn on startup of absent devices :)
 
+handle unplugged devices
+  
 can take a single picture live 'snapshot' for ya :P
-  oh and apply funky things to it LOL
+  oh and apply funky effects to it LOL
 
 add version to title.
 
@@ -32,7 +30,7 @@ it only clears the 'sending q' queue when you hit the stop button...
 add button "do one time recording"
   with live preview, of course :)
 
-record audio "with a warning" :)
+record audio "with a legal warning" :)
 
 add icon to desktop at install time
 
