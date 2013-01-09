@@ -56,7 +56,7 @@ end
 
 $start_time = Time.now
 
-@all_processes_since_inception = []
+@all_currently_runnng_processes = []
 
 def current_year_month_day time
   time.strftime("%Y-%m-%d")
@@ -116,10 +116,9 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    puts "running at #{Time.now}", c
    out_handle = IO.popen(c, "w") 
    $thread_start.synchronize {
-     @all_processes_since_inception << out_handle
+     @all_currently_runnng_processes << out_handle
    }
-   set_all_ffmpegs_as_lowest_prio
-   
+   set_all_ffmpegs_as_lowest_prio   
    begin
      FFmpegHelpers.wait_for_ffmpeg_close out_handle, [15, video_take_time].min # should never exit in like 15 seconds...should it?
    rescue Exception => exited_early
@@ -129,6 +128,8 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
 	 else
 	   puts "I hope they just hit stop quickly...should be safe..."
 	 end
+   ensure
+      $thread_start.synchronize { @all_currently_runnng_processes.delete(out_handle) } # this one's done...
    end
    if File.exist? filename
      File.rename(filename, filename.sub('.partial', ''))
@@ -145,11 +146,11 @@ end
 def shutdown_current
     @keep_going = false
 	$thread_start.synchronize {
-	  @all_processes_since_inception.each{|p|
+	  @all_currently_runnng_processes.each{|p|
 	    puts 'sending q string'
 	    p.puts 'q' rescue nil # does this work after first has finished? with closed processes?
 	  }
-	  @all_processes_since_inception = []
+	  @all_currently_runnng_processes = []
 	}
 	# might still be some race condition here tho...
 	@all_threads.each &:join
