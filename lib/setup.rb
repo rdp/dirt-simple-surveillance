@@ -11,7 +11,7 @@ def current_devices
 end
 
 @a = a
-@current_state = :stopped # :running
+@current_state = :stopped # :recording
 @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart.png')
 
 def setup_ui
@@ -25,7 +25,7 @@ def setup_ui
    @a.elements[:disappear_window].enable!
  end
  
- if @current_state == :running 
+ if @current_state == :recording 
    @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart-enabled.png')
    @a.elements[:current_state].text = "Currently Recording!"
    @a.title = @a.original_title + " [recording]"
@@ -46,7 +46,7 @@ def setup_ui
     if @current_state == :stopped
       @a.elements[:start_stop_capture].text = 'Start recording'
 	else
-	  raise @current_state.to_s unless @current_state == :running
+	  raise @current_state.to_s unless @current_state == :recording
 	  @a.elements[:start_stop_capture].text = 'Stop recording'
 	end
   end
@@ -247,7 +247,7 @@ a.elements[:start_stop_capture].on_clicked {
     start_recordings
 	a.elements[:start_recording_text].text = "Recording started!"
 	Thread.new { sleep 2.5; a.elements[:start_recording_text].text = ""; }
-	@current_state = :running
+	@current_state = :recording
 	if(UsbStorage[:minimize_on_start])
       a.elements[:disappear_window].click!
 	end
@@ -259,8 +259,8 @@ a.elements[:start_stop_capture].on_clicked {
 }
 
 a.after_closed {
-  if @current_state == :running    
-    show_message "warning--shutting down current recording processes\n[perhaps next time you want to click minimize to tray, instead?"
+  if @current_state == :recording    
+    show_message "warning--shutting down current recording processes because exiting\n[perhaps next time you want to click minimize to tray, instead?"
 	# click stop
 	a.elements[:start_stop_capture].simulate_click
 	
@@ -288,13 +288,13 @@ require './lib/show_last_images.rb'
 #}
 
 a.elements[:disappear_window].on_clicked {
-  if @current_state != :running
+  if @current_state != :recording
     show_message "minimizing it without it running--did you mean to click the start button first?"
   end
   a.minimize! # fake minimize to tray :)
   
   require 'sys_tray'
-  if @current_state == :running
+  if @current_state == :recording
     tray = SysTray.new('surveillance [recording]', 'vendor/webcam-clipart-enabled.png')
   else
     tray = SysTray.new('surveillance [stopped!]', 'vendor/webcam-clipart-disabled.png')
