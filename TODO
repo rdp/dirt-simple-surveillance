@@ -13,68 +13,59 @@ take network video as input?
   "real"
 
 = if I ever get serious/never, high'ish-er at top =
-splash screen	
+
 warn on startup of absent devices :)
+
+more options
+
+a youtube showing you how to set it up...
+
+= maybes/nevers/
 
 handle unplugged devices at all :)
 
-oh and apply funky effects to it LOL
-
 add version to title.
 
-make start button bigger
-
-it only clears the 'sending q' queue when you hit the stop button...
-
 add button "do one time recording"
-  with live preview, of course :)
+  with live preview, of course LOL :)
 
-record audio "with a legal warning" :)
-
-add icon to desktop at install time
+record audio too "with a legal warning" :)
 
 a preview window then you can take snapshots of that :)
 
 auto start again <sniff> installer
+  add icon to desktop at install time
 
 instead of every pixel type imaginable in the dropdown, just say high quality, medium, low. and an option for compressed and 
   uncompressed and another option for advanced settings where someone who knows more on this or cares can go and pick other options. 
 
-get "current time" from an ntp server, for higher...quality?
+get "current time" from an ntp server, for higher...accuracy?
 
-make process priority an option
+make process priority a user option
 
-show image jpegs to let you pick which device more easily
+show image jpegs to let you pick which device more trivially
 
 prompt to start after camera add
 
-warn if it's "already running" and they re-start it...
-  single file, no communication
+warn if it's "already running" and they re-start another instance...
+  single file, no communication :)
   
-= never =
-
-if they reveal files, it should warn them that it's still recording [?]
-
--> tray option if they close it
-
-put latest snapshot jpeg in the GUI
+put latest snapshot jpeg in the GUI itself
 
 don't just reveal the captured snapshot, play it in ffplay for them prolly
 
 do we need vlc for them to play these recordings?
   maybe warn if they don't have it? redirect them to get it the first time?
 
-add specs
+add mucho specs for the GUI
 
 remember aliases even after removed...
 
 can use GUID's
 
-is my "preview capture end quality" actually accurate even?
+is my "preview capture end quality" actually accurate today, even at the end?
 
 "preview capture end quality" popup should wait until ffmpeg exits, then reveal the file...
-
-a youtube showing you how to set it up...
 
 show stats "this many kbps currently, this many total saved, this many total days worth"
 
@@ -82,7 +73,7 @@ it says "unknown publisher" in the installer
 
 rename ffmpeg.exe to ffmpeg_simple_surveillance and warn if any are up when you start
 
-keep running after they click 'close' accidentally...
+keep running optionallyafter they click 'close' accidentally...
 	
 detect when ffmpeg's die--it means your state should change to "stopped"!
 
@@ -90,22 +81,17 @@ for background start don't show balloon [?]
   maybe ok
 
 windows service?
-
-use an older ffmpeg.exe [?]
-  or a newer one eventually [?]
   
+(handle crossbar et al)  
+
 options
   folder, priority, disk space ... bits per second ("days worth, see other entry")
   
 change any error messages that say "ffmpeg" :)
 
-assert they use/have different names for each camera
+assert they use/have unique names for each camera
 
-the interface is too cluttered with multiple cameras
-
-never have a console window [low prio]
-
-add timestamp to the still snaps [yikes ffmpeg...]
+the interface is too cluttered when you have multiple cameras
 
 add "recent images" to the UI--the images themselves...
 
@@ -134,24 +120,22 @@ make it so you can record your desktop...umm...like one snap every minute [?] et
 integrate VAC LOL
 
 make ffplay come up faster
-  this may be impossible, maybe show a splash screen...
+  this may be impossible, maybe show a splash screen...maybe ffmpeg's ffplay show a splash screen?
   
-add an exit button, or prompt when they exit...
+add an exit button...
 
 make it so it works with devices with same name
   it...should...also allow it to record simultaneously from both [possible bug]
 
 can upload to ustream.tv [cuh-razy]
 
-email myself once a week?
+email ability once a week?
   just use wimpy encryption LOL
 
-I think the jpg snapshots cheapen?...
+do the jpg snapshots cheapen?...
 
-don't show "snapshot" button when it can't actually show one... [?]
+don't show "snapshot" button when it can't actually show one...like it's recording [?]
   some other buttons need to be 'sensitie'
-
-make remove device work better, no restart
 
 warn when device *disappears* from computer...
   warn when ffmpeg exits early, always...
@@ -185,13 +169,9 @@ daily email...
 
 SGC add sensitivities.
 
-remove the snapshots button, replace with something...
-
 fix that it doesn't/didn't allow recording from both, same name, simultaneously?  
 
 fix FFmpeg not enumerating right
-
-tell people they may not *want* audio
 
 can "email you when it doesn't record" (google script?)
 
@@ -199,18 +179,11 @@ SMS/MMS/email alerts on motion detected.
 
 test what "8 input" video capture cards are in windows--crossbar?
 
-do crossbar :)
-
-better icons
-
 bucket by month/year?
 
 allow for re-compression instead of deletion [?]
   640x480, 0.5/s ? hmm
-  
-optional time lapse :)
-
-minimize on hitting the 'x' (or disable it?)
+  optional time lapse :)
 
 option for how frequently to slice the video files
   possibly hard slice them around noon, anyway?
@@ -222,12 +195,6 @@ take out some button I never use [?]
 give an option for "just save the mjpeg stream, to save cpu!"
 
 query for devices when startup...
-
-icons for whether recording or not
-
-"every so often" jpeg, in the UI, of that camera recently
-  snapshots
-  every minute snaps LOL
   
 beta launch/test with people
 
@@ -294,8 +261,6 @@ ask for user feedback
 "reveal current video" button per camera...
   or better yet, please fix SDL out...
 
-new icon/splash screen
-
 "show video recordings" shouldn't be enabled if you don't have any
 
 start capture button should be disabled until you add something LOL.
@@ -304,13 +269,6 @@ preview capture title window say "NOT RECORDING YET"
 
 SDL out in conjunction seems popular so you can watch it while it's getting started.
 
-rename camera button
-
-minimize to tray?
-  button :) with one option "reveal" LOL
-
-start as daemon/daemonize option somehow.
-  
 bump ffmpeg version...if this one doesn't do pix_fmt ...
   once I care about format
   if it works with vcodec
@@ -320,10 +278,6 @@ able to input "-vcodec h264"
   
 mac version (does mac work with my webcams anyway?)
   just network cams initially
-
-"set pix_fmt options"
-
-re-encode with like 1fps instead of delete
 
 don't be afraid to spend for this project! yes!
 
@@ -336,11 +290,6 @@ can interrupt it with q, to be able to preview at least.
 really all I need is a "normal" and a "view while" version [VLC]
 
 it should survive a camera being pulled out...
-
-it could/should double check that the camera is still present, when starting.
-
-it should not "hang" if graph fails :)
-  just the 100% cpu thing
   
 motion detect ffmpeg filter, I think
  
@@ -363,10 +312,6 @@ uPnP for the outer viewable fella
     apache .htaccess local forwarder LOL
   security later :P
     
-email when out of disk :P
-
-daily jpg email option
-
 make it into a windows service
   startup item more like it.
 

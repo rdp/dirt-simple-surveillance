@@ -1,6 +1,6 @@
   ---------- Dirt Simple Surveillance -----------
     "Recording control:"
-    [Start recording!:start_stop_capture] [/:minimize_checkbox] "Minimize to tray on start:minimize_message" ":start_recording_text,width=200" "current status is a very very long string:current_state"
+    [Start recording!:start_stop_capture,height=75px] [/:minimize_checkbox] "Minimize to tray on start:minimize_message" ":start_recording_text,width=200" "current status is a very very long string:current_state"
     [Minimize to tray!:disappear_window]
     "Add Devices:"
     [Add new local camera for recording:add_new_local] "Currently have x:currently_have"
