@@ -4,7 +4,7 @@
 ; AppId === AppName by default BTW
 
 [Run]
-; a checkbox run optional after install
+; a checkbox run optional after install, disabled since it has a console...
 ; Filename: vendor/jruby-complete-1.7.0.jar; Description: Launch {#AppName} after finishing installation; WorkingDir: {app}; Parameters: -Ilib bin\startup.rb --background-start; Flags: nowait postinstall
 
 [UninstallRun]
