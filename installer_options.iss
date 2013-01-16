@@ -10,7 +10,7 @@
 [UninstallRun]
 
 [Files]
-Source: *; DestDir: {app}; Excludes: releases; Flags: recursesubdirs
+Source: *; DestDir: {app}; Excludes: releases, dirt-simple-usb-surveillance\vendor\simple_gui_creator\spec; Flags: recursesubdirs
 Source: README.TXT; DestDir: {app}; Flags: isreadme
 
 [Setup]
