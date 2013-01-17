@@ -11,7 +11,7 @@ def current_devices
 end
 
 @a = a
-@current_state = :stopped # :recording
+@current_state = :stopped # or :recording
 @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart.png')
 
 def setup_ui
@@ -70,7 +70,8 @@ def get_descriptive_line device, english_name
   output
 end
 
-def add_device device, english_name, options, to_this
+def add_device device, english_name, options
+  to_this = @a
   current_devices[device] = [english_name, options]
   save_devices!
   
@@ -148,7 +149,7 @@ def show_message message
 end
 
 current_devices.each{|device, (name, options)|
-  add_device device, name, options, a
+  add_device device, name, options
 }
 
 a.elements[:add_new_url].on_clicked {
@@ -210,7 +211,7 @@ a.elements[:add_new_local].on_clicked {
 	raise
   end
   english_name, options = configure_device_options device, nil
-  add_device device, english_name, options, a
+  add_device device, english_name, options
   SimpleGuiCreator.show_text "Added it as: #{english_name}\nClick start recording to start recording, or add device to add another device."
 }
 
