@@ -1,4 +1,4 @@
-#define AppVer "0.0.9"
+#define AppVer "0.0.10"
 
 #define AppName "Dirt Simple USB Surveillance"
 ; AppId === AppName by default BTW
