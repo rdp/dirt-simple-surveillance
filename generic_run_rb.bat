@@ -11,7 +11,7 @@
 @call java -version > NUL 2>&1 || echo you need to install java JRE first please install it from java.com then run again && java -version && pause && GOTO INSTALL_JAVA
 
 @rem success path
-@java -splash:vendor/webcam-clipart.png -jar vendor/jruby-complete-1.7.0.jar %*
+@java -splash:vendor/webcam-clipart-loading.png -jar vendor/jruby-complete-1.7.0.jar %*
 
 @GOTO DONE
 
