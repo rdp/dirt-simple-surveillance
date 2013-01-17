@@ -3,8 +3,8 @@
     [/:minimize_checkbox] "Minimize to tray on start:minimize_message" 
     [Minimize to tray!:disappear_window]
     "Add New Devices:"
-    [Add new local camera for recording:add_new_local]
-    [Add new network url for recording:add_new_url]
+    [Add new local (attached) camera for recording:add_new_local]
+    [Add new network camera (url) for recording:add_new_url]
     "Currently set to record x gigabytes to this folder c:\users\my long username\my videos\dirt simple usb surveillance:options_message"
     " "
     "Currently set to record the following devices::device_list_header, width=500"

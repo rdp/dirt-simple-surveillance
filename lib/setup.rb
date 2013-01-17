@@ -156,7 +156,7 @@ current_devices.each{|device, (name, options)|
 }
 
 def setup_network_device old_url, old_english_name, old_fps
-  url = get_input "Please enter the url of the device of the network enabled camera you wish to record\nLike http://1.2.3.4:8080/somewhere for instance (flv, mjpeg, tcp, etc. url's are ok)", (old_url || "http://...")
+  url = get_input "Please enter the url of the device of the network enabled camera you wish to record\nLike http://xxx.xxx.xxx.xxx:8080/stream_name for instance (flv, mjpeg, tcp, etc. url's are ok)\nor rtsp://login:password@xxx.xxx.xxx.xxx/videoinput_1/mjpeg/media.stm\nor http://xxx.xxx.xxx.xxx:port/stream_name?password=x&login=y", (old_url || "http://...")
   name = get_input "Enter an optional user friendly alias name for #{url}", (old_english_name || url)
   fps = get_input "Some network streams [for instance, some mjpeg streams] don't advertise their speed\nframes per second, which can cause recording playback to appear much too fast\nIf you encouner this, and know the frame speed, enter it here to hard code it\n(or leave blank for auto detect)", old_fps, true
   fps = fps.to_f
