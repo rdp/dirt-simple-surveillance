@@ -68,22 +68,25 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
 
 @all_threads = all_cameras.map{|device, (camera_english_name, options)|
 
-  filters = "-filter_complex \"drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=%m/%d/%y %Hh %Mm %SsSPLIT\"  "
-
   if options[:url]
     ffmpeg_input = "-analyzeduration 5k -i " + options[:url]
   else
-    framerate = options[:fps] # else "timebase not supported by mpeg4" hmm...LODO fix in FFmpeg if I can...TODO allow specifying/force them to choose it here, too...
-    framerate_text = "-framerate #{framerate}"
-    output_framerate_text = "-r #{framerate}"  # avoid it bugging out sometimes on multiples of 15 fps or something weird like that...LODO investigate
     resolution = "-video_size #{options[:x]}x#{options[:y]}"
     index = "-video_device_number #{index}" if index # TODO actually use :)
     pixel_format = options[:video_type] == 'vcodec' ? "-vcodec #{options[:video_type_name]}" : "-pixel_format #{options[:video_type_name]}"
     ffmpeg_input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" "
   end
   
-  ffmpeg_input = "#{ffmpeg_input} #{filters}"
+  if options[:fps]
+    framerate = options[:fps] # else "timebase not supported by mpeg4" hmm...LODO fix in FFmpeg if I can...TODO allow specifying/force them to choose it here, too...
+    framerate_text = "-framerate #{framerate}"
+    output_framerate_text = "-r #{framerate}"  # avoid it bugging out sometimes on multiples of 15 fps or something weird like that...LODO investigate (used later...)
+	ffmpeg_input = "#{framerate_text} #{ffmpeg_input}"
+  end
+    
+  filters = "-filter_complex \"drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=%m/%d/%y %Hh %Mm %SsSPLIT\"  "
 
+  ffmpeg_input = "#{ffmpeg_input} #{filters}"
 
   
   if just_preview_and_block

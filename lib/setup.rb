@@ -153,11 +153,17 @@ current_devices.each{|device, (name, options)|
   add_device device, name, options
 }
 
+def setup_network_device old_url, old_english_name, old_fps
+  url = get_input "Please enter the url of the device of the network enabled camera you wish to record\nLike http://1.2.3.4:8080/something.mjpeg for instance", (old_url || "http://...")
+  name = get_input "Enter an optional user friendly alias name for #{url}", (old_english_name || url)
+  fps = get_input "Some network streams [for instance, some mjpeg streams] don't advertise their speed\nframes per second, if you know the frame speed, enter it here", old_fps, true
+  [url, name, fps]
+end
+
 a.elements[:add_new_url].on_clicked {
-  # assume they'll only call one for now :)
-  url = get_input "Please enter the url of the device of the network enabled camera you wish to record\nLike http://1.2.3.4:8080/something.mjpeg for instance", "http://..."
-  name = get_input "Enter an optional user friendly alias name for #{url}", url
-  add_device [url, 0], name, :url => url
+  url, name, fps = setup_network_device nil, nil, nil
+  # assume they'll only input one per "network camera" for now :)
+  add_device [url.split('?')[0], -1], name, :url => url, :fps => fps
 }
 
 def prettify_number n
@@ -168,12 +174,15 @@ def prettify_number n
   end
 end
 
+# device like [name, idx] or [url, -1]
 def configure_device_options device, english_name, old_options
  english_name ||= device[0]
  
  if old_options && old_options[:url]
-   old_options[:url] = get_input "re-enter url", old_options[:url]
-   english_name = get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device[0]}:", english_name   
+   url, name, fps = setup_network_device old_options[:url], english_name, old_options[:fps]
+   english_name = name
+   old_options[:url] = url
+   old_options[:fps] = fps
    return [english_name, old_options]
  end
  video_fps_options = FFmpegHelpers.get_options_video_device device[0], device[1]
@@ -211,8 +220,8 @@ def configure_device_options device, english_name, old_options
  
 end
 
-def get_input title, default
-  SimpleGuiCreator.get_input title, default
+def get_input title, default, cancel_or_blank_ok=false
+  SimpleGuiCreator.get_input title, default, cancel_or_blank_ok
 end
 
 a.elements[:add_new_local].on_clicked {
