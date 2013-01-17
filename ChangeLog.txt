@@ -1,3 +1,7 @@
+0.0.9
+  accept incoming network input
+  cleanup file naming schemes :)
+
 0.0.8
   fix deleting which was deleting the wrong things, may actually be stable now
 
