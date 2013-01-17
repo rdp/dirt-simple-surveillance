@@ -16,7 +16,6 @@ end
 
 def setup_ui
 
- @a.elements[:currently_have].text = "currently have #{current_devices.length} setup"
  if current_devices.length == 0
    @a.elements[:start_stop_capture].disable!
    @a.elements[:disappear_window].disable!
@@ -79,7 +78,10 @@ def add_device device, english_name, options
   init_string = get_descriptive_line device, english_name
   
   unique_number = @unique_line_number += 1
-  init_string = '"' + init_string + ":name_string_#{unique_number}\" \"at #{options[:x]}x#{options[:y]}:\""
+  init_string = '"' + init_string + ":name_string_#{unique_number}\" "
+  if options[:x]
+    init_string += "\"at #{options[:x]}x#{options[:y]}:\""
+  end
   init_string += "\n  \"      \" " # add an empty spacer in it...
   init_string += "[Remove:remove_#{unique_number}]"
   init_string += "[Configure:configure_#{unique_number}]"
@@ -156,7 +158,11 @@ current_devices.each{|device, (name, options)|
 def setup_network_device old_url, old_english_name, old_fps
   url = get_input "Please enter the url of the device of the network enabled camera you wish to record\nLike http://1.2.3.4:8080/something.mjpeg for instance", (old_url || "http://...")
   name = get_input "Enter an optional user friendly alias name for #{url}", (old_english_name || url)
-  fps = get_input "Some network streams [for instance, some mjpeg streams] don't advertise their speed\nframes per second, if you know the frame speed, enter it here", old_fps, true
+  fps = get_input "Some network streams [for instance, some mjpeg streams] don't advertise their speed\nframes per second, which causes recording playback to appear much too fast\nIf you encouner this, and know the frame speed, enter it here", old_fps, true
+  fps = fps.to_f
+  if fps <= 3
+    show_message "since your fps is < 3, as a note, VLC won't be able to play back the recordings propertly, but other players might."
+  end
   [url, name, fps]
 end
 

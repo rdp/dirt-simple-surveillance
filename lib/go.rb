@@ -6,7 +6,7 @@ require 'sane'
 require 'thread'
 
 def save_preview_image from_this, camera_dir
- to_file = from_this + '.still_frame.jpg'
+ to_file = from_this + '.snapshot.jpg'
  FileUtils.cp camera_dir + '/latest.jpg', to_file
 end
 
@@ -143,8 +143,9 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
       $thread_start.synchronize { @all_currently_runnng_processes.delete(out_handle) } # this one's done...
    end
    if File.exist? filename
-     File.rename(filename, filename.sub('.partial', ''))
-     save_preview_image filename, camera_dir
+     renamed = filename.sub('.partial', '')
+     File.rename(filename, renamed)
+     save_preview_image renamed, camera_dir
    else
      show_message "ffmpeg did not create file #{filename}?"
    end

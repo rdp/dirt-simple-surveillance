@@ -25,7 +25,7 @@ OutputDir=releases
 [Icons]
 ; extra space hopes to make it appear at the top...
 Name: "{group}\Run surveillance "; Filename: javaw.exe; WorkingDir: {app}; Parameters: -jar vendor/jruby-complete-1.7.0.jar -Ilib bin\startup.rb; IconFilename: {app}/vendor/webcam-clipart.ico
-Name: {group}\advanced\Run surveillance start in tray; Filename: javaw.exe; WorkingDir: {app}; Parameters: -jar vendor/jruby-complete-1.7.0.jar -Ilib bin\startup.rb --background-start; IconFilename: {app}/vendor/webcam-clipart.ico
+Name: {group}\advanced\Run surveillance start minimized; Filename: javaw.exe; WorkingDir: {app}; Parameters: -jar vendor/jruby-complete-1.7.0.jar -Ilib bin\startup.rb --background-start; IconFilename: {app}/vendor/webcam-clipart.ico
 Name: {group}\advanced\Run surveillance with a debug window; Filename: {app}\generic_run_rb.bat; WorkingDir: {app}; Parameters: -Ilib  bin\startup.rb; Flags: runminimized; IconFilename: {app}/vendor/webcam-clipart.ico
 Name: {group}\advanced\Readme; Filename: {app}\readme.txt
 Name: {group}\advanced\ChangeLog; Filename: {app}\ChangeLog.txt
