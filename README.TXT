@@ -11,7 +11,7 @@ Free and open source!
 
 Usage =
 
-Basically start it up (start menu -> programs -> Dirt Simple Surveillance, or Dirt Simple USB Surveillance picture on your desktop)
+Basically start it up (start menu -> programs -> Dirt Simple Surveillance, or Dirt Simple Surveillance picture on your desktop)
 then click "add" to add some cameras, then click "start recording".
 
 It will create multiple video files in your "My Movies/dirt simple surveillance/date" folder, one every half an hour.

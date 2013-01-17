@@ -1,6 +1,6 @@
 #define AppVer "0.0.10"
 
-#define AppName "Dirt Simple USB Surveillance"
+#define AppName "Dirt Simple Surveillance"
 ; AppId === AppName by default BTW
 
 [Run]

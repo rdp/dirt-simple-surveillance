@@ -1,5 +1,5 @@
 0.0.10
-  better network input examples
+  better network input examples...
   
 0.0.9
   accept incoming network input
