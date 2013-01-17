@@ -239,7 +239,7 @@ a.elements[:add_new_local].on_clicked {
     SimpleGuiCreator.show_text "this is a device with a name that matches another device on the system\n not supported yet, ask me to fix it and I will try.\nIn the meantime you can edit your registry for a FriendlyName\nentry that matches that one, and modify that."
 	raise
   end
-  english_name, options = configure_device_options device, nil
+  english_name, options = configure_device_options device, nil, nil
   add_device device, english_name, options
   SimpleGuiCreator.show_text "Added it as: #{english_name}\nClick start recording to start recording, or add device to add another device."
 }

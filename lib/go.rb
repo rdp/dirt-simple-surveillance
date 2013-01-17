@@ -74,7 +74,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
     resolution = "-video_size #{options[:x]}x#{options[:y]}"
     index = "-video_device_number #{index}" if index # TODO actually use :)
     pixel_format = options[:video_type] == 'vcodec' ? "-vcodec #{options[:video_type_name]}" : "-pixel_format #{options[:video_type_name]}"
-    ffmpeg_input = "-f dshow #{pixel_format} #{index} #{framerate_text} #{resolution} -i video=\"#{device[0]}\" "
+    ffmpeg_input = "-f dshow #{pixel_format} #{index} #{resolution} -i video=\"#{device[0]}\" "
   end
   
   if options[:fps]
