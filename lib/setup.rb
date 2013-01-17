@@ -70,6 +70,7 @@ def get_descriptive_line device, english_name
   output
 end
 
+# device like ['name', idx], name may be a url...
 def add_device device, english_name, options
   to_this = @a
   current_devices[device] = [english_name, options]
@@ -153,7 +154,10 @@ current_devices.each{|device, (name, options)|
 }
 
 a.elements[:add_new_url].on_clicked {
-  SimpleGuiCreator.display_text "not implemented yet!"
+  # assume they'll only call one for now :)
+  url = get_input "Please enter the url of the device of the network enabled camera you wish to record\nLike http://1.2.3.4:8080/something.mjpeg for instance", "http://..."
+  name = get_input "Enter an optional user friendly alias name for #{url}", url
+  add_device [url, 0], name, :url => url
 }
 
 def prettify_number n
@@ -164,8 +168,14 @@ def prettify_number n
   end
 end
 
-def configure_device_options device, english_name, old_options = nil
+def configure_device_options device, english_name, old_options
  english_name ||= device[0]
+ 
+ if old_options && old_options[:url]
+   old_options[:url] = get_input "re-enter url", old_options[:url]
+   english_name = get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device[0]}:", english_name   
+   return [english_name, old_options]
+ end
  video_fps_options = FFmpegHelpers.get_options_video_device device[0], device[1]
  # like  {:video_type=>"vcodec", :video_type_name=>"mjpeg", :min_x=>"800", :max_x=>"800", :max_y=>"600", "30"=>"30"}
  displayable = []
@@ -196,14 +206,18 @@ def configure_device_options device, english_name, old_options = nil
  if SimpleGuiCreator.show_select_buttons_prompt("would you like to preview it/view it with these settings?\n(Useful for figuring out which camera it is/seeing it with the resolution you selected)") == :yes
    do_something({device => [english_name, selected_options]}, true) # conveniently, we have settings now so can use our existing preview code to preview it...
  end
- english_name = SimpleGuiCreator.get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device[0]}:", english_name
+ english_name = get_input "Please enter the 'alias' name you'd like to have (human friendly name) for #{device[0]}:", english_name
  [english_name, selected_options]
  
 end
 
+def get_input title, default
+  SimpleGuiCreator.get_input title, default
+end
+
 a.elements[:add_new_local].on_clicked {
-  video_devices = FFmpegHelpers.enumerate_directshow_devices[:video]
-  video_devices.reject!{|name_idx| current_devices[name_idx]} # avoid re-adding same camera by including it in the dropdown...
+  video_devices = FFmpegHelpers.enumerate_directshow_devices[:video] # like [["USB Video Device", 0]...]
+  video_devices.reject!{|name_idx| current_devices[name_idx]} # avoid re-adding an already being recorded camera by including it in the dropdown...
   idx = DropDownSelector.new(nil, video_devices.map{|name, idx| name}, "Select new video device to capture").go_selected_idx
   device = video_devices[idx]
   if device[1] > 0
