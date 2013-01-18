@@ -28,7 +28,9 @@ FAQ =
 
 Q. Is it good/ok to use USB Webcams for surveillance?  Won't they over heat or something?
 A. I have had great luck using them 24/7.  They seem to work splendidly, and most of them can capture at high resolution,
-like 1024x768 et al.
+like 1024x768 et al.  And don't even seem to use much cpu/electricity.
+Q. Can I use it with an android camera, to record that?
+A. Possibly, ping me! :)
 
 How =
 
@@ -42,7 +44,7 @@ I'd even be happy to add a "network out" option so that you can stream your came
 
 roger-projects@googlegroups.com
 
-or web-based browseable
+or web-based browseable feedback
 
 https://groups.google.com/forum/?fromgroups#!forum/roger-projects
 
