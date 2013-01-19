@@ -93,7 +93,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
     ffmpeg_input.gsub!(/-vcodec [^ ]+/, '') # it can't take this [?] LODO ask them
 	ffmpeg_input.gsub!('SPLIT', '') # don't want any splits for ffplay, it's single input only :)
 	ffmpeg_input.gsub!('filter_complex', 'vf') # it doesn't like filter_complex with -i [?]
-    c = %!ffplay -analyzeduration 1k #{ffmpeg_input} -window_title "#{camera_english_name} capture preview--[close when ready to move on]"!
+    c = %!ffplay #{ffmpeg_input} -analyzeduration 1k -window_title "#{camera_english_name} capture preview--[close when ready to move on]"!
 	puts c
     # system c # avoid JRUBY-7042 yikes!
 	a = IO.popen(c)
