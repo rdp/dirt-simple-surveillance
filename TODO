@@ -18,6 +18,8 @@ a youtube showing you how to use it...
 
 the things above this :)
 
+more massive renamings everywhere? why not :P
+
 == maybes/next ups ==
 
 configurable global options
@@ -35,9 +37,11 @@ instead of every pixel type imaginable in the dropdown, just say high quality, m
 
 == maybes/nevers ==
 
+test electric usages...
+
 configurable archive 1/2.5s, high...
 
-check if -qscale hurts us cpu-wise too much...
+check if -qscale hurts us cpu-wise too much... [?]
 
 can specify "record just this square of it"
   with occasional full snapshots [?]
