@@ -6,9 +6,8 @@ new README for humans/simple website
 	accepts dshow/url's, anything else on demand.
 	an ugly website with one picture :)
 
-"fake launch"
-  "real launch"
-
+"fake/real'ish launch"
+ 
 == if I ever get serious/never, high'ish-er at top ==
 
 warn on startup of absent devices :)
@@ -36,6 +35,9 @@ instead of every pixel type imaginable in the dropdown, just say high quality, m
   uncompressed and another option for advanced settings where someone who knows more on this or cares can go and pick other options. 
 
 == maybes/nevers ==
+
+try to get "zero down time" between ffmpeg's more...though we're possibly all right now :)
+  did I want bigger captures, anyway?
 
 test electric usages...
 
