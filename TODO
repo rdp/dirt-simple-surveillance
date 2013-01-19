@@ -7,38 +7,57 @@ new README for humans/simple website
 	an ugly website with one picture :)
 
 "fake launch"
-  beta friends
-  "real"
+  "real launch"
 
 == if I ever get serious/never, high'ish-er at top ==
 
 warn on startup of absent devices :)
-
-configurable options
-
+ skip url's
+ 
 a youtube showing you how to use it...
+
+the things above this :)
+
+== maybes/next ups ==
+
+configurable global options
+  a way to show how long I can record for based on my disk space? It would be nice if it tells me based on this configuration you have 2 days recording or 2 hrs, etc then I can select my settings better. 
+  or skip this in favor of individual? or something like that...
+  
+individual camera configs [skip global?]
+
+archive 1 frame/2.5s ? lesser res? high q, high cpu?
+
+make it work with 2 dshow, same name (higher prio when somebody mentions it)
+
+instead of every pixel type imaginable in the dropdown, just say high quality, medium, low. and an option for compressed and 
+  uncompressed and another option for advanced settings where someone who knows more on this or cares can go and pick other options. 
 
 == maybes/nevers ==
 
+configurable archive 1/2.5s, high...
+
+check if -qscale hurts us cpu-wise too much...
+
+can specify "record just this square of it"
+  with occasional full snapshots [?]
+
 preview camera angle on a url when the url is bad "just hangs forever seemingly"
 
-work with 2 dshow, same name (higher prio when somebody mentions it)
-
-a way to show how long I can record for based on my disk space? It would be nice if it tells me based on this configuration you have 2 days recording or 2 hrs, etc then I can select my settings better. 
- 
 a way to recycle space. say I record only the last three days and erase anything older
 
 can stream to ustream too :)
  "super easy ustream setup" LOL
 
 when they give a url, check it "looks sane" and 2, the port seems accessible ... :) yeah, uh huh...yeah...right...
-  at statup check again :)
+  at startup check again :)
 
-individually toggleable on/off (or at least status "this one's not recording yet!")
+individually toggleable on/off (or at least status "this one's not recording yet!") 
+  "disable" option
 
 auto start again <sniff> installer
 
-"easier" android...like it knows this or that (one is on github, yes?, you register your phone, it "just knows" somehow, or broadcasts it LOL)
+"super easy" android...like it knows this or that (one is on github, yes?, you register your phone, it "just knows" somehow, or broadcasts it LOL)
 
 a "vlc broadcast webcam" option somehow LOL (maybe its own button?)
   heck it could record, too :)
@@ -60,9 +79,6 @@ record audio too "with a legal warning" :)
 
 a preview window then you can take snapshots of that :)
 
-instead of every pixel type imaginable in the dropdown, just say high quality, medium, low. and an option for compressed and 
-  uncompressed and another option for advanced settings where someone who knows more on this or cares can go and pick other options. 
-
 get "current time" from an ntp server, for higher...accuracy?
 
 make process priority a user option
@@ -79,7 +95,7 @@ put latest snapshot jpeg in the GUI itself
 don't just reveal the captured snapshot, play it in ffplay for them prolly
   or is  my explorer reveal good enough? probably want something better...
   
-for recordings, play them in...something awesome somehow? since VLC chokes on some files?
+for recordings, play them in...something awesome somehow? since VLC chokes on some files? maybe?
 
 an option to specify "it goes down to 5 fpx, but I want to actually record at like 1"
 
