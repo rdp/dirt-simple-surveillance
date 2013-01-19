@@ -85,9 +85,9 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   end
     
   filters = "-filter_complex \"drawtext=fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:fontfile=vendor/arial.ttf:text=%m/%d/%y %Hh %Mm %SsSPLIT\"  "
-
+  camera_dir = UsbStorage['storage_dir'] + '/' + camera_english_name
+  FileUtils.mkdir_p camera_dir
   ffmpeg_input = "#{ffmpeg_input} #{filters}"
-
   
   if just_preview_and_block
     ffmpeg_input.gsub!(/-vcodec [^ ]+/, '') # it can't take this [?] LODO ask them
@@ -110,8 +110,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
   
    delete_if_out_of_disk_space
    current_time = Time.now
-   camera_dir = UsbStorage['storage_dir'] + '/' + camera_english_name
-   bucket_day_dir =  camera_dir + '/' + current_year_month_day(current_time)
+   bucket_day_dir = camera_dir + '/' + current_year_month_day(current_time)
    FileUtils.mkdir_p bucket_day_dir
   
    current_file_timestamp = current_time.strftime "%Hh-%Mm.mp4.partial"
@@ -121,17 +120,20 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
     
    # -vcodec libx264 ?
    output_1 = "-map \"[out1]\" -t #{video_take_time} -vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}\""
-   output_2 = "-map \"[out2]\" -t #{video_take_time} -qscale 1 -updatefirst 1 -r 1/10 \"#{camera_dir}/latest.jpg\"" # once every 10 seconds
+   output_2 = "-map \"[out2]\" -t #{video_take_time} -q:v 1 -updatefirst 1 -r 1/10 \"#{camera_dir}/latest_snapshot.jpg\"" # once every 10 seconds
    c = %!ffmpeg -y #{ffmpeg_input} #{output_framerate_text} #{output_1} #{output_2}! # needs -y to clobber previous .partial's...
    
    puts "running at #{Time.now}", c
-   out_handle = IO.popen(c, "w") 
+   out_handle = nil
    $thread_start.synchronize {
+     # synchronize the ENV usage, too :P
+     ENV['FFREPORT'] = "file=#{camera_dir.gsub(':', "\\:")}/latest_capture_log.txt"
+     out_handle = IO.popen(c, "w") 
      @all_currently_runnng_processes << out_handle
    }
    set_all_ffmpegs_as_lowest_prio   
    begin
-     FFmpegHelpers.wait_for_ffmpeg_close out_handle, [15, video_take_time].min # should never exit in like 15 seconds...should it?
+     FFmpegHelpers.wait_for_ffmpeg_close out_handle, [15, video_take_time].min # should never exit in less than 15 seconds...should it?
    rescue Exception => exited_early
      if @current_state == :recording
        SimpleGuiCreator.show_non_blocking_message_dialog "appears an ffmpeg recording process exited early (within 15s at #{Time.now})?\nplease kill any rogue ffmpeg processes, or make sure you don't try and run it twice at the same time!\n#{c}\nexited #{exited_early}\nstarted #{$start_time}"

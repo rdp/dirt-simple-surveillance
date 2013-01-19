@@ -115,7 +115,7 @@ def add_device device, english_name, options
     if File.exist? filename
 	  seconds_old = (Time.now - File.mtime(filename)).to_i
 	  if seconds_old > 60
-	    show_message "warning, this image is a little bit out of date (#{seconds_old/60}m#{seconds_old % 60}s old),\nsince an active recording isn't going on.  While recording it will be more up to date."
+	    show_message "warning, this image is a little bit out of date (#{seconds_old/3600}h#{(seconds_old%3600)/60}m#{seconds_old % 60}s old),\nsince an active recording isn't going on.  While recording it will be more up to date."
 	  end
       show_image english_name + " recent still image", filename
     else
