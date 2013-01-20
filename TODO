@@ -1,12 +1,8 @@
-new README for humans/simple website
-  toot my own horn :)
-    simple, easy to use
-	efficient, uses very little cpu compared to other solutions
-	keeps out of the way while you use your computer.
-	accepts dshow/url's, anything else on demand.
-	an ugly website with one picture :)
+an ugly'ish simple website with one picture, the readme :)
 
-"fake/real'ish launch"
+more massive renamings everywhere? why not :P
+	
+"fake/real'ish launch/easy adv."
  
 == if I ever get serious/never, high'ish-er at top ==
 
@@ -17,24 +13,39 @@ a youtube showing you how to use it...
 
 the things above this :)
 
-more massive renamings everywhere? why not :P
-
 == maybes/next ups ==
+
+try my network cam, since I do want it...
+
+employ neighbor website?
 
 configurable global options
   a way to show how long I can record for based on my disk space? It would be nice if it tells me based on this configuration you have 2 days recording or 2 hrs, etc then I can select my settings better. 
   or skip this in favor of individual? or something like that...
   
-individual camera configs [skip global?]
-
 archive 1 frame/2.5s ? lesser res? high q, high cpu?
+  I *think* I wanted this? for discovering when the helmet was moved? hmm...except I couldn't see it well though...  
 
 make it work with 2 dshow, same name (higher prio when somebody mentions it)
+
+== maybes/nevers ==
+
+check what type of streaming ispy does...
+  do I need...upnp? does it do its own?
+
+if it's too black, don't pass the frame through?  I shouldn't be at 500 kbps at night, really, right?...
+
+can record "native mjpeg -> store the mjpeg"
+  can record "native h264 -> store the h264"
+
+tell them how much space they're using, how long till it will start archiving...
 
 instead of every pixel type imaginable in the dropdown, just say high quality, medium, low. and an option for compressed and 
   uncompressed and another option for advanced settings where someone who knows more on this or cares can go and pick other options. 
 
-== maybes/nevers ==
+individual camera configs [skip global configs at all?]
+
+auto start checkbox option somehow :)
 
 try to get "zero down time" between ffmpeg's more...though we're possibly all right now :)
   did I want bigger captures, anyway?
