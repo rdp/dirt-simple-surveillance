@@ -5,9 +5,11 @@ require 'java' # requires jruby <sigh>
 require 'sane'
 require 'thread'
 
+@jpeg_out_name = 'latest_snapshot.jpg'
+
 def save_preview_image from_this, camera_dir
  to_file = from_this + '.snapshot.jpg'
- FileUtils.cp camera_dir + '/latest.jpg', to_file
+ FileUtils.cp camera_dir + '/' + @jpeg_out_name, to_file
 end
 
 $thread_start = Mutex.new # disallow 2 deletes from happening at once...
@@ -120,7 +122,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
     
    # -vcodec libx264 ?
    output_1 = "-map \"[out1]\" -t #{video_take_time} -vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}\""
-   output_2 = "-map \"[out2]\" -t #{video_take_time} -q:v 1 -updatefirst 1 -r 1/10 \"#{camera_dir}/latest_snapshot.jpg\"" # once every 10 seconds
+   output_2 = "-map \"[out2]\" -t #{video_take_time} -q:v 1 -updatefirst 1 -r 1/10 \"#{camera_dir}/#{@jpeg_out_name}\"" # once every 10 seconds
    c = %!ffmpeg -y #{ffmpeg_input} #{output_framerate_text} #{output_1} #{output_2}! # needs -y to clobber previous .partial's...
    
    puts "running at #{Time.now}", c
@@ -137,6 +139,8 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    rescue Exception => exited_early
      if @current_state == :recording
        SimpleGuiCreator.show_non_blocking_message_dialog "appears an ffmpeg recording process exited early (within 15s at #{Time.now})?\nplease kill any rogue ffmpeg processes, or make sure you don't try and run it twice at the same time!\n#{c}\nexited #{exited_early}\nstarted #{$start_time}"
+	   @current_state = :confused
+	   setup_ui # global state has changed :)
 	   raise
 	 else
 	   puts "I hope they just hit stop quickly...should be safe..."

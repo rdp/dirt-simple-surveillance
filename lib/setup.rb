@@ -11,8 +11,11 @@ def current_devices
 end
 
 @a = a
-@current_state = :stopped # or :recording
-@a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart.png')
+@current_state = :stopped # or :recording or :confused
+
+def recording?
+  @current_state == :recording || @current_state == :confused
+end
 
 def setup_ui
 
@@ -24,10 +27,10 @@ def setup_ui
    @a.elements[:disappear_window].enable!
  end
  
- if @current_state == :recording 
+ if recording?
    @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart-enabled.png')
    @a.elements[:current_state].text = "Currently Recording!"
-   @a.title = @a.original_title + " [recording]"
+   @a.title = @a.original_title + " [#{@current_state}]"
    @a.elements[:minimize_message].disable!
  else
    @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart.png')
@@ -45,14 +48,34 @@ def setup_ui
     if @current_state == :stopped
       @a.elements[:start_stop_capture].text = 'Start recording'
 	else
-	  raise @current_state.to_s unless @current_state == :recording
+	  raise @current_state.to_s unless recording?
 	  @a.elements[:start_stop_capture].text = 'Stop recording'
 	end
   end
-  
+  set_proper_tray_icon
 end
 
-setup_ui
+
+def set_proper_tray_icon
+  if @current_state == :recording
+    name= 'surveillance [recording]'
+	icon= 'vendor/webcam-clipart-enabled.png'
+  elsif @current_state == :stopped
+    name = 'surveillance [stopped!]'
+	icon = 'vendor/webcam-clipart-disabled.png'
+  elsif @current_state == :confused
+    name = 'surveillance [confused!]'
+	icon = 'vendor/webcam-clipart-confused.png'
+  else
+    raise 'huh #{@current_state}'
+  end
+  if @tray
+    @tray.set_icon icon
+    @tray.set_name name
+  end
+end
+
+setup_ui # so it looks good earlier :)
 
 @unique_line_number = 0
 
@@ -150,10 +173,6 @@ end
 def show_message message
   SimpleGuiCreator.show_message message
 end
-
-current_devices.each{|device, (name, options)|
-  add_device device, name, options
-}
 
 def setup_network_device old_url, old_english_name, old_fps
   url = get_input "Please enter the url of the device of the network enabled camera you wish to record\nTypically like http://xxx.xxx.xxx.xxx:8080/stream_name for instance (flv, mjpeg, etc. url's are ok)\nMore advanced options:\n    rtsp://login:password@xxx.xxx.xxx.xxx/videoinput_1/mjpeg/media.stm\n    rtsp://login:password@xxx.xxx.xxx.xxx/videoinput_1/mjpeg/media.stm?tcp\n    http://xxx.xxx.xxx.xxx:port/stream_name?password=x&username=y&width=300...", (old_url || "http://...")
@@ -288,8 +307,9 @@ a.elements[:start_stop_capture].on_clicked {
   setup_ui
 }
 
+
 a.after_closed {
-  if @current_state == :recording    
+  if recording?    
     show_message "warning--shutting down current recording processes because exiting\n[perhaps next time you want to click minimize to tray, instead?"
 	# click stop
 	a.elements[:start_stop_capture].simulate_click
@@ -317,18 +337,15 @@ require './lib/show_last_images.rb'
 #  }
 #}
 
+
 a.elements[:disappear_window].on_clicked {
-  if @current_state != :recording
+  if !recording?
     show_message "minimizing it without it running--did you mean to click the start button first?"
   end
   a.minimize! # fake minimize to tray :)
   
   require 'sys_tray'
-  if @current_state == :recording
-    tray = SysTray.new('surveillance [recording]', 'vendor/webcam-clipart-enabled.png')
-  else
-    tray = SysTray.new('surveillance [stopped!]', 'vendor/webcam-clipart-disabled.png')
-  end
+  tray = SysTray.new nil, nil
   tray.add_menu_item('Exit and close') do
     tray.close
     a.close
@@ -343,6 +360,7 @@ a.elements[:disappear_window].on_clicked {
   tray.display_balloon_message "Simple Surveillance", "Minimized it to tray! [currently #{@current_state}]"
   a.visible=false
   @tray = tray
+  set_proper_tray_icon
 }
 
 def restore_from_tray
@@ -362,6 +380,10 @@ if get_all_ffmpeg_pids.length > 0
     system("taskkill /f /im ffmpeg*")
   end
 end
+
+current_devices.each{|device, (name, options)|
+  add_device device, name, options
+}
 
 if ARGV[0]
   if background_start

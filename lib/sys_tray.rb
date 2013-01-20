@@ -2,12 +2,13 @@ class SysTray
 
   import java.awt.TrayIcon
   import java.awt.event.MouseListener
-  # icon_path can't be nil...
-  def initialize name, icon_path
+  
+  def initialize name = nil, icon_path = nil
     icon_path ||= '' # so it'll use the right get_image method...
     tray = java.awt.SystemTray::system_tray
-    image = java.awt.Toolkit::default_toolkit.get_image(icon_path)
-
+	if icon_path
+      image = java.awt.Toolkit::default_toolkit.get_image(icon_path)
+    end
     popup = java.awt.PopupMenu.new
    
 	@popup = popup
@@ -28,6 +29,14 @@ class SysTray
     tray.add(trayIcon)
 	@tray = tray
 	@tray_icon = trayIcon
+  end
+  
+  def set_icon to_this_image_path
+    @tray_icon.set_image java.awt.Toolkit::default_toolkit.get_image(to_this_image_path)
+  end
+  
+  def set_name to_this
+    @tray_icon.set_tool_tip(to_this)
   end
   
   def on_double_left_click &block
