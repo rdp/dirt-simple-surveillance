@@ -34,6 +34,9 @@ make it work with 2 dshow, same name (higher prio when somebody mentions it)
 
 == maybes/nevers ==
 
+specify -vfr, and it can use it for variable frameraters :)
+  can this work around MJPEG input woze somehow?
+
 it can take 30 fps network camera, and just record at 5 fps.  We don't do that today...
 
 check what type of streaming ispy does...

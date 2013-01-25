@@ -92,15 +92,20 @@ def get_descriptive_line device, english_name
   output
 end
 
-# device like ['name', idx], name may be a url...
-def add_device device, english_name, options
-  to_this = @a
+def add_device_to_saved_list device, english_name, options
+  if current_devices.key?(device)
+    show_message "warning, got an error trying to save #{device.inspect} \n it would have overriden one that already exists\nperhaps you need to delete an older device first?"
+    raise	
+  end
   current_devices[device] = [english_name, options]
   save_devices!
-  
-  init_string = get_descriptive_line device, english_name
-  
+end
+
+# device like ['name', idx], name may be a url...
+def add_device_to_gui device, english_name, options
+  to_this = @a  
   unique_number = @unique_line_number += 1
+  init_string = get_descriptive_line device, english_name  
   init_string = '"' + init_string + ":name_string_#{unique_number}\" "
   if options[:x]
     init_string += "\"at #{options[:x]}x#{options[:y]}:\""
@@ -197,7 +202,10 @@ end
 a.elements[:add_new_url].on_clicked {
   url, name, fps = setup_network_device nil, nil, nil
   # assume they'll only input once per "different network camera" for now though I suppose they could record twice from the same... :)
-  add_device [url.split('?')[0], -1], name, :url => url, :fps => fps
+  uniqueish_name = [url.split('?')[0], -1]
+  options = {:url => url, :fps => fps}
+  add_device_to_saved_list  uniqueish_name, name, options
+  add_device_to_gui uniqueish_name, name, options
 }
 
 def prettify_number n
@@ -268,7 +276,8 @@ a.elements[:add_new_local].on_clicked {
 	raise
   end
   english_name, options = configure_device_options device, nil, nil
-  add_device device, english_name, options
+  add_device_to_saved_list device, english_name, options
+  add_device_to_gui device, english_name, options
   SimpleGuiCreator.show_text "Added it as: #{english_name}\nClick start recording to start recording, or add device to add another device."
 }
 
@@ -391,7 +400,7 @@ if get_all_ffmpeg_pids.length > 0
 end
 
 current_devices.each{|device, (name, options)|
-  add_device device, name, options
+  add_device_to_gui device, name, options
 }
 
 if ARGV[0]

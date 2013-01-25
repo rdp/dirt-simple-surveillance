@@ -1,4 +1,4 @@
-#define AppVer "v0.0.11pre"
+#define AppVer "v0.0.11"
 
 #define AppName "Dirt Simple Surveillance"
 ; AppId === AppName by default BTW
