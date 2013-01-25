@@ -90,6 +90,7 @@ super simplify so people *can't* misunderstand this baad boy...
 handle unplugged devices at all :)
 
 add version to window title :)
+  consolidate VERSION
 
 add button "do one time recording"
   with live preview, of course LOL :)
