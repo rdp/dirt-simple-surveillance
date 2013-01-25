@@ -9,21 +9,23 @@ more massive renamings everywhere? sane USB, ask melissa why not :P
 retest it by pulling the plug, should go to question mark...
 
 warn on startup of absent devices :)
- skip url's :)
+ skip checking url's for now :)
  
 a youtube showing you how to use it...
 
 the things above this :)
 
-== maybes/next ups ==
-
-try my network cam, since I do want it...
-
-employ neighbor website?
+the auto-start option, I constantly wish for it...
 
 configurable global options
   a way to show how long I can record for based on my disk space? It would be nice if it tells me based on this configuration you have 2 days recording or 2 hrs, etc then I can select my settings better. 
   or skip this in favor of individual? or something like that...
+
+setup my network cam, since I do want it...
+
+== maybes/next ups/maybes ==
+
+employ neighbor for real-er website?
   
 archive 1 frame/2.5s ? lesser res? high q, high cpu?
   I *think* I wanted this? for discovering when the helmet was moved? hmm...except I couldn't see it well though...  
@@ -31,6 +33,8 @@ archive 1 frame/2.5s ? lesser res? high q, high cpu?
 make it work with 2 dshow, same name (higher prio when somebody mentions it)
 
 == maybes/nevers ==
+
+it can take 30 fps network camera, and just record at 5 fps.  We don't do that today...
 
 check what type of streaming ispy does...
   do I need...upnp? does it do its own?

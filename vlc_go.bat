@@ -1,2 +1,2 @@
+@echo url: http://localhost:8081/go.mjpeg
 vlc --no-audio dshow:// --dshow-vdev=screen-capture-recorder --dshow-adev=none --sout #transcode{vcodec=MJPG,vb=800,acodec=none}:standard{access=http,mux=mpjpeg,dst=localhost:8081/go.mjpeg} :dshow-fps=1.000000
-@rem url: http://localhost:8081/go.mjpeg

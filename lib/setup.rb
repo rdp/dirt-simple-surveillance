@@ -177,17 +177,26 @@ end
 def setup_network_device old_url, old_english_name, old_fps
   url = get_input "Please enter the url of the device of the network enabled camera you wish to record\nTypically like http://xxx.xxx.xxx.xxx:8080/stream_name for instance (flv, mjpeg, etc. url's are ok)\nMore advanced options:\n    rtsp://login:password@xxx.xxx.xxx.xxx/videoinput_1/mjpeg/media.stm\n    rtsp://login:password@xxx.xxx.xxx.xxx/videoinput_1/mjpeg/media.stm?tcp\n    http://xxx.xxx.xxx.xxx:port/stream_name?password=x&username=y&width=300...", (old_url || "http://...")
   name = get_input "Enter an optional user friendly alias name for #{url}", (old_english_name || url)
-  fps = get_input "Some network streams [for instance, some mjpeg streams] don't advertise their speed\nframes per second, which can cause recording playback to appear much too fast\nIf you encouner this, and know the frame speed, enter it here to hard code it\n(or leave blank for auto detect)", old_fps, true
-  fps = fps.to_f
-  if fps <= 3
-    show_message "since your fps is < 3, as a note, VLC won't be able to play back the recordings propertly, but other players might."
+  fps = get_input "Some network streams [for instance, some mjpeg incoming streams] don't advertise their speed
+  (frames per second), which can cause recording to assume 25 fps, which can cause playback to appear much too fast
+  If you encouner this, and know the frame speed your device will be recording at, enter it here to hard code specify it (like 2.5 or 30.0)
+  (or leave blank for auto detect)", old_fps, true
+  if fps
+    fps = fps.to_f # XXX assert it looks like a float LOL
+    if fps <= 3
+      show_message "since your fps is < 3, as a note, VLC won't be able to play back the recordings properly, but other players might."
+    end
+	if fps <= 0
+	  show_message "please enter value greater than 0"
+	  raise
+	end
   end
   [url, name, fps]
 end
 
 a.elements[:add_new_url].on_clicked {
   url, name, fps = setup_network_device nil, nil, nil
-  # assume they'll only input one per "network camera" for now :)
+  # assume they'll only input once per "different network camera" for now though I suppose they could record twice from the same... :)
   add_device [url.split('?')[0], -1], name, :url => url, :fps => fps
 }
 
