@@ -1,5 +1,6 @@
 0.0.11
   don't assume 0 fps for network cameras
+  use custom ffmpeg.exe names
 
 0.0.10
   better network input examples...
