@@ -16,7 +16,7 @@ $thread_start = Mutex.new # disallow 2 deletes from happening at once...
 
 def get_all_ffmpeg_pids
   # avoid win32ole which apparently leaks in jruby...though I could probably fix it...
-  piddys = `tasklist`.lines.select{|l| l =~ /ffmpeg.exe/}.map{|l| l.split[1].to_i} # get just pid's
+  piddys = `tasklist`.lines.select{|l| l =~ /ffmpeg_dirt_simple.exe/}.map{|l| l.split[1].to_i} # get just pid's
 end
 
 def set_all_ffmpegs_as_lowest_prio
@@ -95,7 +95,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
     ffmpeg_input.gsub!(/-vcodec [^ ]+/, '') # it can't take this [?] LODO ask them
 	ffmpeg_input.gsub!('SPLIT', '') # don't want any splits for ffplay, it's single input only :)
 	ffmpeg_input.gsub!('filter_complex', 'vf') # it doesn't like filter_complex with -i [?]
-    c = %!ffplay #{ffmpeg_input} -analyzeduration 1k -window_title "#{camera_english_name} capture preview--[close when ready to move on]"!
+    c = %!ffplay_dirt_simple #{ffmpeg_input} -analyzeduration 1k -window_title "#{camera_english_name} capture preview--[close when ready to move on]"!
 	puts c
     # system c # avoid JRUBY-7042 yikes!
 	a = IO.popen(c)
@@ -123,7 +123,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    # -vcodec libx264 ?
    output_1 = "-map \"[out1]\" -t #{video_take_time} -vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}\""
    output_2 = "-map \"[out2]\" -t #{video_take_time} -q:v 1 -updatefirst 1 -r 1/10 \"#{camera_dir}/#{@jpeg_out_name}\"" # once every 10 seconds
-   c = %!ffmpeg -y #{ffmpeg_input} #{output_framerate_text} #{output_1} #{output_2}! # needs -y to clobber previous .partial's...
+   c = %!ffmpeg_dirt_simple -y #{ffmpeg_input} #{output_framerate_text} #{output_1} #{output_2}! # needs -y to clobber previous .partial's...
    
    puts "running at #{Time.now}", c
    out_handle = nil

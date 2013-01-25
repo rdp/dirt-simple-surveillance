@@ -7,6 +7,8 @@ require 'simple_gui_creator'
 require 'fileutils'
 
 ENV['PATH'] = 'vendor\\ffmpeg;vendor;' + ENV['PATH'] # put our ffmpeg first, see jruby#6211
+FFmpegHelpers::FFmpegNameToUse.gsub(/.*/, "ffmpeg_dirt_simple.exe")
+
 
 UsbStorage = Storage.new('dirt_simple_storage')
 UsbStorage.set_default('devices_to_record', {}) # empty default
@@ -46,7 +48,3 @@ class Numeric
 end
 
 Delete_if_we_have_less_than_this_much_free_space = 10.gig
-
-if $0 == __FILE__
-  p get_sorted_day_dirs
-end

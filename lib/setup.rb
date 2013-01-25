@@ -395,7 +395,7 @@ end
 
 if get_all_ffmpeg_pids.length > 0
   if SimpleGuiCreator.show_select_buttons_prompt("warning--some ffmpeg recording instances are currently already going\nmaybe they're left overs from a previous run, or maybe you're already running the program somewhere else?!\nDo you want to kill them?") == :yes
-    system("taskkill /f /im ffmpeg*")
+    system("taskkill /f /im ffmpeg_dirt_simple.exe")
   end
 end
 
@@ -414,9 +414,9 @@ if ARGV[0]
       a.elements[:disappear_window].click!
     end
 	begin
-	  sleep # closed pipe bug...
+	  sleep # hope to avoid the early closed pipe bug...
 	rescue Exception => e
-	 p e, e.backtrace
+	  p e, e.backtrace
 	ensure 
  	  puts 'should never see this'
 	end
