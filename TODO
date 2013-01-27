@@ -6,8 +6,6 @@ more massive renamings everywhere? sane USB, ask melissa why not :P
  
 == if I ever get serious/never, high'ish-er at top ==
 
-retest it by pulling the plug, should go to question mark...
-
 warn on startup of absent devices :)
  skip checking url's for now :)
  
@@ -15,7 +13,7 @@ a youtube showing you how to use it...
 
 the things above this :)
 
-the auto-start option, I constantly wish for it...
+the auto-start option, I constantly seem to wish for it...
 
 configurable global options
   a way to show how long I can record for based on my disk space? It would be nice if it tells me based on this configuration you have 2 days recording or 2 hrs, etc then I can select my settings better. 
