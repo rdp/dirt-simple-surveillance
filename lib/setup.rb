@@ -346,7 +346,7 @@ a.after_closed {
 
 require './lib/show_last_images.rb'
 
-# couldn't figure out how to make it pretty yet...
+# couldn't figure out how to make button pretty yet...
 #a.elements[:exit].on_clicked {
 #  d = SimpleGuiCreator.show_non_blocking_message_dialog "Exiting [not recording!]"
 #  SimpleGuiCreator.run_later(1.5) {
@@ -382,7 +382,6 @@ a.elements[:disappear_window].on_clicked {
 }
 
 def restore_from_tray
-   # restore from tray :)
 	@a.visible=true
 	@a.unminimize! 
     @tray.close
@@ -393,15 +392,20 @@ def in_gui_thread
   SimpleGuiCreator.invoke_in_gui_thread { yield }
 end
 
+current_devices.each{|device, (name, options)|
+  unless options[:url]
+    if !FFmpegHelpers.video_device_present?(device)
+	  show_message "warning, device #{get_descriptive_line device, name} may not be turned on or may not be attached or functionining!"
+	end
+  end
+  add_device_to_gui device, name, options
+}
+
 if get_all_ffmpeg_pids.length > 0
   if SimpleGuiCreator.show_select_buttons_prompt("warning--some ffmpeg recording instances are currently already going\nmaybe they're left overs from a previous run, or maybe you're already running the program somewhere else?!\nDo you want to kill them?") == :yes
     system("taskkill /f /im ffmpeg_dirt_simple.exe")
   end
 end
-
-current_devices.each{|device, (name, options)|
-  add_device_to_gui device, name, options
-}
 
 if ARGV[0]
   if background_start
