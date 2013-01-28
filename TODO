@@ -1,22 +1,19 @@
+== yes ==
+
 an ugly'ish simple website with one picture, the readme :)
 
 more massive renamings everywhere? sane USB, ask melissa why not :P
 	
 "fake/real'ish launch/easy adv."
- 
-== if I ever get serious/never, high'ish-er at top ==
 
-the things above this :)
-
-configurable global options
+configurable global options, just for current behavior
   a way to show how long I can record for based on my disk space? It would be nice if it tells me based on this configuration you have 2 days recording or 2 hrs, etc then I can select my settings better. 
-  or skip this in favor of individual? or something like that...
 
 fix icon
-  
-== maybes/next ups/maybes ==
 
 the auto-start option, I constantly seem to wish for it...
+  
+== maybes/next ups/maybes ==
 
 setup my network cam, since I do want it...
 
@@ -29,12 +26,16 @@ archive 1 frame/2.5s ? lesser res? high q, high cpu?
 
 make it work with 2 dshow, same name (higher prio when somebody mentions it)
 
+on "go to confused" send an email...?
+
 == maybes/nevers ==
+
+configurable "x days" instead of x bytes?
 
 specify -vfr, and it can use it for variable frameraters :)
   can this work around MJPEG input woze somehow?
 
-it can take 30 fps network camera, and just record at 5 fps.  We don't do that today...
+it can take 30 fps network camera, and just record at 5 fps.  We don't allow that today...
 
 check what type of streaming ispy does...
   do I need...upnp? does it do its own?
@@ -49,10 +50,8 @@ tell them how much space they're using, how long till it will start archiving...
 instead of every pixel type imaginable in the dropdown, just say high quality, medium, low. and an option for compressed and 
   uncompressed and another option for advanced settings where someone who knows more on this or cares can go and pick other options. 
 
-individual camera configs [skip global configs at all?]
-
-auto start checkbox option somehow :)
-
+individual camera configs for whta are now global
+  
 try to get "zero down time" between ffmpeg's more...though we're possibly all right now :)
   did I want bigger captures, anyway?
 
