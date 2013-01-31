@@ -1,1 +1,1 @@
-j %* -Ilib bin\startup.rb
+java -jar vendor\jruby-complete-1.7.0.jar %* -Ilib bin\startup.rb

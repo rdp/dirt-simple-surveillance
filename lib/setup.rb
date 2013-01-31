@@ -281,6 +281,11 @@ a.elements[:add_new_local].on_clicked {
   SimpleGuiCreator.show_text "Added it as: #{english_name}\nClick start recording to start recording, or add device to add another device."
 }
 
+a.elements[:setup_global_options].on_clicked {
+  require 'global.rb'
+  do_global
+}
+
 def assert_have_record_devices_setup
     if current_devices.length == 0
 	  SimpleGuiCreator.display_text "you cannot start recording you don't have anything setup to record just yet\nadd something first"
