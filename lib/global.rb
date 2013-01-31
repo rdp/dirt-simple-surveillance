@@ -10,8 +10,21 @@ def do_global
   end
   
   global.elements[:run_at_startup].on_checked {
-	b.write_s name, "#{Gem.ruby.gsub(' /', ' ')} -C \"#{Dir.pwd}\" -Ilib \"#{$0}\" --background-start" # various jruby bugz LOL
-	p 'wrote it'
+    full_stuff = RbConfig::CONFIG['bindir'] # like "file:/C:/dev/ruby/dirt-simple-usb-surveillance/vendor/jruby-complete-1.7.0.jar!/META-INF/jruby.home/bin"
+	if !full_stuff.start_with? 'file:/'
+	  show_message "whoa there, not using jruby from a jar file? huh?"
+	  raise	  
+	end
+	full_stuff =~ /file:\/(.*)!.*/
+	jar_location = $1
+	java_root = java.lang.System.getProperty("java.home") # see http://stackoverflow.com/a/9006281/32453
+	if !jar_location || !java_root
+	  show_message "huh? unable to get something for setting up start?"
+	end
+	# assume javaw, and bin\startup.rb :)
+	# no splash...
+	b.write_s name, "\"#{java_root}\\bin\\javaw.exe\" -jar \"#{jar_location}\" -C \"#{Dir.pwd}\" -Ilib bin/startup.rb --background-start" # avoid various jruby RbConfig.ruby bugz LOL
+	p 'wrote it to registry'
   }
   
   global.elements[:run_at_startup].on_unchecked {

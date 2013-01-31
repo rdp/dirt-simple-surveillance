@@ -30,6 +30,8 @@ on "go to confused" send an email...?
 
 == maybes/nevers ==
 
+if I hard shutdown the computer, does it gracefully close what I'm doing?
+
 configurable "x days" instead of x bytes?
 
 specify -vfr, and it can use it for variable frameraters :)

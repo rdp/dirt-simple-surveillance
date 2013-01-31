@@ -28,12 +28,12 @@ def setup_ui
  end
  
  if recording?
-   @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart-enabled.png')
+   @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image(File.expand_path 'vendor/webcam-clipart-enabled.png')
    @a.elements[:current_state].text = "Currently Recording!"
    @a.title = @a.original_title + " [#{@current_state}]"
    @a.elements[:minimize_message].disable!
  else
-   @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image('vendor/webcam-clipart.png')
+   @a.set_icon_image java.awt.Toolkit::default_toolkit.get_image(File.expand_path 'vendor/webcam-clipart.png')
    @a.elements[:current_state].text = "Currently Stopped."
    @a.title = @a.original_title + " [stopped]"
    @a.elements[:minimize_message].enable!
@@ -70,7 +70,7 @@ def set_proper_tray_icon
     raise 'huh #{@current_state}'
   end
   if @tray
-    @tray.set_icon icon
+    @tray.set_icon File.expand_path(icon)
     @tray.set_name name
   end
 end
