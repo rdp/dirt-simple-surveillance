@@ -1,5 +1,5 @@
 0.0.12
-  add options now, can autostart as well
+  add configurable options (woot), can autostart as well optionally now
 
 0.0.11
   don't assume 0 fps for network cameras
