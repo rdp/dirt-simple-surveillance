@@ -2,17 +2,13 @@
 
 an ugly'ish simple website with one picture, the readme :)
 
-more massive renamings everywhere? sane USB, ask melissa why not :P
-	
 "fake/real'ish launch/easy adv."
-
-configurable global options, just for current behavior
-  a way to show how long I can record for based on my disk space? It would be nice if it tells me based on this configuration you have 2 days recording or 2 hrs, etc then I can select my settings better. 
-
 
 == maybes/next ups/maybes ==
 
-setup my network cam, since I do want it...
+setup and test for my network cam, since I do want it...
+
+== maybes/nevers ==
 
 a youtube showing you how to use it/set it up...
 
@@ -22,19 +18,23 @@ archive 1 frame/2.5s ? lesser res? high q, high cpu?
   I *think* I wanted this? for discovering when the helmet was moved? hmm...except I couldn't see it well though...  
 
 make it work with 2 dshow, same name (higher prio when somebody mentions it)
+  each with own parameters :)
+  
+it doesn't handle screen capture recorder (5.02 fps?) well...
 
-on "go to confused" send an email...?
+on "go to confused" optionally send an email...?
 
-== maybes/nevers ==
+make the options actually sane for normal human beings LOL
 
 if I hard shutdown the computer, does it gracefully close what I'm doing?
+  not super well....but does now I think...
 
-configurable "x days" instead of x bytes?
+configurable as record "for x days" instead of "until x bytes"? allow for several styles?
 
 specify -vfr, and it can use it for variable frameraters :)
-  can this work around MJPEG input woze somehow?
+  can this work around MJPEG input woze somehow? with SETPTS too?
 
-it can take 30 fps network camera, and just record at 5 fps.  We don't allow that today...
+it can take a 30 fps network camera, and just record at 5 fps.  We don't allow that today...
 
 check what type of streaming ispy does...
   do I need...upnp? does it do its own?

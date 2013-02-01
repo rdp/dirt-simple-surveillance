@@ -328,9 +328,10 @@ a.elements[:start_stop_capture].on_clicked {
 
 a.after_closed {
   if recording?    
-    show_message "warning--shutting down current recording processes because exiting\n[perhaps next time you want to click minimize to tray, instead?"
 	# click stop
+	# LODO make this an option...
 	a.elements[:start_stop_capture].simulate_click
+    show_message "warning--shutting down current recording processes because exiting\n[perhaps next time you want to click minimize to tray, instead?"
 	
 	# can't reset up the thing yet, and after_closed only runs once...
 	#if SimpleGuiCreator.show_select_buttons_prompt("warning, currently running, would you like to:", :yes => "minimize and keep running", :no => "exit and stop recording") == :yes
