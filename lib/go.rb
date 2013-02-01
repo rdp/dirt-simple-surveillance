@@ -32,7 +32,7 @@ end
 def delete_if_out_of_disk_space
     free_space = java.io.File.new(base_storage_dir).freeSpace
   
-    if free_space < Delete_if_we_have_less_than_this_much_free_space
+    if free_space < free_space_requested
 	  # lodo email instead? compact?
 	  $thread_start.synchronize {
 		  $deletor_thread ||= Thread.new {
@@ -43,7 +43,7 @@ def delete_if_out_of_disk_space
 			  # at least show stats or something?
 			  show_message "warning, maybe disk space is low?\nwant to delete #{oldest_day_dir} to keep disk space low, but that's today, not deleting it\nrecommend installing and using windirstat to examine and free up some disk space"
 			else
-			  p "deleting old day dir #{oldest_day_dir} because free #{free_space.g} < #{Delete_if_we_have_less_than_this_much_free_space.g}"
+			  p "deleting old day dir #{oldest_day_dir} because free #{free_space.g} < #{free_space_requested.g}"
 			  FileUtils.rm_rf oldest_day_dir
 			  p "done deleting " + oldest_day_dir
 			end
@@ -51,7 +51,7 @@ def delete_if_out_of_disk_space
 		  }
 	  }
   else
-    #puts "have enough free space #{free_space.g} > #{Delete_if_we_have_less_than_this_much_free_space.g}"
+    #puts "have enough free space #{free_space.g} > #{free_space_requested.g}"
   end
 end
 

@@ -47,4 +47,7 @@ class Numeric
   end
 end
 
-Delete_if_we_have_less_than_this_much_free_space = 10.gig
+UsbStorage.set_default('delete_if_we_have_less_than_this_much_free_space', 10.gig)
+def free_space_requested
+  UsbStorage['delete_if_we_have_less_than_this_much_free_space']
+end
