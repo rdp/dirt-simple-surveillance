@@ -1,5 +1,8 @@
   ---------- Dirt Simple Surveillance Global Options -----------
-    [Change Record to directory:record_to_dir_button] "Currently" ":record_to_dir_text,width=350px"
-    "Currently set to record each camera at 500 kb/s, and to delete the oldest recordings"
-    "when it reaches XX GB remaining on the disk:reaches_xx_gb" [Change disk space it will use:change_disk_space_used]
-    [/:run_at_startup] "Auto-start at windows login time"
+    [Change Record to directory:record_to_dir_button]  "Currently recording to base dir:record_to_dir_text,width=350px"  
+    "Currently set to record from each camera at XX bits/seconds:encoding_bitrate_text" [Change encoding bitrate:change_encoding_parameter]
+    "Basically, it records and fills up your hard disk, until you reach a certain threshold of free space left"
+    "when it reaches that, it starts to deleted the oldest days' recordings as it records new ones."
+    "It will record until it reaches XX remaining on the disk:reaches_xx_gb" [Change disk space desired:change_disk_space_used]
+    "With your current settings, you will be able to keep, on your disk, the recordings you currently have, plus XX days more:xx_days_more"
+    [/:run_at_startup] "Check this to auto-start surveillance recording at windows login time"

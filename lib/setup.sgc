@@ -6,7 +6,7 @@
     [Add new local (attached) camera for recording:add_new_local]
     [Add new network camera (url) for recording:add_new_url]
     [Set global options:setup_global_options]
-    "Currently set to record x gigabytes to this folder c:\users\my long username\my videos\dirt simple usb surveillance:options_message"
+    "Currently set to record...:options_message,width=800px"
     " "
     "Currently set to record the following devices::device_list_header, width=500"
   --------------------------------------------

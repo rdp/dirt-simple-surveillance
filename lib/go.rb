@@ -121,7 +121,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    p "recording #{camera_english_name} #{current_file_timestamp} for #{video_take_time/60}m#{video_take_time%60}s" # debug :)
     
    # -vcodec libx264 ?
-   output_1 = "-map \"[out1]\" -t #{video_take_time} -vcodec mpeg4 -b:v 500k -f mp4 \"#{filename}\""
+   output_1 = "-map \"[out1]\" -t #{video_take_time} -vcodec mpeg4 -b:v #{encoding_bitrate_with_k} -f mp4 \"#{filename}\""
    output_2 = "-map \"[out2]\" -t #{video_take_time} -q:v 1 -updatefirst 1 -r 1/10 \"#{camera_dir}/#{@jpeg_out_name}\"" # once every 10 seconds
    c = %!ffmpeg_dirt_simple -y #{ffmpeg_input} #{output_framerate_text} #{output_1} #{output_2}! # needs -y to clobber previous .partial's...
    

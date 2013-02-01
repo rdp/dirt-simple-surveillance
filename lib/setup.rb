@@ -6,10 +6,6 @@ background_start = ARGV.detect{|a| a == '--background-start'}
 
 a = ParseTemplate.new(!background_start).parse_setup_filename('lib\\setup.sgc')
 
-def current_devices
-  UsbStorage['devices_to_record']
-end
-
 @a = a
 @current_state = :stopped # or :recording or :confused
 
@@ -40,8 +36,7 @@ def setup_ui
   end  
   
   free_space = java.io.File.new(base_storage_dir).freeSpace
-  @a.elements[:options_message].text = "Will record to #{(base_storage_dir.split('/')[-4..-1] || [base_storage_dir]).join('/')} at 500 kb/s/camera until there is #{free_space_requested.g} free"
-  p 'setup_ui done'
+  @a.elements[:options_message].text = "Will record to #{(base_storage_dir.split('/')[-2..-1] || [base_storage_dir]).join('/')} at #{encoding_bitrate_with_k}b/s/camera until there is #{free_space_requested.g} free (current recordings plus #{days_left_to_record} days more)"
   if(current_devices.size == 0)
 	@a.elements[:start_stop_capture].text = "add a camera 1st!"
   else
