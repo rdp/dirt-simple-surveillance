@@ -10,6 +10,9 @@ setup and test for my network cam, since I do want it...
 
 == maybes/nevers ==
 
+it should say "you have recorded X days, and will be able to record another Y"
+  ideally based on size though somehow, so they the sum number doesn't overshoot
+
 individual config "high resolution, low, choose your own..."
 
 a youtube showing you how to use it/set it up...
