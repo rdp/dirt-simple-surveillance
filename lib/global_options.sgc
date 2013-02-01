@@ -1,3 +1,3 @@
   ---------- Dirt Simple Surveillance Global Options -----------
-    [/:run_at_startup] "Run at windows login"
-    "(ping me if you want an option to run as a windows service, before users login)"
+    [/:run_at_startup] "Auto-start at windows login time"
+    [Record to directory:record_to_dir_button] ":record_to_dir_text,width=350px"

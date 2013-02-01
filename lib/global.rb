@@ -8,8 +8,8 @@ def do_global
   if !b.entries.map(&:first).include? name # there is no values method, #entries is like ['name', type, value]
     global.elements[:run_at_startup].uncheck!
   end
-  
-  global.elements[:run_at_startup].on_checked {
+  e = global.elements
+  e[:run_at_startup].on_checked {
     full_stuff = RbConfig::CONFIG['bindir'] # like "file:/C:/dev/ruby/dirt-simple-usb-surveillance/vendor/jruby-complete-1.7.0.jar!/META-INF/jruby.home/bin"
 	if !full_stuff.start_with? 'file:/'
 	  show_message "whoa there, not using jruby from a jar file? huh?"
@@ -27,8 +27,14 @@ def do_global
 	p 'wrote it to registry'
   }
   
-  global.elements[:run_at_startup].on_unchecked {
+  e[:run_at_startup].on_unchecked {
     b.delete_value(name)
+  }
+  e[:record_to_dir_text].text = base_storage_dir
+  e[:record_to_dir_button].on_clicked {
+    got = SimpleGuiCreator.new_existing_dir_chooser_and_go "Select base root directory for saving", base_storage_dir
+	UsbStorage['storage_dir'] = File.expand_path got # save with /'s
+	e[:record_to_dir_text].text = base_storage_dir
   }
 
 end

@@ -40,7 +40,7 @@ def setup_ui
   end  
   
   free_space = java.io.File.new(base_storage_dir).freeSpace
-  @a.elements[:options_message].text = "Will record to #{base_storage_dir.split('/')[-4..-1].join('/')} at 500 kb/s/camera until there is #{Delete_if_we_have_less_than_this_much_free_space.g} free"
+  @a.elements[:options_message].text = "Will record to #{(base_storage_dir.split('/')[-4..-1] || [base_storage_dir]).join('/')} at 500 kb/s/camera until there is #{Delete_if_we_have_less_than_this_much_free_space.g} free"
   
   if(current_devices.size == 0)
 	@a.elements[:start_stop_capture].text = "add a camera 1st!"
