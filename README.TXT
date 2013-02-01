@@ -63,10 +63,11 @@ https://groups.google.com/forum/?fromgroups#!forum/roger-projects
 Installation =
 
 Download and run the latest installer from here: 
-http://code.google.com/p/dirt-simple-usb-surveillance/downloads/list
+http://code.google.com/p/dirt-simple-surveillance/downloads/list
 
 Related =
+
 yawcam: didn't have an option to record more than 1 frame per second (last time I tried it),
-  and super confusing.
-ispy: not entirely free.  Ping me if you want added to this project the ability to "view your cameras online"
-  I can add it.  Also seemed to use too many system resources, when I tried it.
+  and super confusing, to me anyway :) also seemed to use a lot of cpu resources.
+ispy: not entirely free.  Ping me if you want added to this project the ability to "view your cameras online too"
+  I can add it.  Also seemed to use system resources, when I tried it.
