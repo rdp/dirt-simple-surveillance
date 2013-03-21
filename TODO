@@ -2,6 +2,8 @@
 
 an ugly'ish simple website with one picture, the readme :)
 
+"reveal recent image" is broken
+
 "fake/real'ish launch/easy adv."
 
 == maybes/next ups/maybes ==
@@ -9,6 +11,8 @@ an ugly'ish simple website with one picture, the readme :)
 setup and test for my network cam, since I do want it...
 
 == maybes/nevers ==
+
+e-mail when it dies, a device is "not found", and when it shutsdown
 
 it should say "you have recorded X days, and will be able to record another Y"
   ideally based on size though somehow, so they the sum number doesn't overshoot
