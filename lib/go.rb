@@ -128,7 +128,7 @@ def do_something all_cameras, just_preview_and_block, video_take_time = 60*60 # 
    puts "running at #{Time.now}", c
    out_handle = nil
    $thread_start.synchronize {
-     # synchronize the ENV usage, too :P
+     # synchronize the ENV usage, too, yikes :P
      ENV['FFREPORT'] = "file=#{camera_dir.gsub(':', "\\:")}/capture_log.txt"
      out_handle = IO.popen(c, "w") 
      @all_currently_runnng_processes << out_handle

@@ -28,6 +28,8 @@ make it work with 2 dshow, same name (higher prio when somebody mentions it)
 it doesn't handle screen capture recorder (5.02 fps?) well...
 
 on "go to confused" optionally send an email...?
+  and on shutdown/startup as well [to detect a forced shutdown without accompanying startup]?
+    with attached jpeg LOL
 
 make the options actually sane for normal human beings LOL
 
