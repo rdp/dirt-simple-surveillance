@@ -14,7 +14,9 @@ setup and test for my network cam, since I do want it...
 
 it should loop until a camera comes up...
 
-e-mail when it dies, a device is "not found", and when it shutsdown
+it should show you the log (link to it) when one of them dies...
+
+e-mail when it dies, a device is "not found", and when it shutsdown?
 
 it should say "you have recorded X days, and will be able to record another Y"
   ideally based on size though somehow, so they the sum number doesn't overshoot
